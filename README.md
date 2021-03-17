@@ -99,4 +99,4 @@ Data types and constructor functions use upper camel case (*RegExp*) and methods
 
 ### Development Operations (DevOps)
 
-TBA
+TBA soon
