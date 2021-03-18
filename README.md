@@ -1,23 +1,47 @@
 # p2-material-recommender
-Second semester project for handling of personalized learning material recommendation based on learning preferences.
+Second semester project (P2) for handling of personalized learning material recommendation based on learning preferences.
 
-[TOC]
+- [For Developers](#for-developers)
+    + [Development stack](#development-stack)
+  * [AAU VPN](#aau-vpn)
+    + [connect with ssh](#connect-with-ssh)
+  * [Visual Studio Code](#visual-studio-code)
+    + [Practical VSCode commands](#practical-vscode-commands)
+  * [WSL](#wsl)
+    + [Practical Ubuntu commands to know](#practical-ubuntu-commands-to-know)
+  * [Git](#git)
+    + [Connecting to Git with SSH](#connecting-to-git-with-ssh)
+    + [Using Git in the terminal](#using-git-in-the-terminal)
+  * [Development Operations (DevOps)](#development-operations--devops-)
 
 # For Developers
 
-Follow this guide to set up for developing the P2 project "Unnamed" on a windows system.
+Below you will find a guide to set up for developing the P2 project on a windows system.
 
 ### Development stack
 
-We use the following tools for this project (*subject to revision*):
-
-Linux (**WSL**), Visual Studio Code (**VSCode**) and **Git**
+For this guide it is expected that you use Linux (**WSL**), Visual Studio Code (**VSCode**) and **Git**.
 
 WSL is a linux distrbution running within windows. This makes it a great candidate for the basis of a development environment.
 
 VSCode is a powerful and practical text editor.
 
 Git is a version control system, making it easier for the team to collaborate.
+
+To connect to AAU's servers you will need Cisco AnyConnect to connect through VPN. Currently an issue exists where WSL does not work while connected with VPN. A fix is being researched.
+
+## AAU VPN
+
+Install Cisco AnyConnect from https://ssl-vpn1.aau.dk/ - Log in using your AAU credentials and 2F-authenticantion. Then login to the application at ssl-vpn1.aau.dk also with your AAU credentials.
+
+### connect with ssh
+
+While on AAUs VPN, open windows cmd and connect externally to AAUs system with ssh. Then cd to the part of the server where we are supposed to work.
+
+```shell
+ssh AAUusername@dat2c2-20.p2datsw.cs.aau.dk
+cd /srv/www/dat2c2-20.p2datsw.cs.aau.dk
+```
 
 ## Visual Studio Code
 
@@ -36,6 +60,9 @@ Alt + shift + f -> Pretty auto formatting of the code.
 Ctrl + shift + p -> Open the VSCode command line.
 
 ## WSL
+
+> :warning: You might not be able to use WSL while connected to AAUs VPN with Cisco AnyConnect. 
+> A solution is being researched. See: https://gist.github.com/pyther/b7c03579a5ea55fe431561b502ec1ba8
 
 Enable and install WSL by following the guide [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10 "Install Windows Subsystem for Linux (WSL) on Windows 10"). I suggest Ubuntu as the distribution of choice.
 
@@ -70,7 +97,7 @@ Write about SSH connection and Git commands
 
 ### Connecting to Git with SSH
 
-To give ourselves an easier time, we're going to use SSH (whatever that means) with git. To set it up, follow the guide [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
+To give ourselves an easier time, we're going to use SSH with git. To set it up, follow the guide [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) and [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
 
 ### Using Git in the terminal
 
@@ -89,14 +116,7 @@ Here is a list of important Git commands in the Ubuntu terminal, as well as a sh
 | git push --set-upstream origin \<branch> | Creates your local branch in the online repo, and pushes to it. |
 | git branch                               | Displays the branch you are working in, as well as other available branches in the project. |
 
-## Code Practices
+## Development Operations (DevOps)
 
-We follow a set of well defined, good coding practices.
-
-### CamelCase
-
-Data types and constructor functions use upper camel case (*RegExp*) and methods use lower camel case (*getFieldValue*).
-
-### Development Operations (DevOps)
-
-TBA soon
+TBA soon. How we handle the database and server.
+How do we upload the git repo properly to the AAU server.
