@@ -4,7 +4,8 @@
   "description": "Second semester project (P2) for handling of personalized learning material recommendation based on learning preferences.",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "start": "node server.js",
+    "test": "jest",
     "devStart": "nodemon server.js"
   },
   "repository": {
