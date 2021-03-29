@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <style>
-        form{
-            width: 1000px;
-            margin: 15px;
-        }
-    </style>
-</head>
-
+function learningStyles() {
+    const slider = `
 <body>
-
     <h1>Profile</h1>
     <p>Felder Silverman results</p>
     <!-- En form der opstiller 4 slidere med værdi fra -11 til 11 med kun ulige værdier.
@@ -50,4 +40,6 @@
     }
 </script>
 
-</html>
+</html>`
+    return slider;
+}
