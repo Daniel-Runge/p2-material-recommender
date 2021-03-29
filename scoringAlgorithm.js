@@ -87,7 +87,6 @@ function CalcDim(vote, person, rightDimension, leftDimension) {
     }
 }
 
-
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso
  * @param {value} value value from test in person object
