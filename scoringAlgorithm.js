@@ -52,32 +52,29 @@ function scoringAlgorithm(person) {
     /*  'person.dimension1 = 1 >> tæller ikke så meget i materiale.reflexive'
       'person.dimension1 =  1 >> tæller mere i materiale.active'*/
 
-    let materiale = 0;
-    if (person.dimension1 > 0) {
-        materiale += person.dimension1;
-
-        materiale -= person.dimension1;
-    } else {
-        materiale.reflexive -= person.dimension1;
-
-        materiale.active += person.dimension1;
+    function ratingForDimension(value) {
+        return Math.pow(1000, (Math.abs(value) / 100));
     }
 
-}
+    function ratingForOpisiteDimension(value) {
+        return 1 / Math.sqrt(Math.abs(value));
+    }
 
-function ratingForDimension(value) {
-    return Math.pow(1000, (Math.abs(value) / 100));
-}
+    //results from the last two functions
+    console.log("reflexive  " + "+ " +
+        ratingForDimension(11));
+    console.log("active     " + "- " +
+        ratingForOpisiteDimension(11));
 
-function ratingForOpisiteDimension(value) {
-    return 1 / Math.sqrt(Math.abs(value));
-}
-if (ratingForDimension(11) === 2.137962089502232)
-    console.log("yey");
-else
-    console.log("no");
-//results from the last two functions
-console.log("reflexive  " + "+ " +
-    ratingForDimension(11));
-console.log("active     " + "- " +
-    ratingForOpisiteDimension(11));
+    //reflexive = dim1
+    calculationDimension1(thumbs, person, material) {
+        if (thumbs == false) {
+            person.reflexive += 2 * person.reflexive;
+            person.material += person.reflexive;
+        } else {
+            person.reflexive += person.reflexive;
+            person.reflexive += 2 * person.reflexive;
+        }
+        material.reflexive += person.reflexive;
+        material.active += person.reflexive;
+    }
