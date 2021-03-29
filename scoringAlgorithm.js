@@ -1,7 +1,3 @@
-/**
- * this file should have an *import* from another JS file which contains the database
- * the database should look like the following:
- */
 /*
 {
 
@@ -52,40 +48,13 @@
 
 //import '/score/database.js'
 //import '/person/database.js'
+function scoringAlgorithm(person) {
+    /*  'person.dimension1 = 1 >> tæller ikke så meget i materiale.reflexive'
+      'person.dimension1 =  1 >> tæller mere i materiale.active'*/
 
-
-/**
- * @author Mads Overgaard Nissum & Raymond Kacso
- * @param {value} vote either -1 or 1 for like or dislike
- * @param {object} person Object with the 4 dimensions from the felder silver test
- * @param {object} material Object with 8 values, 2 values for each of the 4 dimension
- */
-function scoringAlgorithm(vote, person, material) {
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
-    
-    //Person og material skal laves forskelligt i endelig løsning
-}
-
-/**
- * @author Mads Overgaard Nissum & Raymond Kacso
- * @param {value} vote either -1 or 1 for like or dislike
- * @param {object} person Object with the 4 dimensions from the felder silver test
- * @param {object} rightDimension From material object right side dimension
- * @param {object} leftDimension From material object left side dimension
- */
-function CalcDim(vote, person, rightDimension, leftDimension) {
-    if (person > 0) {
-        rightDimension += vote * ratingForDimension(person);
-        leftDimension += vote * ratingForOpisiteDimension(person);
+    function ratingForDimension(value) {
+        return Math.pow(1000, (Math.abs(value) / 100));
     }
-    else {
-        leftDimension += vote * ratingForDimension(person);
-        rightDimension += vote * ratingForOpisiteDimension(person);
-    }
-}
 
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso
@@ -105,3 +74,15 @@ function ratingForOpisiteDimension(value) {
     return 1 / Math.sqrt(Math.abs(value));
 }
 
+    //reflexive = dim1
+    calculationDimension1(thumbs, person, material) {
+        if (thumbs == false) {
+            person.reflexive += 2 * person.reflexive;
+            person.material += person.reflexive;
+        } else {
+            person.reflexive += person.reflexive;
+            person.reflexive += 2 * person.reflexive;
+        }
+        material.reflexive += person.reflexive;
+        material.active += person.reflexive;
+    }
