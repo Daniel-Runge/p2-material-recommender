@@ -1,4 +1,5 @@
 const http = require("http");
+const port = process.env.PORT || 3000;
 
 const fs = require("fs");
 
@@ -16,7 +17,5 @@ const server = http.createServer((req, res) => {
         res.end();
     });
 });
-
-const port = process.env.PORT || 3000;
 
 server.listen(port, () => console.log(`Server running at port: ${port} `));
