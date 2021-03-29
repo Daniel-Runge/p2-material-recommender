@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            appearance: none;
+            width: 25%;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+    </style> -->
+</head>
+
+<body>
+
+    <h1>My First Heading</h1>
+    <p>Felder Silverman results</p>
+    <!-- <div class="slidecontainer">
+        <input type="range" min="-11" max="11" value="0 " class="slider" id="myRange">
+        <p>Value: <span id="demo"></span></p>
+    </div> -->
+    <form>
+        <label for="fname">Cock</label><br>
+        <input type="text" id="cock" name="fname" value=""><br>
+        <label for="lname">Balls</label><br>
+        <input type="text" id="balls" name="lname">
+    </form>
+    <button id="MahBalls">bruh</button>
+    <div id="catfact"></div>
+</body>
+<script>
+    document.getElementById('MahBalls').addEventListener('click', cockNBalls);
+    document.getElementById('MahBalls').addEventListener('click', Gustav);
+    // let slider = document.getElementById("myRange");
+    // let output = document.getElementById("demo");
+    // output.innerHTML = slider.value;
+
+    // // slider.oninput = function () {
+    // //     output.innerHTML = this.value;
+    // // }
+    // // function sensingIntuitive(){
+
+    // }
+    // async function fetchTest(){
+    //     const result = await fetch(`http://www.google.com/user`)
+    //     .then(console.log(result))
+    // }
+
+    function cockNBalls() {
+        console.log("You have " + document.getElementById("cock").value + " cock");
+        if (document.getElementById("cock").value === "1") {
+            fetch(`https://cat-fact.herokuapp.com/facts/random`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("catfact").innerHTML = data.text;
+                })
+        }
+    }
+
+    async function Gustav() {
+        const data = {
+            value: 5,
+            key: "Gustav"
+        };
+        const result = await fetch("http://localhost:3000/data", {
+            method: "POST",
+            cache: "no-cache",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(result);
+    }
+
+</script>
+
+</html>
