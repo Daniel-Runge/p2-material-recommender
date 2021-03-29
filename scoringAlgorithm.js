@@ -60,12 +60,12 @@
  * @param {object} person Object with the 4 dimensions from the felder silver test
  * @param {object} material Object with 8 values, 2 values for each of the 4 dimension
  */
- function scoringAlgorithm(vote, person, material) {
+function scoringAlgorithm(vote, person, material) {
     CalcDim(vote, person, material, material2);
     CalcDim(vote, person, material, material2);
     CalcDim(vote, person, material, material2);
     CalcDim(vote, person, material, material2);
-    
+
     //Person og material skal laves forskelligt i endelig løsning
 }
 
@@ -79,11 +79,10 @@
 function CalcDim(vote, person, rightDimension, leftDimension) {
     if (person > 0) {
         rightDimension += vote * ratingForDimension(person);
-        leftDimension += vote * ratingForOpisiteDimension(person);
-    }
-    else {
+        leftDimension += vote * ratingForOppositeDimension(person);
+    } else {
         leftDimension += vote * ratingForDimension(person);
-        rightDimension += vote * ratingForOpisiteDimension(person);
+        rightDimension += vote * ratingForOppositeDimension(person);
     }
 }
 
@@ -93,7 +92,9 @@ function CalcDim(vote, person, rightDimension, leftDimension) {
  * @returns {value} returns a score to be added to the material on the side of the dimension where the user has his rating
  */
 function ratingForDimension(value) {
-    return Math.pow(1000, (Math.abs(value) / 100));
+    const result = !value ? Error : (Math.pow(1000, (Math.abs(value) / 100)));
+
+    return result;
 }
 
 /**
@@ -101,6 +102,16 @@ function ratingForDimension(value) {
  * @param {value} value value from test in person object
  * @returns {value} returns a score to be added to the material on the opposite side of the dimension where the user has his rating
  */
-function ratingForOpisiteDimension(value) {
-    return 1 / Math.sqrt(Math.abs(value));
+function ratingForOppositeDimension(value) {
+
+    const result = !value ? Error : (1 / Math.sqrt(Math.abs(value)));
+
+    return result;
 }
+
+module.exports = {
+    ratingForDimension,
+    ratingForOppositeDimension,
+    CalcDim,
+    scoringAlgorithm
+};
