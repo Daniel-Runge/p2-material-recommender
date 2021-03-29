@@ -7,9 +7,12 @@
  * @returns {String} A HTML header string created from the parameters
  */
 function htmlHeader(title, csss = [], scripts = []) {
-  title = title ?? "Title";
-  csss = csss ?? [];
-  scripts = scripts ?? [];
+  title = title ?? "Untitled";
+  csss = csss ?? [""];
+  scripts = scripts ?? [""];
+  csss = Array.isArray(csss) ? csss : [csss];
+  scripts = Array.isArray(scripts) ? scripts : [scripts];
+  
   let cssString = "";
   for (let i = 0; i < csss.length; i++) {
     let css = csss[i];

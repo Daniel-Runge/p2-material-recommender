@@ -1,8 +1,20 @@
+/**
+ * This is an illustratory test to showcase how to use the Jest testing framework
+ * - Import the unit or units to be tested
+ * - Wrap all tests of each challenged unit inside a description
+ * - Elaborate on the specific test cases
+ * - Compare the actual value and the expected value with an assertion
+ * - Done!
+ */
 const { htmlHeader } = require("../pages/util/htmlHeader");
 
-describe("HTML header generation function", () => {
-  test("Testing on correct input", () => {
-    const actual = htmlHeader("Test Title", ["style.css"], ["spy.js"]);
+describe("The function to generate a HTML header", () => {
+  test("Works on correct input", () => {
+    const actual = htmlHeader(
+      "Test Title",
+      ["style.css"],
+      ["spy.js", "happy.js"]
+    );
     expect(actual).toBe(`
   <!DOCTYPE html>
     <html lang="en">
@@ -14,11 +26,29 @@ describe("HTML header generation function", () => {
         <link rel="stylesheet" href="style.css">
 
         <script defer src="spy.js"></script>
+<script defer src="happy.js"></script>
 
     </head>`);
   });
 
-  test("Testing on no input", () => {
+  test("Corrects a common mistake in input type", () => {
+    const actual = htmlHeader("Corrections!", "style.css", "spy.js");
+    expect(actual).toBe(`
+  <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Corrections!</title>
+        <link rel="stylesheet" href="style.css">
+
+        <script defer src="spy.js"></script>
+
+    </head>`);
+  });
+
+  test("Works correctly without input", () => {
     const actual = htmlHeader();
     expect(actual).toBe(`
   <!DOCTYPE html>
@@ -27,14 +57,14 @@ describe("HTML header generation function", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Title</title>
+        <title>Untitled</title>
         ${""}
         ${""}
     </head>`);
   });
 
-  test("Testing on undefined input", () => {
-    const actual = htmlHeader(undefined, undefined, undefined);
+  test("Nullish values are handled", () => {
+    const actual = htmlHeader(null, null, null);
     expect(actual).toBe(`
   <!DOCTYPE html>
     <html lang="en">
@@ -42,7 +72,7 @@ describe("HTML header generation function", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Title</title>
+        <title>Untitled</title>
         ${""}
         ${""}
     </head>`);

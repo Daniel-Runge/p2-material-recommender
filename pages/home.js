@@ -5,8 +5,7 @@ htmlHeader("title")
 helper();
 
 function homePage (title) {
-    const content = `<!DOCTYPE html>
-    
+    const content = `
     <body>
         <h1>${title}</h1>
         <!--  -->
@@ -17,4 +16,4 @@ function homePage (title) {
 
 
 
-export { homePage };
+module.exports = { homePage };
