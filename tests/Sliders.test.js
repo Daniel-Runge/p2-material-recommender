@@ -7,8 +7,6 @@ describe("The function to generate four sliders for input", () => {
 <div class ="container">
     <h1>Profile</h1>
     <p>Felder Silverman results</p>
-    <!-- En form der opstiller 4 slidere med værdi fra -11 til 11 med kun ulige værdier.
-    Bruger POST til /style, værdierne ligger eks. på "PerceptionVal.value" for perception værdien. -->
     <form action="/style" method="POST">
         <label>Perception</label><br>
         <input type="range" id="Perception" max="11" min="-11" value="0" step="2"
