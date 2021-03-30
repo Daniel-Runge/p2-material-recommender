@@ -27,24 +27,27 @@ let crazyRaymond = {
     Understanding: 1
 };
 
-let material = {
-    ac: -10,
-    re: -10,
-    se: -10,
-    in: -10,
-    vi: 100,
-    ve: -10,
-    sq: -10,
-    gl: -10
-};
 
-console.log(calcPersonalMaterialScore(person, material));
+const student = {
+    Perception: 5,
+    Input: 11,
+    Processing: -3,
+    Understanding: 5
+    }
 
-console.log(calcPersonalMaterialScore(lars, material));
+    const material = {
+        ac: 32,
+        re: 55,
+        se: -11,
+        in: -15,
+        vi: 10,
+        ve: 25,
+        sq: 22,
+        gl: -40
+    };
 
-console.log(calcPersonalMaterialScore(rejemond, material));
 
-console.log(calcPersonalMaterialScore(crazyRaymond, material));
+console.log(calcPersonalMaterialScore(student, material));
 
 
 /**
@@ -54,6 +57,10 @@ console.log(calcPersonalMaterialScore(crazyRaymond, material));
  * @returns Score based on the personal fit for the person viewing the material
  */
 function calcPersonalMaterialScore(person, material) {
+    if(!person.Perception || !person.Processing || !person.Input || !person.Understanding){
+        return new Error("Something went wrong. A falsy value has been given.");
+    }
+    else{
     let total = Math.abs(person.Perception) + Math.abs(person.Input) + Math.abs(person.Processing) + Math.abs(person.Understanding);
     let procent1 = (Math.abs(person.Perception) / total);
     let procent2 = (Math.abs(person.Input) / total);
@@ -84,4 +91,6 @@ function calcPersonalMaterialScore(person, material) {
     
 
     return score1 + score2 + score3 + score4;
+    }
 }
+module.exports = { calcPersonalMaterialScore };
