@@ -1,58 +1,5 @@
-/**
- * this file should have an *import* from another JS file which contains the database
- * the database should look like the following:
- */
-/*
-{
-
-"title": "a title"
-{
-    "id": 1
-    {
-    "reflexive": "int number",
-    "active": "int number",
-    "intuitive": "int number",
-    "sensing": "int number",
-    "global": "int number",
-    "sequential": "int number",
-    "visual": "int number",
-    "verbal": "int number"
-    }
-
-    "id": 2
-    {
-    "reflexive": "int number",
-    "active": "int number",
-    "intuitive": "int number",
-    "sensing": "int number",
-    "global": "int number",
-    "sequential": "int number",
-    "visual": "int number",
-    "verbal": "int number"    
-    }
-}
-
-"title": "another title"
-{
-    "id": 3
-    {
-    "reflexive": "int number",
-    "active": "int number",
-    "intuitive": "int number",
-    "sensing": "int number",
-    "global": "int number",
-    "sequential": "int number",
-    "visual": "int number",
-    "verbal": "int number"
-    }
-}
-}
-
-*/
-
 //import '/score/database.js'
 //import '/person/database.js'
-
 
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso
@@ -61,12 +8,12 @@
  * @param {object} material Object with 8 values, 2 values for each of the 4 dimension
  */
 function scoringAlgorithm(vote, person, material) {
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
-    CalcDim(vote, person, material, material2);
+    CalcDim(vote, person.processing, material.reflexive, material.active);
+    CalcDim(vote, person.perception, material.intuitive, material.sensing);
+    CalcDim(vote, person.input, material.verbal, material.visual);
+    CalcDim(vote, person.understanding, material.global, material.sequantial);
 
-    //Person og material skal laves forskelligt i endelig løsning
+    /* Important! Person and material is subject to change depending on the database*/
 }
 
 /**
