@@ -1,7 +1,10 @@
+const { CreateLearningStyleSliders } = require("../pages/util/Sliders");
 
-function learningStyles() {
-    const slider = `
-<body>
+describe("The function to generate four sliders for input", () => {
+    test("Works without input", () => {
+        const actual = CreateLearningStyleSliders();
+        expect(actual).toBe(`
+<div class ="container">
     <h1>Profile</h1>
     <p>Felder Silverman results</p>
     <!-- En form der opstiller 4 slidere med værdi fra -11 til 11 med kun ulige værdier.
@@ -26,13 +29,13 @@ function learningStyles() {
         <input type="range" id="Understanding" max="11" min="-11" value=0 step="2"
             onchange="updateTextInput(this.value, 'UnderstandingVal');"><br>
         <input type="text" id="UnderstandingVal" value="0"><br><br>
-       
+
         <input type="submit" value="Submit"><br>
     </form>
  <button onclick="myfunction()" id="button">
             button 1
         </button>
-</body>
+</div>
 <script>
     function updateTextInput(val, id) {
         document.getElementById(id).value = val;
@@ -40,6 +43,6 @@ function learningStyles() {
     }
 </script>
 
-</html>`
-    return slider;
-}
+</html>`);
+    });
+})
