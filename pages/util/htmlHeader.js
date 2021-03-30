@@ -1,5 +1,5 @@
 /**
- * This function returns a HTML header string with a title, css styles and JS scripts
+ * This function returns a HTML header string with a title, css styles and JS scripts, as well as the navigation and logo
  * @author Daniel Runge Petersen
  * @param {String} title The title of the website in the header
  * @param {String[]} csss CSS file names
@@ -12,7 +12,7 @@ function htmlHeader(title, csss = [], scripts = []) {
   scripts = scripts ?? [""];
   csss = Array.isArray(csss) ? csss : [csss];
   scripts = Array.isArray(scripts) ? scripts : [scripts];
-  
+
   let cssString = "";
   for (let i = 0; i < csss.length; i++) {
     let css = csss[i];
@@ -38,7 +38,16 @@ function htmlHeader(title, csss = [], scripts = []) {
         <title>${title}</title>
         ${cssString}
         ${scriptString}
-    </head>`;
+    </head>
+    <body>
+      <header>
+        <div class="nav-container">
+            <h2>Navigation will come here</h1>
+        </div>
+        <a href="https://www.aau.dk/">
+            <img class="logo" src="/images/logo_en.png" alt="AAU logo">
+        </a>
+      </header>`;
   return header;
 }
 

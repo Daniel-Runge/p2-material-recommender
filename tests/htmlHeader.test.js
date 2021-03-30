@@ -28,7 +28,16 @@ describe("The function to generate a HTML header", () => {
         <script defer src="spy.js"></script>
 <script defer src="happy.js"></script>
 
-    </head>`);
+    </head>
+    <body>
+      <header>
+        <div class="nav-container">
+            <h2>Navigation will come here</h1>
+        </div>
+        <a href="https://www.aau.dk/">
+            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+        </a>
+      </header>`);
   });
 
   test("Corrects a common mistake in input type", () => {
@@ -45,7 +54,16 @@ describe("The function to generate a HTML header", () => {
 
         <script defer src="spy.js"></script>
 
-    </head>`);
+    </head>
+    <body>
+      <header>
+        <div class="nav-container">
+            <h2>Navigation will come here</h1>
+        </div>
+        <a href="https://www.aau.dk/">
+            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+        </a>
+      </header>`);
   });
 
   test("Works correctly without input", () => {
@@ -60,7 +78,16 @@ describe("The function to generate a HTML header", () => {
         <title>Untitled</title>
         ${""}
         ${""}
-    </head>`);
+    </head>
+    <body>
+      <header>
+        <div class="nav-container">
+            <h2>Navigation will come here</h1>
+        </div>
+        <a href="https://www.aau.dk/">
+            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+        </a>
+      </header>`);
   });
 
   test("Nullish values are handled", () => {
@@ -75,6 +102,15 @@ describe("The function to generate a HTML header", () => {
         <title>Untitled</title>
         ${""}
         ${""}
-    </head>`);
+    </head>
+    <body>
+      <header>
+        <div class="nav-container">
+            <h2>Navigation will come here</h1>
+        </div>
+        <a href="https://www.aau.dk/">
+            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+        </a>
+      </header>`);
   });
 });

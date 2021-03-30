@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Recommender</title>
-    <link rel="stylesheet" href="/public/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-
-</head>
-
-<body>
-    <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
-        <a href="https://www.aau.dk/">
-            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
-        </a>
-    </header>
-
+/**
+ * The login page body contains the login form element and the login form data for the current user and the current user's password 
+ * @author Daniel Runge Petersen
+ * @param {String} title 
+ * @returns 
+ */
+function loginPage() { // insert Elias' login form
+    const content = `
     <main class="login">
         <div class="login-container">
             <h1>login</h1>
@@ -50,6 +35,8 @@
 
 </body>
 
-</html>
-<!-- #70ba61; -->
-<!-- #4CAF50 -->
+</html>`;
+    return content;
+}
+
+module.exports = { loginPage }
