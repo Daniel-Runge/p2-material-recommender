@@ -25,6 +25,13 @@ describe("The function that calculates how well material fits a user", () => {
         Understanding: null
     }
 
+    const student4 ={
+        Perception: 0,
+        Input: 5,
+        Processing: 0,
+        Understanding: 1
+    }
+
     const material = {
         ac: 32,
         re: 55,
@@ -64,6 +71,11 @@ describe("The function that calculates how well material fits a user", () => {
 
     test("Expected error for any null value in material", () => {
         const actual = calcPersonalMaterialScore(student, material2);
+        expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
+    })
+
+    test("Expected error for a student", () => {
+        const actual = calcPersonalMaterialScore(student4, material);
         expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
     })
 })
