@@ -12,6 +12,8 @@ function scoringAlgorithm(vote, person, material) {
 		return new Error('Missing value.');
 	if (vote != -1 && vote != 1)
 		return new Error('Invalid vote.');
+	if (typeof person !== 'object' || typeof material !== 'object')
+		return new Error('Invalid input type.');
 	material.active = calculateDimensionLeft(vote, person.processing, material.active);
 	material.reflexive = calculateDimensionRight(vote, person.processing, material.reflexive);
 	material.sensing = calculateDimensionLeft(vote, person.perception, material.sensing);

@@ -131,8 +131,8 @@ describe("The function calculates the final score of material after rating ", ()
         expect(objScore).toEqual(Error('Invalid vote.'))
     })
 
-    test('Return an error on incorrect input', () => {
-        const objScore = scoringAlgorithm(1, 6, 4);
-        expect(objScore).toEqual(Error(''))
+    test('Return an error on invalid input', () => {
+        const objScore = scoringAlgorithm(1, 5, 4);
+        expect(objScore).toEqual(Error('Invalid input type.'))
     })
 })
