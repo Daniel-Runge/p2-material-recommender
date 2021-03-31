@@ -1,6 +1,32 @@
 //import '/score/database.js'
 //import '/person/database.js'
 
+const book = {
+    active: 10,
+    reflexive: 0,
+    sensing: 1,
+    intuitive: 1,
+    visual: 1,
+    verbal: 1,
+    sequantial: 1,
+    global: 1
+}
+
+const student = {
+    processing: 11,
+    perception: -7,
+    input: 5,
+    understanding: -3
+}
+
+const rating = -1;
+
+scoringAlgorithm(rating, student, book);
+
+console.log(book);
+
+
+
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso
  * @param {value} vote either -1 or 1 for like or dislike
@@ -8,10 +34,14 @@
  * @param {object} material Object with 8 values, 2 values for each of the 4 dimension
  */
  function scoringAlgorithm(vote, person, material) {
-    CalcDim(vote, person.processing, material.reflexive, material.active);
-    CalcDim(vote, person.perception, material.intuitive, material.sensing);
-    CalcDim(vote, person.input, material.verbal, material.visual);
-    CalcDim(vote, person.understanding, material.global, material.sequantial);
+    material.active = calcDimLeft(vote, person.processing, material.active);
+    material.reflexive = calcDimRight(vote, person.processing, material.reflexive);
+    material.sensing = calcDimLeft(vote, person.perception, material.sensing);
+    material.intuitive = calcDimRight(vote, person.perception, material.intuitive);
+    material.visual = calcDimLeft(vote, person.input, material.visual);
+    material.verbal = calcDimRight(vote, person.input, material.verbal);
+    material.sequantial = calcDimLeft(vote, person.understanding, material.sequantial);
+    material.global = calcDimRight(vote, person.understanding, material.global);
 
     /* Important! Person and material is subject to change depending on the database*/
 }
@@ -21,16 +51,29 @@
  * @param {value} vote either -1 or 1 for like or dislike
  * @param {object} person Object with the 4 dimensions from the felder silver test
  * @param {object} rightDimension From material object right side dimension
- * @param {object} leftDimension From material object left side dimension
+ * @returns {value} returns the score for the material
  */
-function CalcDim(vote, person, rightDimension, leftDimension) {
-    if (person > 0) {
+function calcDimRight(vote, person, rightDimension) {
+    if (person > 0)
         rightDimension += vote * ratingForDimension(person);
-        leftDimension += vote * ratingForOppositeDimension(person);
-    } else {
-        leftDimension += vote * ratingForDimension(person);
+    else
         rightDimension += vote * ratingForOppositeDimension(person);
-    }
+    return rightDimension;
+}
+
+/**
+ * @author Mads Overgaard Nissum & Raymond Kacso
+ * @param {value} vote either -1 or 1 for like or dislike
+ * @param {object} person Object with the 4 dimensions from the felder silver test
+ * @param {object} leftDimension From material object left side dimension
+ * @returns {value} returns the score for the material
+ */
+ function calcDimLeft(vote, person, leftDimension) {
+    if (person > 0)
+        leftDimension += vote * ratingForOppositeDimension(person);
+    else
+        leftDimension += vote * ratingForDimension(person);
+    return leftDimension;
 }
 
 /**
@@ -50,7 +93,6 @@ function ratingForDimension(value) {
  * @returns {value} returns a score to be added to the material on the opposite side of the dimension where the user has his rating
  */
 function ratingForOppositeDimension(value) {
-    
     const result = !value ? Error : (1 / Math.sqrt(Math.abs(value)));
 
     return result;
@@ -67,6 +109,7 @@ it so that the points added will be 1,5 and 1. If you have
 module.exports = {
     ratingForDimension,
     ratingForOppositeDimension,
-    CalcDim,
+    calcDimRight,
+    calcDimLeft,
     scoringAlgorithm
 };
