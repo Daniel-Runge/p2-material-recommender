@@ -30,7 +30,4 @@ class Website{
 
 }
 
-const website = new Website("Test", ["https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css", "style.css"]);
-console.log(website.login());
-
 module.exports = { Website };

@@ -3,9 +3,9 @@ const port = process.env.PORT || 3000;
 const path = require("path");
 const fs = require("fs");
 const { Website } = require("./website");
-const website = new Website("Test", [
+const website = new Website("Learning Path Recommender", [
   "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
-  "/style.css",
+  "style.css",
 ]);
 
 const server = http.createServer((req, res) => {
@@ -33,7 +33,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, () => console.log(`Server running at port: ${port} `));
 
-const publicResources = "public/";
+const publicResources = "/public/";
 //secture file system access as described on
 //https://nodejs.org/en/knowledge/file-system/security/introduction/
 const rootFileSystem = process.cwd();

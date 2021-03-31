@@ -1,8 +1,7 @@
 /**
  * The login page body contains the login form element and the login form data for the current user and the current user's password 
  * @author Daniel Runge Petersen
- * @param {String} title 
- * @returns 
+ * @returns a html text string for the login page body
  */
 function loginPage() { // insert Elias' login form
     const content = `
@@ -20,7 +19,7 @@ function loginPage() { // insert Elias' login form
         </div>
         <div class="right-side">
             <section class="help-block">
-                <h3>Help/about</h3>
+                <h3>About</h3>
                 <p>This website is a recommender system for students at AAU.</p>
             </section>
             <section class="sign-up">

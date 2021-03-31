@@ -45,7 +45,7 @@ function htmlHeader(title, csss = [], scripts = []) {
             <h2>Navigation will come here</h1>
         </div>
         <a href="https://www.aau.dk/">
-            <img class="logo" src="/images/logo_en.png" alt="AAU logo">
+            <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
       </header>`;
   return header;
