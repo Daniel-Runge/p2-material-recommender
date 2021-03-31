@@ -3,6 +3,19 @@ const mysql = require('mysql');
 const sql1 = `INSERT INTO Courses (CourseName) VALUES ('')`
 const sql = `SELECT CourseName FROM courses`;
 
+const signInObject  = {
+  email: 'q@q.com',
+  password: 'redDeadRedemption',
+}
+
+
+function sqlConstructorSignIn (signInData){
+  const sql = `INSERT INTO users (Email, UserPassword)
+  VALUES (${signInData.email},${signInData.password})`
+  queryToSqlDb(sql);
+}
+
+
 function queryToSqlDb (sqlquery){
     const con = mysql.createConnection({
         host: "localhost",
@@ -22,5 +35,5 @@ function queryToSqlDb (sqlquery){
         });
 }
 
-queryToSqlDb(sql);
+sqlConstructorSignIn(signInObject);
 
