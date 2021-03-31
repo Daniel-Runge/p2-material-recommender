@@ -47,9 +47,6 @@ const student = {
     };
 
 
-console.log(calcPersonalMaterialScore(student, material));
-
-
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso & Lars Emanuel Hansen
  * @param {object} person Object from database with the results from the Felder Silverman test
@@ -58,6 +55,9 @@ console.log(calcPersonalMaterialScore(student, material));
  */
 function calcPersonalMaterialScore(person, material) {
     if(!person.Perception || !person.Processing || !person.Input || !person.Understanding){
+        return new Error("Something went wrong. A falsy value has been given.");
+    }
+    if(!material.ac || !material.re || !material.se || !material.in || !material.vi || !material.ve || !material.sq || !material.gl){
         return new Error("Something went wrong. A falsy value has been given.");
     }
     else{

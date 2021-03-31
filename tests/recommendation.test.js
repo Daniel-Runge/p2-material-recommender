@@ -34,7 +34,18 @@ describe("The function that calculates how well material fits a user", () => {
         ve: 25,
         sq: 22,
         gl: -40
-    };
+    }
+
+    const material2 = {
+        ac: null,
+        re: null,
+        se: null,
+        in: -15,
+        vi: 10,
+        ve: 25,
+        sq: 22,
+        gl: -40
+    }
 
     test("Works on correct input", () => {
         const actual = calcPersonalMaterialScore(student, material);
@@ -46,8 +57,13 @@ describe("The function that calculates how well material fits a user", () => {
         expect(actual).toBe(9.333333333333336)
     })
 
-    test("Expected error", () => {
+    test("Expected error for any null value in student", () => {
         const actual = calcPersonalMaterialScore(student3, material);
+        expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
+    })
+
+    test("Expected error for any null value in material", () => {
+        const actual = calcPersonalMaterialScore(student, material2);
         expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
     })
 })
