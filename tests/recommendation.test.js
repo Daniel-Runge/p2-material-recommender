@@ -11,26 +11,21 @@ describe("The function that calculates how well material fits a user", () => {
         Processing: -3,
         Understanding: 5
     }
-    const student2 ={
+    const student2 = {
         Perception: -5,
         Input: -11,
         Processing: 3,
         Understanding: -5
     }
 
-    const student3 ={
+    const student3 = {
         Perception: null,
         Input: null,
         Processing: null,
         Understanding: null
     }
 
-    const student4 ={
-        Perception: 0,
-        Input: 5,
-        Processing: 0,
-        Understanding: 1
-    }
+
 
     const material = {
         ac: 32,
@@ -74,8 +69,30 @@ describe("The function that calculates how well material fits a user", () => {
         expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
     })
 
-    test("Expected error for a student", () => {
+
+    const student4 = {
+        Perception: 0,
+        Input: 5,
+        Processing: 0,
+        Understanding: 1
+    }
+    test("Expected error for any zero value in student", () => {
         const actual = calcPersonalMaterialScore(student4, material);
+        expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
+    })
+
+    test("Expected error for no input", () => {
+        const actual = calcPersonalMaterialScore();
+        expect(actual).toEqual(Error("Something went wrong. Missing either person or material value."))
+    })
+
+    test("Expected error for wrong input, no material/student", () => {
+        const actual = calcPersonalMaterialScore(student);
+        expect(actual).toEqual(Error("Something went wrong. Missing either person or material value."))
+    })
+
+    test("Expected error for wrong input, reverse order of input", () => {
+        const actual = calcPersonalMaterialScore(material, student);
         expect(actual).toEqual(Error("Something went wrong. A falsy value has been given."))
     })
 })
