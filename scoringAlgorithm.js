@@ -1,32 +1,6 @@
 //import '/score/database.js'
 //import '/person/database.js'
 
-const book = {
-    active: 10,
-    reflexive: 0,
-    sensing: 1,
-    intuitive: 1,
-    visual: 1,
-    verbal: 1,
-    sequantial: 1,
-    global: 1
-}
-
-const student = {
-    processing: 11,
-    perception: -7,
-    input: 5,
-    understanding: -3
-}
-
-const rating = -1;
-
-scoringAlgorithm(rating, student, book);
-
-console.log(book);
-
-
-
 /**
  * @author Mads Overgaard Nissum & Raymond Kacso
  * @param {value} vote either -1 or 1 for like or dislike
@@ -102,7 +76,7 @@ function ratingForOppositeDimension(value) {
     return result;
 }
 
-/* 
+/*  ---- JUST AN IDEA ----
 If algorithme dosent work well we can use these two function
 f(x) = 1/10x + 1,4 & f(x) = -1/10x + 1,1 this will make it
 so that if you have 1 in felder silvermantest it will make
