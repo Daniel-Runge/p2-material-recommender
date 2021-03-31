@@ -26,8 +26,6 @@ class Website{
     login(){
         return this.header + loginPage();
     }
-
-
 }
 
 module.exports = { Website };
