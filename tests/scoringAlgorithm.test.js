@@ -27,7 +27,7 @@ describe("The function calculates a score for any dimension ", () => {
     })
 
     test('Should give a number on correct input', () => {
-        const number = calcDimLeft(1, 11, 10);
+        const number = calcDimRight(1, -11, 10);
         expect(number).toEqual(10.301511344577763)
     })
 
@@ -36,8 +36,28 @@ describe("The function calculates a score for any dimension ", () => {
         expect(number).toEqual(Error)
     })
 
+    test('Should give a error on zero input', () => {
+        const number = calcDimRight(0, 0, 0);
+        expect(number).toEqual(Error)
+    })
+
+    test('Should give a number on correct input', () => {
+        const number = calcDimLeft(1, 11, 10);
+        expect(number).toEqual(10.301511344577763)
+    })
+
+    test('Should give a number on correct input', () => {
+        const number = calcDimLeft(1, -11, 10);
+        expect(number).toEqual(12.137962089502231)
+    })
+
     test('Should give a error on null input', () => {
         const number = calcDimLeft(null, null, null);
+        expect(number).toEqual(Error)
+    })
+
+    test('Should give a error on zero input', () => {
+        const number = calcDimLeft(0, 0, 0);
         expect(number).toEqual(Error)
     })
 });
