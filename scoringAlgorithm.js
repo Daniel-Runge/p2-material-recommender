@@ -8,14 +8,18 @@
 	* @param {object} material Object with 8 values, 2 values for each of the 4 dimension
 	*/
 function scoringAlgorithm(vote, person, material) {
-	material.active = calcDimLeft(vote, person.processing, material.active);
-	material.reflexive = calcDimRight(vote, person.processing, material.reflexive);
-	material.sensing = calcDimLeft(vote, person.perception, material.sensing);
-	material.intuitive = calcDimRight(vote, person.perception, material.intuitive);
-	material.visual = calcDimLeft(vote, person.input, material.visual);
-	material.verbal = calcDimRight(vote, person.input, material.verbal);
-	material.sequantial = calcDimLeft(vote, person.understanding, material.sequantial);
-	material.global = calcDimRight(vote, person.understanding, material.global);
+	if (!vote || !person || !material)
+		return new Error('Missing value.');
+	if (vote != -1 && vote != 1)
+		return new Error('Invalid vote.');
+	material.active = calculateDimensionLeft(vote, person.processing, material.active);
+	material.reflexive = calculateDimensionRight(vote, person.processing, material.reflexive);
+	material.sensing = calculateDimensionLeft(vote, person.perception, material.sensing);
+	material.intuitive = calculateDimensionRight(vote, person.perception, material.intuitive);
+	material.visual = calculateDimensionLeft(vote, person.input, material.visual);
+	material.verbal = calculateDimensionRight(vote, person.input, material.verbal);
+	material.sequantial = calculateDimensionLeft(vote, person.understanding, material.sequantial);
+	material.global = calculateDimensionRight(vote, person.understanding, material.global);
 
 	return material;
 	/* Important! Person and material is subject to change depending on the database*/
@@ -28,13 +32,13 @@ function scoringAlgorithm(vote, person, material) {
 	* @param {object} rightDimension From material object right side dimension
 	* @returns {value} returns the score for the material
 	*/
-function calcDimRight(vote, person, rightDimension) {
+function calculateDimensionRight(vote, person, rightDimension) {
 	if (!vote || !person || !rightDimension)
 		return Error;
 	if (person > 0)
-		rightDimension += vote * ratingForDimension(person);
+		rightDimension += vote * rateDimension(person);
 	else
-		rightDimension += vote * ratingForOppositeDimension(person);
+		rightDimension += vote * rateDimensionOpposite(person);
 	return rightDimension;
 }
 
@@ -45,13 +49,13 @@ function calcDimRight(vote, person, rightDimension) {
 	* @param {object} leftDimension From material object left side dimension
 	* @returns {value} returns the score for the material
 	*/
-function calcDimLeft(vote, person, leftDimension) {
+function calculateDimensionLeft(vote, person, leftDimension) {
 	if (!vote || !person || !leftDimension)
 		return Error;
 	if (person > 0)
-		leftDimension += vote * ratingForOppositeDimension(person);
+		leftDimension += vote * rateDimensionOpposite(person);
 	else
-		leftDimension += vote * ratingForDimension(person);
+		leftDimension += vote * rateDimension(person);
 	return leftDimension;
 }
 
@@ -60,7 +64,7 @@ function calcDimLeft(vote, person, leftDimension) {
 	* @param {value} value value from test in person object
 	* @returns {value} returns a score to be added to the material on the side of the dimension where the user has his rating
 	*/
-function ratingForDimension(value) {
+function rateDimension(value) {
 	const result = !value ? Error : (Math.pow(1000, (Math.abs(value) / 100)));
 
 	return result;
@@ -71,7 +75,7 @@ function ratingForDimension(value) {
 	* @param {value} value value from test in person object
 	* @returns {value} returns a score to be added to the material on the opposite side of the dimension where the user has his rating
 	*/
-function ratingForOppositeDimension(value) {
+function rateDimensionOpposite(value) {
 	const result = !value ? Error : (1 / Math.sqrt(Math.abs(value)));
 
 	return result;
@@ -85,10 +89,33 @@ it so that the points added will be 1,5 and 1. If you have
 11 in the test it will count 2,5.
 */
 
+
+
+
+
+const student = {
+	perception: 5,
+	input: 11,
+	processing: -3,
+	understanding: 5
+}
+
+const material = {
+	active: 32,
+	reflexive: 55,
+	sensing: -11,
+	intuitive: -15,
+	visual: 10,
+	verbal: 25,
+	sequantial: 22,
+	global: -40
+}
+console.log(scoringAlgorithm(-1, student, material));
+//console.log(calculateDimensionLeft(1, student.processing, material.active))
 module.exports = {
-	ratingForDimension,
-	ratingForOppositeDimension,
-	calcDimRight,
-	calcDimLeft,
+	rateDimension,
+	rateDimensionOpposite,
+	calculateDimensionRight,
+	calculateDimensionLeft,
 	scoringAlgorithm
 };
