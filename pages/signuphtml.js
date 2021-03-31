@@ -1,23 +1,14 @@
- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-
-
-</head>
-<!--A body for the html is created-->
-<body>
+//Html is generated in a javascript file by encapsulatinig it in a function
+function signuphtml() {
+  const htmlcontent = `
+<main>
   <!--A header-page title and a text title is created-->
  <h3>Opret ny bruger</h3>
  <p>Venligst udfyld nedenstående felter</p>
 
 <div class="container">
 <!--Div box-->
-            <form id = form action="validation.html" method="POST">
+            <form id = form action="/signup" method="POST">
 
             <label for="brugernavn">Brugernavn</label>
             <input type="text" id="brugernavn" name="brugernavn" required>
@@ -34,7 +25,7 @@
             <input type="radio" id="kvinde" name="gender" value="kvinde">
             <label for="kvinde">Kvinde</label><br>
 
-            <button href="validation.html" >Opret</button>
+            <input name="submit" value="SIGN UP" type="submit">
 
             <div id="msg">
               <pre>tag</pre>
@@ -52,8 +43,14 @@
     <p id="length" class="invalid">Minimum <b>8 karakterer</b></p>
   </div>
 
+  </main>
 </body>
+</html>`;
 
-<!--The signup javascript file is called-->
-<head> <script src="/signup.js"></script></head>
-</html> 
+  return htmlcontent;
+}
+
+//The function is exported to the server
+module.exports = {
+  signuphtml,
+};

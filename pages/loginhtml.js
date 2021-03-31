@@ -3,7 +3,7 @@
  * @author Daniel Runge Petersen
  * @returns a html text string for the login page body
  */
-function loginPage() { // insert Elias' login form
+function loginhtml() { // insert Elias' login form
     const content = `
     <main class="login">
         <div class="login-container">
@@ -38,4 +38,4 @@ function loginPage() { // insert Elias' login form
     return content;
 }
 
-module.exports = { loginPage }
+module.exports = { loginhtml }

@@ -1,5 +1,6 @@
 const { htmlHeader } = require('./pages/util/htmlHeader')
-const { loginPage } = require('./pages/loginPage')
+const { loginhtml } = require('./pages/loginhtml')
+const { signuphtml } = require('./pages/signuphtml')
 
 class Website{
     title;
@@ -24,7 +25,11 @@ class Website{
     }
 
     login(){
-        return this.header + loginPage();
+        return this.header + loginhtml();
+    }
+    
+    signup(){ 
+        return this.header + signuphtml();
     }
 }
 

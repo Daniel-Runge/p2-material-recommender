@@ -15,9 +15,66 @@ const rootFileSystem = process.cwd();
 const port = process.env.PORT || 3000;
 
 const server = http.createServer((req, res) => {
-  switch(req.method) {
+  console.log(req.url + req.method);
+  switch (req.method) {
     case "POST":
+      switch (req.url) {
+        case "/signup":
+          let body = "";
+          req.on("data", (chunk) => {
+            body += chunk.toString(); // convert Buffer to string
+          });
+          req.on("end", () => {
+            console.log(body);
+            res.end("ok");
+          });
+          break;
+        case "/login":
+          body = "";
+          req.on("data", (chunk) => {
+            body += chunk.toString(); // convert Buffer to string
+          });
+          req.on("end", () => {
+            console.log(body);
+            res.end("ok");
+          });
+          break;
+      }
     case "GET":
+      switch (req.url) {
+        case "/":
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "text/html");
+          res.write(website.login());
+          res.end();
+          break;
+        case "/signup":
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "text/html");
+          res.write(website.signup());
+          res.end();
+          break;
+        case "/login":
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "text/html");
+          res.write(website.login());
+          res.end();
+          break;
+        default:
+          const secured = securePath(req.url, rootFileSystem);
+          console.log("Reading:" + secured);
+          fs.readFile(secured, (err, data) => {
+            if (err) {
+              console.error(err);
+              errorResponse(res, 404, String(err));
+            } else {
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "text/css");
+              res.write(data);
+              res.end("\n");
+            }
+          });
+      }
   }
 });
 
@@ -37,14 +94,14 @@ function errorResponse(res, code, reason) {
 //   res.end();
 // } else if (req.url == "/login") {
 //   console.log(req.method);
-//   let body = '';
-//   req.on('data', chunk => {
-//       body += chunk.toString(); // convert Buffer to string
-//   });
-//   req.on('end', () => {
-//       console.log(body);
-//       res.end('ok');
-//   });
+// let body = "";
+// req.on("data", (chunk) => {
+//   body += chunk.toString(); // convert Buffer to string
+// });
+// req.on("end", () => {
+//   console.log(body);
+//   res.end("ok");
+// });
 // }
 // else {
 //   const secured = securePath(req.url, rootFileSystem);
