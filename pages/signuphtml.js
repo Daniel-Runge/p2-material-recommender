@@ -1,49 +1,43 @@
-//Html is generated in a javascript file by encapsulatinig it in a function
+/**
+ * A signup page body that contains the signup form element
+ * @author Elias Hajji 
+ * @returns Html is generated in a javascript file by encapsulatinig it in a function
+ */
 function signuphtml() {
   const htmlcontent = `
-<main>
-  <!--A header-page title and a text title is created-->
- <h3>Opret ny bruger</h3>
- <p>Venligst udfyld nedenstående felter</p>
+	<main class="signup">
+		<div class="signup-container">
+			<h1>sign up</h1>
+			<p>Please choose a Username and Password</p>
+            <form action="/signup" method="POST">
+				<label>Username: </label>
+            	<input type="text" id="username" placeholder="Enter Username" name="username" required>
+            	<label>Password: </label>
+            	<input type="password" id="password" placeholder="Enter Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+            	<input name="submit" value="SIGN UP" type="submit"></input>
+        	</form>
+		</div>
+		<div class="right-side">
+            <section class="help-block">
+                <h3>Help</h3>
+                <p>The password must contain the following:</p>
+				<ul class="guide">
+					<li>A minimum of eight characters</li>
+					<li>At least 1 lower case character</li>
+					<li>At least one upper case character</li>
+					<li>at least one number</li>
+				</ul>
+            </section>
+            <section class="sign-up">
+                <div>
+                    <h3>Log in</h3>
+                    <p>If you already have an AAU account then you can login here.</p>
+                </div>
+                <a class="circle-button" href="/login"><i class='bx bx-log-in'></i></a>
+            </section>
+        </div>
+	</main>
 
-<div class="container">
-<!--Div box-->
-            <form id = form action="/signup" method="POST">
-
-            <label for="brugernavn">Brugernavn</label>
-            <input type="text" id="brugernavn" name="brugernavn" required>
-
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="password">Adgangskode</label>
-            <input type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-
-            <input type="radio" id="mand" name="gender" value="mand">
-            <label for="mand">Mand</label><br>
-
-            <input type="radio" id="kvinde" name="gender" value="kvinde">
-            <label for="kvinde">Kvinde</label><br>
-
-            <input name="submit" value="SIGN UP" type="submit">
-
-            <div id="msg">
-              <pre>tag</pre>
-            </div>
-            </form>
-
-</div>
-
-<!--A user message box is created to inform the user about the requirements for the password-->
-<div id="message">
-    <h3>Adgangskoden skal indeholde følgende:</h3>
-    <p id="letter" class="invalid">Et <b>lille</b> bogstav</p>
-    <p id="capital" class="invalid">Et <b>stort</b> bogstav</p>
-    <p id="number" class="invalid">Et <b>Tal</b></p>
-    <p id="length" class="invalid">Minimum <b>8 karakterer</b></p>
-  </div>
-
-  </main>
 </body>
 </html>`;
 
