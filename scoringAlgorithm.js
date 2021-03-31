@@ -17,6 +17,7 @@
     material.sequantial = calcDimLeft(vote, person.understanding, material.sequantial);
     material.global = calcDimRight(vote, person.understanding, material.global);
 
+    return material;
     /* Important! Person and material is subject to change depending on the database*/
 }
 
@@ -28,7 +29,7 @@
  * @returns {value} returns the score for the material
  */
 function calcDimRight(vote, person, rightDimension) {
-    if (vote === null || person === null || rightDimension === null)
+    if (!vote || !person || !rightDimension)
         return Error;
     if (person > 0)
         rightDimension += vote * ratingForDimension(person);
@@ -45,7 +46,7 @@ function calcDimRight(vote, person, rightDimension) {
  * @returns {value} returns the score for the material
  */
  function calcDimLeft(vote, person, leftDimension) {
-    if (vote === null || person === null || leftDimension === null)
+    if (!vote || !person || !leftDimension)
         return Error;
     if (person > 0)
         leftDimension += vote * ratingForOppositeDimension(person);
