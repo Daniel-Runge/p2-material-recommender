@@ -54,6 +54,8 @@ console.log(book);
  * @returns {value} returns the score for the material
  */
 function calcDimRight(vote, person, rightDimension) {
+    if (vote === null || person === null || rightDimension === null)
+        return Error;
     if (person > 0)
         rightDimension += vote * ratingForDimension(person);
     else
@@ -69,6 +71,8 @@ function calcDimRight(vote, person, rightDimension) {
  * @returns {value} returns the score for the material
  */
  function calcDimLeft(vote, person, leftDimension) {
+    if (vote === null || person === null || leftDimension === null)
+        return Error;
     if (person > 0)
         leftDimension += vote * ratingForOppositeDimension(person);
     else
