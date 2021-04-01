@@ -1,10 +1,10 @@
 /**
- * The login page body contains the login form element and the login form data for the current user and the current user's password 
+ * The login page body contains the login form element and the login form data for the current user and the current user's password
  * @author Daniel Runge Petersen
  * @returns a html text string for the login page body
  */
-function loginPage() { // insert Elias' login form
-    const content = `
+function loginhtml() {
+  const content = `
     <main class="login">
         <div class="login-container">
             <h1>login</h1>
@@ -35,7 +35,7 @@ function loginPage() { // insert Elias' login form
 </body>
 
 </html>`;
-    return content;
+  return content;
 }
 
-module.exports = { loginPage }
+module.exports = { loginhtml };

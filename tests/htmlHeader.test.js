@@ -35,7 +35,7 @@ describe("The function to generate a HTML header", () => {
             <h2>Navigation will come here</h1>
         </div>
         <a href="https://www.aau.dk/">
-            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+            <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
       </header>`);
   });
@@ -61,7 +61,7 @@ describe("The function to generate a HTML header", () => {
             <h2>Navigation will come here</h1>
         </div>
         <a href="https://www.aau.dk/">
-            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+            <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
       </header>`);
   });
@@ -85,7 +85,7 @@ describe("The function to generate a HTML header", () => {
             <h2>Navigation will come here</h1>
         </div>
         <a href="https://www.aau.dk/">
-            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+            <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
       </header>`);
   });
@@ -109,7 +109,7 @@ describe("The function to generate a HTML header", () => {
             <h2>Navigation will come here</h1>
         </div>
         <a href="https://www.aau.dk/">
-            <img class="logo" src="/public/images/logo_en.png" alt="AAU logo">
+            <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
       </header>`);
   });
