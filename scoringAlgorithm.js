@@ -44,7 +44,6 @@ function calculateDimensionRight(vote, person, rightDimension) {
 	return rightDimension;
 }
 
-/**
 	* @author Mads Overgaard Nissum & Raymond Kacso
 	* @param {value} vote either -1 or 1 for like or dislike
 	* @param {object} person Object with the 4 dimensions from the felder silver test
