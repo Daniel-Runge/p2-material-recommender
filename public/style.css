@@ -120,7 +120,7 @@ main {
   padding: 20px;
 }
 
-.login-container {
+.login-container, .signup-container {
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
   padding: 20px;
@@ -179,6 +179,12 @@ input[type="button"]{
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
   padding: 20px;
+}
+
+.guide {
+  list-style-type: disc;
+  font-size: var(--smallerFont);
+  margin: 5% 0 0 5% ;
 }
 
 .sign-up{
