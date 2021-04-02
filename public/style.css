@@ -84,6 +84,15 @@ ul {
   list-style: none;
 }
 
+li {
+  transition: all 0.2s ease-in-out;
+}
+
+li:hover {
+  color: var(--hoverViolet);
+  margin-left: 5px;
+}
+
 a {
   text-decoration: none;
 }
@@ -110,8 +119,15 @@ header {
 
 main {
   width: 966px;
+}
+
+.login, .signup {
   display: grid;
   grid-template-columns: 2fr 1fr;
+}
+.course {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
 }
 
 .nav-container {
@@ -120,7 +136,8 @@ main {
   padding: 20px;
 }
 
-.login-container, .signup-container {
+.login-container, .signup-container, .course-container, .lecture-container {
+  align-self: start;
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
   padding: 20px;
@@ -157,6 +174,10 @@ input[type="submit"] {
   background-color: var(--greenButton);
 }
 
+input[type="submit"].dislike {
+  background-color: var(--orangeButton);
+}
+
 input[type="submit"]:hover{
   background-color: var(--greenHover);
 }
@@ -168,7 +189,6 @@ input[type="button"]{
 .right-side {
   display: grid;
   grid-template-rows: 4fr 3fr;
-  
 }
 
 .right-side h3 {
@@ -204,4 +224,35 @@ input[type="button"]{
   font-size: 2em;
   display: flex;
   align-items: center;
+}
+.current {
+  color: var(--greenDark);
+  font-weight: bold;
+  padding: 2px 
+}
+
+.current:hover{
+  color: var(--greenLight)
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  padding: 36px;
+}
+
+tfoot {
+  font-weight: bold;
 }
