@@ -36,6 +36,9 @@ function processRequest(req, res) {
         case "signup":
           website.signupPage(res);
           break;
+        case "profile":
+          website.profilePage(res);
+          break;
         default:
           const secured = securePath(req.url, rootFileSystem);
           console.log("Reading:" + secured);

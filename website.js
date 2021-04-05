@@ -1,7 +1,9 @@
 const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
+const { profilehtml } = require("./pages/profilehtml");
 const { sqlConstructorSignUp } = require("./sqlDbQuery")
+
 
 
 class Website {
@@ -44,6 +46,13 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
     res.write(this.header + signuphtml());
+    res.end();
+  }
+
+  profilePage(res) {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
+    res.write(this.header + profilehtml());
     res.end();
   }
 
