@@ -15,8 +15,8 @@ function sqlConstructorSignUp (signUpData){
 
 function queryToSqlDb (){
     const con = mysql.createConnection({
-        host: process.env.DATABSE_HOST || "localhost",
-        user: process.env.DATABSE_USER || "root",
+        host: process.env.DATABASE_HOST || "localhost",
+        user: process.env.DATABASE_USER || "root",
         password: process.env.DATABASE_PASSWORD || "",
         database: process.env.DATABASE || "database"
       });
