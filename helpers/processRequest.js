@@ -7,6 +7,8 @@ const website = new Website("Learning Path Recommender", [
   "style.css",
 ]);
 
+
+
 function processRequest(req, res) {
   const baseURL = "http://" + req.headers.host + "/";
   const theURL = new URL(req.url, baseURL);
@@ -51,6 +53,13 @@ function processRequest(req, res) {
           break;
       }
   }
+}
+
+function errorResponse(res, code, reason) {
+  res.statusCode = code;
+  res.setHeader("Content-Type", "text/txt");
+  res.write(reason);
+  res.end("\n");
 }
 
 module.exports = { processRequest };

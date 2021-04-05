@@ -1,22 +1,19 @@
 const mysql = require('mysql');
 
-const sql1 = `INSERT INTO Courses (CourseName) VALUES ('')`
-const sql = `SELECT CourseName FROM courses`;
-
-const signUpObject  = {
-  email: 'q@q.com',
-  password: 'redDeadRedemption',
+const signUpObject = {
+  username:"hello3",
+  password:"hsdlafj3a2"
 }
 
-
 function sqlConstructorSignUp (signUpData){
+  console.log("sign up ", signUpData.username);
   const sql = `INSERT INTO users (Email, UserPassword)
-  VALUES (${signUpData.email},${signUpData.password})`
+  VALUES (${signUpData.username},${signUpData.password})`
   queryToSqlDb(sql);
 }
 
 
-function queryToSqlDb (sqlquery){
+function queryToSqlDb (){
     const con = mysql.createConnection({
         host: "localhost",
         user: "g",
@@ -27,13 +24,10 @@ function queryToSqlDb (sqlquery){
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        con.query(sqlquery, function (err, result) {
-            if (err) throw err;
-                console.log("1 record inserted");
-                console.log(result);
-          });
+        
         });
 }
+queryToSqlDb()
 
-sqlConstructorSignUp(signUpObject);
+module.exports = { sqlConstructorSignUp }
 

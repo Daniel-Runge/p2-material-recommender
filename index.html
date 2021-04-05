@@ -8,6 +8,7 @@
     <title>Material Recommender</title>
     <link rel="stylesheet" href="/public/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script src="./formToJsonObjectPost.js" defer></script>
 
 </head>
 
@@ -21,11 +22,12 @@
         </a>
     </header>
 
+
     <main class="login">
         <div class="login-container">
             <h1>login</h1>
             <p>Enter Username and Password</p>
-            <form action="/login" method="post">
+            <form id="form">
                 <label>Username: </label>
                 <input type="text" placeholder="Enter Username" name="username" required>
                 <label>Password: </label>
