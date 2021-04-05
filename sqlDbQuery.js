@@ -2,7 +2,7 @@ const mysql = require('mysql');
 
 const signUpObject = {
   username:"hello3",
-  password:"hsdlafj32"
+  password:"hsdlafj3a2"
 }
 
 function sqlConstructorSignUp (signUpData){
