@@ -15,10 +15,10 @@ function sqlConstructorSignUp (signUpData){
 
 function queryToSqlDb (){
     const con = mysql.createConnection({
-        host: "localhost",
-        user: "g",
-        password: "123456",
-        database: "server1"
+        host: process.env.DATABSE_HOST || "localhost",
+        user: process.env.DATABSE_USER || "root",
+        password: process.env.DATABASE_PASSWORD || "",
+        database: process.env.DATABASE || "database"
       });
       
     con.connect(function(err) {
