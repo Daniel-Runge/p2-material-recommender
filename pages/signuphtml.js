@@ -1,6 +1,6 @@
 /**
  * A signup page body that contains the signup form element
- * @author Elias Hajji 
+ * @author Elias Hajji & Daniel Runge Petersen
  * @returns Html is generated in a javascript file by encapsulatinig it in a function
  */
 function signuphtml() {

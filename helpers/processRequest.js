@@ -34,6 +34,9 @@ function processRequest(req, res) {
         case "signup":
           website.signupPage(res);
           break;
+        case "profile":
+          website.profilePage(res);
+          break;
         default:
           const secured = securePath(req.url, rootFileSystem);
           console.log("Reading:" + secured);
@@ -51,6 +54,13 @@ function processRequest(req, res) {
           break;
       }
   }
+}
+
+function errorResponse(res, code, reason) {
+  res.statusCode = code;
+  res.setHeader("Content-Type", "text/txt");
+  res.write(reason);
+  res.end("\n");
 }
 
 module.exports = { processRequest };
