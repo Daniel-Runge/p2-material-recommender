@@ -7,7 +7,7 @@ function createLearningStyleSliders() {
     const slider = `
 <div class ="sliders-container">
     <h3>Felder Silverman results</h3>
-    <form class= "sliders" action="/style" method="POST">
+    <form class="sliders" action="/style" method="POST">
         <label>Perception</label><br>
         <input type="range" id="Perception" max="11" min="-11" value="0" step="2"
             onchange="updateTextInput(this.value, 'PerceptionVal');">
