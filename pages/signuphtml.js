@@ -5,7 +5,8 @@
  */
 function signuphtml() {
   const htmlcontent = `
-	<main class="signup">
+  <script src="../formToJsonObjectPost.js" defer></script>	
+  <main class="signup">
 		<div class="signup-container">
 			<h1>sign up</h1>
 			<p>Please choose a Username and Password</p>

@@ -7,6 +7,8 @@ const website = new Website("Learning Path Recommender", [
   "style.css",
 ]);
 
+
+
 function processRequest(req, res) {
   const baseURL = "http://" + req.headers.host + "/";
   const theURL = new URL(req.url, baseURL);
