@@ -14,7 +14,7 @@ function ILSLink() {
 
 function htmlCard() {
     const card = `
-    <div class="course">
+    <div class="courseCard">
         <a href="#" class="course-preview">
             <h3 class="course-title">Title of course</h3>
             <h4>lecture #</h4>

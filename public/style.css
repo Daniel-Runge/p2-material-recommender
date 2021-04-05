@@ -133,7 +133,7 @@ main {
 
 .course {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 4fr;
 }
 
 .nav-container {
@@ -286,7 +286,7 @@ tfoot {
   font-weight: bold;
 }
 
-.course {
+.courseCard {
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 	display: flex;
   border: 1px solid rgba(0,0,0,.125);
@@ -296,7 +296,7 @@ tfoot {
 .course-preview {
 	background-color: var(--greenLight);
 	color: #fff;
-	padding: 30px;
+	padding: 12px;
 	max-width: 250px;
 }
 
@@ -310,7 +310,7 @@ tfoot {
 }
 
 .course-info {
-	padding: 12px;
+	padding: 24px;
 	position: relative;
 	width: 100%;
 }
