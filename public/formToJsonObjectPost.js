@@ -6,20 +6,21 @@ function handleSubmit(event) {
     const value = Object.fromEntries(data.entries());
 
     console.log({ value });
+    console.log("THIS COMMENT IS FOR THE EVENT " + event);
 
-    fetch("/signup",
-    {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    method: "POST",
-    body: JSON.stringify({value})
-    })
-    .then(function(res){ console.log(res) })
-    .catch(function(res){ console.log(res) })
+    fetch("/login", {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({ value })
+        })
+        .then(function(res) { console.log(res) })
+        .catch(function(res) { console.log(res) })
 
-  }
+}
 
-  const form = document.querySelector('form');
-  form.addEventListener('submit', handleSubmit);
+
+const form = document.querySelector('form');
+form.addEventListener('submit', handleSubmit);
