@@ -13,7 +13,8 @@ Second semester project (P2) for handling of personalized learning material reco
   * [Git](#git)
     - [Connecting to Git with SSH](#connecting-to-git-with-ssh)
     - [Using Git in the terminal](#using-git-in-the-terminal)
-  * [Development Operations (DevOps)](#development-operations--devops-)
+  * [Style guide](#style-guide)
+    - [Development Operations (DevOps)](#development-operations--devops-)
 
 # For Developers
 
