@@ -1,92 +1,48 @@
-const { createLearningStyleSliders } = require('./util/Sliders')
+const { createLearningStyleSliders } = require("./util/Sliders");
+const { courseCardhtml } = require("./util/courseCard");
 
-function ILSLink() {
-    const content = `
-    <section class="ils-link">
-        <div>
-            <h3>Take the test</h3>
-            <p>Follow the link to take the ILS test.</p>
-        </div>
-        <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
-    </section>`;
-    return content;
-}
+/**
+ * A profile page body that contains the courses as cards and a slider for the student based on the student information
+ * @author Daniel Runge Petersen, Lars Hansen & Raymond Kacso
+ * @param {object} studentInformation
+ * @returns HTML body with the profile page body that contains the courses as cards and slider for the student based on the student information
+ */
+function profilehtml(studentInformation) {
+  let courseCards = studentInformation.courses.reduce(
+    (accumulator, currentValue) => {
+      return accumulator + courseCardhtml(currentValue);
+    }
+  );
 
-function htmlCard() {
-    const card = `
-    <div class="courseCard">
-        <a href="#" class="course-preview">
-            <h3 class="course-title">Title of course</h3>
-            <h4>lecture #</h4>
-        </a>
-
-        <div class="course-info">
-            <p>Random course description for the course.</p>
-        </div>
-    </div>
-    `;
-    return card;
-
-    // header/title
-    // beskrivelse
-    // link
-    // eventueltImage
-
-}
-
-function coursesTable() {
-    const content = `
-    <div class="courses-container">
-        <table>
-            <tr>
-                <th>Your Courses:</th>
-            </tr>
-            <tr>
-                <td>Algorithms</td>
-            </tr>
-            <tr>
-                <td>Sandsynligheds Teori</td>
-            </tr>
-            <tr>
-                <td>Din Mor</td>
-            </tr>
-        </table>
-        <a class=cirle-button>
-        </a>
-        <input type="submit" value="Course finished">
-    </div>`;
-    return content;
-}
-
-function profilehtml() {
-    const card = htmlCard();
-    const coursesContainer = coursesTable();
-    const slidersContainer = createLearningStyleSliders();
-    const ILSContainer = ILSLink();
-    const content = `
+  const slidersContainer = createLearningStyleSliders();
+  const content = `
     <main class="profile">
         <div class="courses-container">
             <h1>courses</h1>
             <p>Below you can see the courses you follow. Use the 'plus' button to add more courses from the brochure</p>
-            ${card}
-            ${card}
-            ${card}
+            ${courseCards}
             <a href="#" class=circle-button>
                 <i class='bx bx-plus'></i>
             </a>
         </div>
         <div class="right-side">
             <section class="details-container">
-                <h2 class="profile-name">Lars Hansen</h2>
+                <h2 class="profile-name">${studentInformation.username}</h2>
                 ${slidersContainer}
             </section>
-            ${ILSContainer}
+            <section class="ils-link">
+                <div>
+                    <h3>Take the test</h3>
+                    <p>Follow the link to take the ILS test.</p>
+                </div>
+                <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
+            </section>
         </div>
     </main>
 
 </body>
 </html>`;
-    return content;
+  return content;
 }
 
 module.exports = { profilehtml };
