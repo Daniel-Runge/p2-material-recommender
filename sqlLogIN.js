@@ -27,11 +27,10 @@ async function sqlLogIn(logInData) {
 
                 return token;
             }
-
         });
     //} catch (error) {
     //    console.log(error);
     //}
 }
-//not done
+
 module.exports = { sqlLogIn };
