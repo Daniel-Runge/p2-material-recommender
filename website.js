@@ -36,9 +36,18 @@ class Website {
     //     return loginPage(res);
     //   }
 
+    
+
+
     loginPage(res) {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "text/html");
+      const token = sqlLogIn({
+        value: { username: "Mads", password: "Mads1234" },
+      }).then((response) => {
+        console.log(response + ' Hej med dig');
+      });
+        res.writeHead(200, {
+          'Set-cookie': `mycookie=${token}`
+        });
         res.write(this.header + loginhtml());
         res.end();
     }
@@ -95,6 +104,9 @@ class Website {
             } else {
                 console.log("else ok");
                 console.log("why is this not working");
+
+                
+
                 this.profilePage(res);
                 res.end();
             }

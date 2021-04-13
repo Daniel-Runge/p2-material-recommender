@@ -32,6 +32,8 @@ function processRequest(req, res) {
             switch (pathElements[1]) {
                 case "":
                     website.loginPage(res);
+                    console.log(req.headers.cookie);
+
                     break;
                 case "login":
                     website.loginPage(res);
