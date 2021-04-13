@@ -1,20 +1,19 @@
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 
-const con = mysql.createConnection({
-    host: process.env.DATABASE_HOST || "localhost",
-    user: process.env.DATABASE_USER || "root",
-    password: process.env.DATABASE_PASSWORD || "Zenen3ka!",
-    database: process.env.DATABASE || "dB",
-});
 
 async function sqlLogIn(logInData) {
+    const con = mysql.createConnection({
+        host: process.env.DATABASE_HOST || "localhost",
+        user: process.env.DATABASE_USER || "root",
+        password: process.env.DATABASE_PASSWORD || "Zenen3ka!",
+        database: process.env.DATABASE || "dB",
+    });
     console.log("log in", logInData);
-    try {
+    //try {
         const { username, password } = logInData.value;
         //WIP
-        con.query(`SELECT * FROM users WHERE Email= ?`, [username], async(error, result) => {
+        con.query(`SELECT * FROM users WHERE Email= ?`, [username], (error, result) => {
             if (!result || password !== result[0].UserPassword) {
                 console.log("Error with the password or email");
             } else {
@@ -24,24 +23,15 @@ async function sqlLogIn(logInData) {
                 });
                 console.log(token);
 
-                const cookieOptions = {
-                    expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-                    ),
-                    httpOnly: true
-                };
-                res.cookie("jwt", token, cookieOptions);
-                res.status(200).redirect("/profile");
-                cookieParser(JWT_SECRET, cookieOptions.expires);
-                console.log("The cookie options are this " + cookieOptions);
                 console.log("The password and email are correct");
 
+                return token;
             }
 
         });
-    } catch (error) {
-        console.log(error);
-    }
+    //} catch (error) {
+    //    console.log(error);
+    //}
 }
 
 module.exports = { sqlLogIn };
