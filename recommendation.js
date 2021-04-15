@@ -56,12 +56,12 @@ const material = {
     if (!person || !material)
         return new Error("Something went wrong. Missing either person or material value.");
 
-    if (!person.Perception || !person.Processing || !person.Input || !person.Understanding) {
-        return new Error("Something went wrong. A falsy value has been given.");
-    }
-    if (!material.Active || !material.Reflective || !material.Sensing || !material.Intuitive || !material.Visual || !material.Verbal || !material.Sequential || !material.Global) {
-        return new Error("Something went wrong. A falsy value has been given.");
-    } else {
+    //if (!person.Perception || !person.Processing || !person.Input || !person.Understanding) {
+    //    return new Error("Something went wrong. A falsy value has been given.");
+    //}
+    //if (!material.Active || !material.Reflective || !material.Sensing || !material.Intuitive || !material.Visual || !material.Verbal || !material.Sequential || !material.Global) {
+    //    return new Error("Something went wrong. A falsy value has been given."); }
+     else {
         let total = Math.abs(person.Perception) + Math.abs(person.Input) + Math.abs(person.Processing) + Math.abs(person.Understanding);
         let procent1 = (Math.abs(person.Perception) / total);
         let procent2 = (Math.abs(person.Input) / total);
@@ -90,7 +90,7 @@ const material = {
         else
             score4 = procent4 * material.Global;
 
-        console.log('Ac & Re ' + score1, 'Se & In ' + score2, 'Vi & Ve ' + score3, 'Sq & Gl ' + score4);
+        //(console.log('Ac & Re ' + score1, 'Se & In ' + score2, 'Vi & Ve ' + score3, 'Sq & Gl ' + score4);
 
 
         return score1 + score2 + score3 + score4;

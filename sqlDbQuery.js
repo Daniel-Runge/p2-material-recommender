@@ -37,9 +37,9 @@ function sqlConstructorMaterial(Material){
 function queryToSqlDb(sqlquery, resultHandling) {
   const con = mysql.createConnection({
     host: process.env.DATABASE_HOST || "localhost",
-    user: process.env.DATABASE_USER || "g",
-    password: process.env.DATABASE_PASSWORD || "123456",
-    database: process.env.DATABASE || "db",
+    user: process.env.DATABASE_USER || "root",
+    password: process.env.DATABASE_PASSWORD || "password",
+    database: process.env.DATABASE || "testserver",
   });
 
   con.connect(function (err) {

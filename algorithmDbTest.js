@@ -2,31 +2,29 @@ const { calcPersonalMaterialScore } = require('./recommendation');
 const { queryToSqlDb } = require("./sqlDbQuery")
 
 const user = {
-    Perception: 5,
+    Perception: 9,
     Input: 11,
-    Processing: -3,
-    Understanding: 5
+    Processing: 5,
+    Understanding: -11
 };
 
 queryToSqlDb('SELECT * FROM Material',
     (result) => {
-        let barray = [];
-        let value
-        console.log('hellosdjkfh');
-        balue = result.reduce( function (previousLargestNumber, currentLargestNumber) {
-            
-            let value = (calcPersonalMaterialScore(user, currentLargestNumber) > previousLargestNumber) ? calcPersonalMaterialScore(user, currentLargestNumber) : previousLargestNumber;
-            if (value == currentLargestNumber){
-                return {Value: value, id: currentLargestNumber}
+        let array = [];
+
+        result.forEach(element => {
+            let value = calcPersonalMaterialScore(user, element);
+            value = Math.round( value * 1e2 ) / 1e2;
+            let id = element.MaterialID;
+
+            let object = {
+                Score: value,
+                ID: id
             }
-            else {
-                return {Value: value, id: previousLargestNumber}
-            }
-        }, 0);
 
-            
-        console.log(balue);
-    }
+            array.push(object);
 
-
-)
+            array.sort((a, b) => b.Score - a.Score);
+        });
+        console.log(array);
+    });
