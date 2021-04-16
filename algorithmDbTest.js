@@ -1,5 +1,7 @@
 const { calcPersonalMaterialScore } = require('./recommendation');
 const { queryToSqlDb } = require("./sqlDbQuery")
+const dotenv = require("dotenv")
+dotenv.config()
 
 const user = {
     Perception: 9,
