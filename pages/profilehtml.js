@@ -1,3 +1,72 @@
+const { sqlGetValuesForProfile } = require('../sqlDbQuery');
+const { createLearningStyleSliders } = require('./util/Sliders')
+
+function ILSLink() {
+    const content = `
+    <section class="ils-link">
+        <div>
+            <h3>Take the test</h3>
+            <p>Follow the link to take the ILS test.</p>
+        </div>
+        <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
+    </section>`;
+    return content;
+}
+
+function htmlCard() {
+    const card = `
+    <div class="courseCard">
+        <a href="#" class="course-preview">
+            <h3 class="course-title">Title of course</h3>
+            <h4>lecture #</h4>
+        </a>
+
+        <div class="course-info">
+            <p>Random course description for the course.</p>
+        </div>
+    </div>
+    `;
+    return card;
+
+    // header/title
+    // beskrivelse
+    // link
+    // eventueltImage
+
+}
+
+function coursesTable() {
+    const content = `
+    <div class="courses-container">
+        <table>
+            <tr>
+                <th>Your Courses:</th>
+            </tr>
+            <tr>
+                <td>Algorithms</td>
+            </tr>
+            <tr>
+                <td>Sandsynligheds Teori</td>
+            </tr>
+            <tr>
+                <td>Din Mor</td>
+            </tr>
+        </table>
+        <a class=cirle-button>
+        </a>
+        <input type="submit" value="Course finished">
+    </div>`;
+    return content;
+}
+
+function profilehtml() {
+    const card = htmlCard();
+    const coursesContainer = coursesTable();
+    const userEmail = localStorage.getItem("userlogin").Email //Retrieves the useremail from localstorage in the client 
+    const user = sqlGetValuesForProfile(userEmail) //query the data from the database
+    const slidersContainer = createLearningStyleSliders(user); //passes values into the function in slider.js
+    const ILSContainer = ILSLink();
+    const content = `
 const { createLearningStyleSliders } = require("./util/Sliders");
 const { courseCardhtml } = require("./util/courseCard");
 

@@ -1,9 +1,14 @@
 /**
  * This function returns a HTML container for four sliders, that can take input for FelderSilverman results.
- * @author Lars Hansen
+ * @author Lars Hansen & Elias Hajji
  * @returns A HTML for four sliders for input of FelderSilverman results
  */
-function createLearningStyleSliders() {
+
+//${user.perception} //Skal sættes ind i value når login virker... Ellers virker det ikke
+//${user.Input}
+//${user.Processing}
+//${user.Understanding}
+function createLearningStyleSliders(user) {
     const slider = `
 <div class ="sliders-container">
     <h3>Felder Silverman results</h3>
@@ -28,7 +33,7 @@ function createLearningStyleSliders() {
             onchange="updateTextInput(this.value, 'UnderstandingVal');">
         <input type="text" id="UnderstandingVal" value="0" class="untargetable">
 
-        <input type="submit" value="Update">
+        <input type="submit" value="Update" onClick="updateValueToDatabase()">
     </form>
 
 </div>
@@ -37,7 +42,19 @@ function createLearningStyleSliders() {
         document.getElementById(id).value = val;
         console.log("The value of " + id + " is: " + val);
     }
-</script>`
+    function updateValueToDatabase() {
+    const obj = {};
+    obj.perception = document.getElementById("PerceptionVal", "Perception").value ;
+    obj.input = document.getElementById("InputVal", "Input").value;
+    obj.processing = document.getElementById("ProcessingVal").value;
+    obj.understanding = document.getElementById("UnderstandingVal").value;
+    updateValueToDatabase(obj);
+    }
+</script>`;
     return slider;
 }
+
+
+createLearningStyleSliders();
+
 module.exports = { createLearningStyleSliders };

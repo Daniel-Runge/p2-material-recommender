@@ -8,48 +8,53 @@ const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncCo
 
 
 
+
 class Website {
-  title;
-  csss;
-  scripts;
-  header;
-  constructor(title, csss = [], scripts = []) {
-    this.title = title;
-    this.csss = csss;
-    this.scripts = scripts;
-    this.header = htmlHeader(title, csss, scripts);
-  }
+    title;
+    csss;
+    scripts;
+    header;
+    constructor(title, csss = [], scripts = []) {
+        this.title = title;
+        this.csss = csss;
+        this.scripts = scripts;
+        this.header = htmlHeader(title, csss, scripts);
+    }
 
-  // Getters
-  getTitle() {
-    return this.title;
-  }
-  getCsss() {
-    return this.csss;
-  }
-  getScripts() {
-    return this.scripts;
-  }
+    // Getters
+    getTitle() {
+        return this.title;
+    }
+    getCsss() {
+        return this.csss;
+    }
+    getScripts() {
+        return this.scripts;
+    }
 
-  // Methods
-  //   home(res) {
-  //     // This method will return a logged in user to their profile page, and others to the login page
-  //     return loginPage(res);
-  //   }
+    // Methods
+    //   home(res) {
+    //     // This method will return a logged in user to their profile page, and others to the login page
+    //     return loginPage(res);
+    //   }
 
-  loginPage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + loginhtml());
-    res.end();
-  }
+    
 
-  signupPage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + signuphtml());
-    res.end();
-  }
+
+    loginPage(res) {
+      
+      const token = sqlLogIn({
+        value: { username: "abc", password: "zzzzzzz"},
+      }).then((response) => {
+        console.log(response + ' Hej med dig');
+      });
+      //localStorage.setItem("userlogin", token);
+        res.writeHead(200, {
+          'Set-cookie': `mycookie=${token}`
+        });
+        res.write(this.header + loginhtml());
+        res.end();
+    }
 
   profilePage(res, token) {
         if (!verifyToken(token)) {

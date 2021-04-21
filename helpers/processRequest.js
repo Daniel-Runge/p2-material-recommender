@@ -17,7 +17,9 @@ function processRequest(req, res) {
     const queryPath = decodeURIComponent(theURL.pathname);
     const pathElements = queryPath.split("/");
     const rootFileSystem = process.cwd();
+
     const token = req.headers?.cookie?.split('=')[1];
+
 
     switch (req.method) {
         case "POST":
@@ -30,8 +32,6 @@ function processRequest(req, res) {
                     break;
             }
             break;
-
-
         case "GET":
             switch (pathElements[1]) {
 
@@ -45,10 +45,9 @@ function processRequest(req, res) {
                     website.signupPage(res);
                     break;
                 case "profile":
+            break;
                     website.profilePage(res, token);
-
                     break;
-
                 default:
                     const secured = securePath(req.url, rootFileSystem);
                     console.log("Reading:" + secured);
@@ -66,7 +65,6 @@ function processRequest(req, res) {
                     break;
             }
     }
-
 }
 
 function errorResponse(res, code, reason) {
