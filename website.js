@@ -2,7 +2,8 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-
+const { sqlConstructorSignUp, queryToSqlDb } = require("./sqlDbQuery")
+const { createToken, verifyToken } = require('./jwtLogin');
 const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncContainerDBQuery } = require("./sqlDbQuery")
 
 
@@ -50,12 +51,17 @@ class Website {
     res.end();
   }
 
-  profilePage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + profilehtml());
-    res.end();
-  }
+  profilePage(res, token) {
+        if (!verifyToken(token)) {
+            res.writeHead(301, {location: '/login'});
+            res.end();
+        }
+
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/html");
+        res.write(this.header + profilehtml());
+        res.end();
+    }
 
   signup(req, res) {
 
@@ -86,6 +92,21 @@ class Website {
       }
     });
   }
+  
+  login(req, res) {
+        //implementer senere; authentication
+
+        let id = 1;
+        const token = createToken(id);
+        res.writeHead(200, {
+            'Set-Cookie': 'authCookie=' + token,
+             httpOnly: true,
+            'Content-Type': 'text/html'
+        });
+        res.write("<h1>TEST: Login Succesful</h1>");
+        res.end();
+    }
+
 }
 
 module.exports = { Website };
