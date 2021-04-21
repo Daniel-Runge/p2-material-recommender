@@ -2,8 +2,7 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-const { sqlConstructorSignUp, queryToSqlDb } = require("./sqlDbQuery")
-
+const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncContainerDBQuery } = require("./sqlDbQuery")
 
 
 class Website {
@@ -57,34 +56,32 @@ class Website {
   }
 
   signup(req, res) {
-    //placeholder
-    // let signUpObject;
-     res.setHeader("Content-Type", "application/json");
-     let data = "";
-       req.on("data", (chunk) => {
-       data += chunk
-       console.log(data);
-      });
-     req.on("end", () => {
-    //   console.log("server gets", JSON.parse(data))
-    //   signUpObject = JSON.parse(data);
-    //   console.log("works until sqlconstructor");
+    let signUpObject;
+    let result;
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
 
-    //   const sqlQuery = sqlConstructorSignUp(signUpObject)
-    //   console.log('query =', sqlQuery);
-      
-    //   queryToSqlDb(sqlQuery, (result) => console.log(`the arrow is good ${result}`))
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk
+      console.log("show data ", data);
+    });
+    req.on("end", async () => {
+      signUpObject = JSON.parse(data);
 
-      queryToSqlDb('SELECT * FROM Users', (result) => result.map(
-        (row) => console.log(row.Email)
-        )
-      )
+      const { email, password, confpassword } = signUpObject.value;
 
-       res.end();
-     });
-    
+      const sql = sqlConstructorSignUp(email, password);
 
-
+      try {
+        result = await queryToSqlDb(sql);
+        return this.profilePage(res);
+      }
+      catch (error) {
+        res.writeHead(301, { location: '/signup' });
+        res.end();
+      }
+    });
   }
 }
 

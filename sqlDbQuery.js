@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+require("dotenv").config()
 
 /**
  * 
@@ -6,19 +7,22 @@ const mysql = require("mysql");
  * @returns a sql query, 
  *  if the query is run add data(the signupdata, email and password) from signup into the mysql database
  */
-function sqlConstructorSignUp(signUpData) {
-  if(typeof signUpData.value.username !== 'string'){
+function sqlConstructorSignUp(email, password) {
+  if(typeof email !== 'string'){
     return ('error')
   }
   else{
-    console.log("sign up ", signUpData.value.username);
-    const sql = `INSERT INTO users (Email, UserPassword) VALUES ("${signUpData.value.username}","${signUpData.value.password}")`;
+    console.log("sign up ", email);
+    const sql = `INSERT INTO users (Email, UserPassword) VALUES ("${email}", "${password}")`;
     return sql;
   }
-
-
-
 }
+
+function sqlConstructorConfirmSignup(email) {
+  const sql = `SELECT Email FROM users WHERE Email = "${email}"`
+  return sql;
+}
+
 function sqlConstructorMaterial(Material){
   console.log("material ", Material.value);
   const sql = `INSERT INTO Material (Sensing, Intuitive, Visual, Verbal, Active, Reflective, Sequential, Global) 
@@ -30,28 +34,47 @@ function sqlConstructorMaterial(Material){
 
 /**
  * 
+ * @param {takes a string format sql query} sql 
+ * passes this query to the query to sql db func.
+ * the purpose of this function is making queryToSqlDb into a async function by wrapping it
+ * @returns returns what query to sql db returns
+ */
+ async function asyncContainerDBQuery(sql) {
+  let result = await queryToSqlDb(sql)
+  console.log('query to sql db returns', result);
+  return result;
+}
+
+/**
+ * 
  * @param {takes a string sql query} sqlquery 
  * @returns returns a object with the result of the query, unless there is a error then it will throw a error,
  */
 
-function queryToSqlDb(sqlquery, resultHandling) {
-  const con = mysql.createConnection({
-    host: process.env.DATABASE_HOST || "localhost",
-    user: process.env.DATABASE_USER || "g",
-    password: process.env.DATABASE_PASSWORD || "123456",
-    database: process.env.DATABASE || "db",
-  });
-
-  con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-    console.log(sqlquery);
-    con.query(sqlquery, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-      resultHandling(result);
+function queryToSqlDb(sqlquery) {
+  return new Promise((resolve, reject) => {
+    const con = mysql.createConnection({
+      host: process.env.DATABASE_HOST || "localhost",
+      user: process.env.DATABASE_USER || "g",
+      password: process.env.DATABASE_PASSWORD || "123456",
+      database: process.env.DATABASE || "db",
     });
-  });
+
+    con.connect(function (err) {
+      if (err) throw err;
+      console.log("Connected!");
+      console.log(sqlquery);
+      con.query(sqlquery,
+        (error, result, fields) => {
+          if (error) {
+            return reject(error);
+          }
+          console.log(result)
+          return resolve(result)
+        }
+      );
+    });
+  })
 }
 
 
@@ -62,4 +85,4 @@ function queryToSqlDb(sqlquery, resultHandling) {
 
 
 
-module.exports = { sqlConstructorSignUp, queryToSqlDb, sqlConstructorMaterial };
+module.exports = { sqlConstructorSignUp, queryToSqlDb, sqlConstructorMaterial, asyncContainerDBQuery, sqlConstructorConfirmSignup };
