@@ -2,7 +2,8 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-const { sqlConstructorSignUp, queryToSqlDb, asyncContainerDBQuery } = require("./sqlDbQuery")
+
+const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncContainerDBQuery } = require("./sqlDbQuery")
 
 
 
@@ -57,30 +58,33 @@ class Website {
   }
 
   signup(req, res) {
-    //placeholder
-    // let signUpObject;
-    res.setHeader("Content-Type", "application/json");
+
+    let signUpObject;
+    let result;
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
+
     let data = "";
     req.on("data", (chunk) => {
       data += chunk
-      console.log(data);
+      console.log("show data ", data);
     });
-    req.on("end", () => {
-      console.log("server gets", JSON.parse(data))
-        signUpObject = JSON.parse(data);
-        console.log("works until sqlconstructor");
+    req.on("end", async () => {
+      signUpObject = JSON.parse(data);
 
-        const sqlQuery = sqlConstructorSignUp(signUpObject)
-        console.log('query =', sqlQuery);
+      const { email, password, confpassword } = signUpObject.value;
 
-        let result = asyncContainerDBQuery(sqlQuery)
-        console.log('hello', result);
+      const sql = sqlConstructorSignUp(email, password);
 
-      res.end();
+      try {
+        result = await queryToSqlDb(sql);
+        return this.profilePage(res);
+      }
+      catch (error) {
+        res.writeHead(301, { location: '/signup' });
+        res.end();
+      }
     });
-
-
-
   }
 }
 
