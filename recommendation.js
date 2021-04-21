@@ -52,14 +52,14 @@ const material = {
  * @param {object} material Object from database with the scores from the scoringAlgorithm
  * @returns Score based on the personal fit for the person viewing the material
  */
-function calcPersonalMaterialScore(person, material) {
+ function calcPersonalMaterialScore(person, material) {
     if (!person || !material)
         return new Error("Something went wrong. Missing either person or material value.");
 
     if (!person.Perception || !person.Processing || !person.Input || !person.Understanding) {
         return new Error("Something went wrong. A falsy value has been given.");
     }
-    if (!material.ac || !material.re || !material.se || !material.in || !material.vi || !material.ve || !material.sq || !material.gl) {
+    if (!material.Active || !material.Reflective || !material.Sensing || !material.Intuitive || !material.Visual || !material.Verbal || !material.Sequential || !material.Global) {
         return new Error("Something went wrong. A falsy value has been given.");
     } else {
         let total = Math.abs(person.Perception) + Math.abs(person.Input) + Math.abs(person.Processing) + Math.abs(person.Understanding);
@@ -74,21 +74,23 @@ function calcPersonalMaterialScore(person, material) {
         let score4;
 
         if (person.Perception < 0)
-            score1 = procent1 * material.ac;
+            score1 = procent1 * material.Active;
         else
-            score1 = procent1 * material.re;
+            score1 = procent1 * material.Reflective;
         if (person.Input < 0)
-            score2 = procent2 * material.se;
+            score2 = procent2 * material.Sensing;
         else
-            score2 = procent2 * material.in;
+            score2 = procent2 * material.Intuitive;
         if (person.Processing < 0)
-            score3 = procent3 * material.vi;
+            score3 = procent3 * material.Visual;
         else
-            score3 = procent3 * material.ve;
+            score3 = procent3 * material.Verbal;
         if (person.Understanding < 0)
-            score4 = procent4 * material.sq;
+            score4 = procent4 * material.Sequential;
         else
-            score4 = procent4 * material.gl;
+            score4 = procent4 * material.Global;
+
+        console.log('Ac & Re ' + score1, 'Se & In ' + score2, 'Vi & Ve ' + score3, 'Sq & Gl ' + score4);
 
 
         return score1 + score2 + score3 + score4;

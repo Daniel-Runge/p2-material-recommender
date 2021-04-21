@@ -2,7 +2,7 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-const { sqlConstructorSignUp, queryToSqlDb } = require("./sqlDbQuery")
+const { sqlConstructorSignUp, queryToSqlDb, asyncContainerDBQuery } = require("./sqlDbQuery")
 
 
 
@@ -59,30 +59,26 @@ class Website {
   signup(req, res) {
     //placeholder
     // let signUpObject;
-     res.setHeader("Content-Type", "application/json");
-     let data = "";
-       req.on("data", (chunk) => {
-       data += chunk
-       console.log(data);
-      });
-     req.on("end", () => {
-    //   console.log("server gets", JSON.parse(data))
-    //   signUpObject = JSON.parse(data);
-    //   console.log("works until sqlconstructor");
+    res.setHeader("Content-Type", "application/json");
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk
+      console.log(data);
+    });
+    req.on("end", () => {
+      console.log("server gets", JSON.parse(data))
+        signUpObject = JSON.parse(data);
+        console.log("works until sqlconstructor");
 
-    //   const sqlQuery = sqlConstructorSignUp(signUpObject)
-    //   console.log('query =', sqlQuery);
-      
-    //   queryToSqlDb(sqlQuery, (result) => console.log(`the arrow is good ${result}`))
+        const sqlQuery = sqlConstructorSignUp(signUpObject)
+        console.log('query =', sqlQuery);
 
-      queryToSqlDb('SELECT * FROM Users', (result) => result.map(
-        (row) => console.log(row.Email)
-        )
-      )
+        let result = asyncContainerDBQuery(sqlQuery)
+        console.log('hello', result);
 
-       res.end();
-     });
-    
+      res.end();
+    });
+
 
 
   }
