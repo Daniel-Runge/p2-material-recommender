@@ -2,81 +2,116 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-const { sqlConstructorSignUp } = require("./sqlDbQuery")
+const { sqlConstructorSignUp, queryToSqlDb } = require("./sqlDbQuery")
+const { createToken, verifyToken } = require('./jwtLogin');
+const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncContainerDBQuery } = require("./sqlDbQuery")
+
 
 
 
 class Website {
-  title;
-  csss;
-  scripts;
-  header;
-  constructor(title, csss = [], scripts = []) {
-    this.title = title;
-    this.csss = csss;
-    this.scripts = scripts;
-    this.header = htmlHeader(title, csss, scripts);
-  }
+    title;
+    csss;
+    scripts;
+    header;
+    constructor(title, csss = [], scripts = []) {
+        this.title = title;
+        this.csss = csss;
+        this.scripts = scripts;
+        this.header = htmlHeader(title, csss, scripts);
+    }
 
-  // Getters
-  getTitle() {
-    return this.title;
-  }
-  getCsss() {
-    return this.csss;
-  }
-  getScripts() {
-    return this.scripts;
-  }
+    // Getters
+    getTitle() {
+        return this.title;
+    }
+    getCsss() {
+        return this.csss;
+    }
+    getScripts() {
+        return this.scripts;
+    }
 
-  // Methods
-  //   home(res) {
-  //     // This method will return a logged in user to their profile page, and others to the login page
-  //     return loginPage(res);
-  //   }
+    // Methods
+    //   home(res) {
+    //     // This method will return a logged in user to their profile page, and others to the login page
+    //     return loginPage(res);
+    //   }
 
-  loginPage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + loginhtml());
-    res.end();
-  }
-
-  signupPage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + signuphtml());
-    res.end();
-  }
-
-  profilePage(res) {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.write(this.header + profilehtml());
-    res.end();
-  }
-
-  signup(req, res) {
-    //placeholder
-    let signUpObject;
-    res.setHeader("Content-Type", "application/json");
-    let data = "";
-    req.on("data", (chunk) => {
-      data += chunk
-      console.log(data);
-    });
-    req.on("end", () => {
-      console.log("server gets", JSON.parse(data))
-      console.log('we did it!');
-      signUpObject = JSON.parse(data);
-      console.log("works until sqlconstructor");
-      sqlConstructorSignUp(signUpObject);
-      res.end();
-    });
     
 
 
+    loginPage(res) {
+      
+      const token = sqlLogIn({
+        value: { username: "abc", password: "zzzzzzz"},
+      }).then((response) => {
+        console.log(response + ' Hej med dig');
+      });
+      //localStorage.setItem("userlogin", token);
+        res.writeHead(200, {
+          'Set-cookie': `mycookie=${token}`
+        });
+        res.write(this.header + loginhtml());
+        res.end();
+    }
+
+  profilePage(res, token) {
+        if (!verifyToken(token)) {
+            res.writeHead(301, {location: '/login'});
+            res.end();
+        }
+
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "text/html");
+        res.write(this.header + profilehtml());
+        res.end();
+    }
+
+  signup(req, res) {
+
+    let signUpObject;
+    let result;
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/html");
+
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk
+      console.log("show data ", data);
+    });
+    req.on("end", async () => {
+      signUpObject = JSON.parse(data);
+
+      const { email, password, confpassword } = signUpObject.value;
+
+      const sql = sqlConstructorSignUp(email, password);
+
+      try {
+        result = await queryToSqlDb(sql);
+        return this.profilePage(res);
+      }
+      catch (error) {
+        res.writeHead(301, { location: '/signup' });
+        res.end();
+      }
+    });
   }
+  
+  login(req, res) {
+        //implementer senere; authentication
+
+        let id = 1;
+        const token = createToken(id);
+        res.writeHead(200, {
+            'Set-Cookie': 'authCookie=' + token,
+             httpOnly: true,
+            'Content-Type': 'text/html'
+        });
+        res.write("<h1>TEST: Login Succesful</h1>");
+        res.end();
+    }
+
 }
 
 module.exports = { Website };

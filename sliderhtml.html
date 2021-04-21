@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="fetchValuesForUser()">
+    <div class ="sliders-container">
+        <h3>Felder Silverman results</h3>
+      
+           
+            <input type="range" id="Perception" max="11" min="-11" value="0" step="2"
+                onchange="updateTextInput(this.value, 'PerceptionVal');">
+            <input type="text" id="PerceptionVal" value="0" class="untargetable">
+            <label>Perception</label><br>
+
+            <input type="range" id="Input" max="11" min="-11" value="0" step="2"
+                onchange="updateTextInput(this.value, 'InputVal');">
+            <input type="text" id="InputVal" value="0" class="untargetable">
+            <label>Input</label><br>
+    
+            <input type="range" id="Processing" max="11" min="-11" value="0" step="2"
+                onchange="updateTextInput(this.value, 'ProcessingVal' );">
+            <input type="text" id="ProcessingVal" value="0" class="untargetable">
+            <label>Processing</label><br>
+
+            <input type="range" id="Understanding" max="11" min="-11" value=0 step="2"
+                onchange="updateTextInput(this.value, 'UnderstandingVal');">
+            <input type="text" id="UnderstandingVal" value="0" class="untargetable">
+            <label>Understanding</label><br>
+    
+            <button onClick="AddUserToSlider()">Update</button>
+  
+    
+    </div>
+    <script>
+        function updateTextInput(val, id) {
+            document.getElementById(id).value = Math.abs(val);
+            console.log("The value of " + id + " is: " + val);
+        }
+    </script>
+
+    <script src="Slidersjavascript.js"></script>
+
+</body>
+</html>
+
+<!--TODO's-->
+<!--Lav dummy data som objekt der svarer til bruger (har værdier) (Tjek tror jeg)-->
+<!--Id, email, adgangskode, 4 værdier()-->
+<!--Sæt slider værdi til denne bruger automatisk-->
+<!--Tilføj til databasenn-->
+
+<!--Ved ny bruger sættes data til 0 nulstillet If statement (tilføj endpoint) Videre til backend delen-->
