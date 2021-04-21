@@ -2,7 +2,9 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
+
 const { sqlConstructorSignUp, queryToSqlDb, sqlConstructorConfirmSignup, asyncContainerDBQuery } = require("./sqlDbQuery")
+
 
 
 class Website {
@@ -56,6 +58,7 @@ class Website {
   }
 
   signup(req, res) {
+
     let signUpObject;
     let result;
     res.statusCode = 200;

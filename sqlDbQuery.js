@@ -7,6 +7,7 @@ require("dotenv").config()
  * @returns a sql query, 
  *  if the query is run add data(the signupdata, email and password) from signup into the mysql database
  */
+
 function sqlConstructorSignUp(email, password) {
   if(typeof email !== 'string'){
     return ('error')
@@ -24,6 +25,7 @@ function sqlConstructorConfirmSignup(email) {
 }
 
 function sqlConstructorMaterial(Material){
+
   console.log("material ", Material.value);
   const sql = `INSERT INTO Material (Sensing, Intuitive, Visual, Verbal, Active, Reflective, Sequential, Global) 
   VALUES ("${Material.Sensing}","${Material.Intuitive}","${Material.Visual}","${Material.Verbal}",
@@ -31,6 +33,18 @@ function sqlConstructorMaterial(Material){
   return sql;
 }
 
+/**
+ * 
+ * @param {takes a string format sql query} sql 
+ * passes this query to the query to sql db func.
+ * the purpose of this function is making queryToSqlDb into a async function by wrapping it
+ * @returns returns what query to sql db returns
+ */
+async function asyncContainerDBQuery(sql) {
+  let result = await queryToSqlDb(sql)
+  console.log('query to sql db returns', result);
+  return result;
+}
 
 /**
  * 
@@ -76,13 +90,5 @@ function queryToSqlDb(sqlquery) {
     });
   })
 }
-
-
-
-
-
-
-
-
 
 module.exports = { sqlConstructorSignUp, queryToSqlDb, sqlConstructorMaterial, asyncContainerDBQuery, sqlConstructorConfirmSignup };
