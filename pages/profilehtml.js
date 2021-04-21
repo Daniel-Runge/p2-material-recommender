@@ -1,3 +1,4 @@
+const { sqlGetValuesForProfile } = require('../sqlDbQuery');
 const { createLearningStyleSliders } = require('./util/Sliders')
 
 function ILSLink() {
@@ -61,7 +62,9 @@ function coursesTable() {
 function profilehtml() {
     const card = htmlCard();
     const coursesContainer = coursesTable();
-    const slidersContainer = createLearningStyleSliders();
+    const userEmail = localStorage.getItem("userlogin").Email //Retrieves the useremail from localstorage in the client 
+    const user = sqlGetValuesForProfile(userEmail) //query the data from the database
+    const slidersContainer = createLearningStyleSliders(user); //passes values into the function in slider.js
     const ILSContainer = ILSLink();
     const content = `
     <main class="profile">

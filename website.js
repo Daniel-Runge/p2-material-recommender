@@ -2,7 +2,7 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
-const { sqlConstructorSignUp } = require("./sqlDbQuery");
+const { sqlConstructorSignUp, sqlConstructorRetrieveByID } = require("./sqlDbQuery");
 const { sqlLogIn } = require("./sqlLogIN");
 
 
@@ -40,11 +40,13 @@ class Website {
 
 
     loginPage(res) {
+      
       const token = sqlLogIn({
-        value: { username: "Mads", password: "Mads1234" },
+        value: { username: "abc", password: "zzzzzzz"},
       }).then((response) => {
         console.log(response + ' Hej med dig');
       });
+      //localStorage.setItem("userlogin", token);
         res.writeHead(200, {
           'Set-cookie': `mycookie=${token}`
         });
@@ -81,12 +83,14 @@ class Website {
             signUpObject = JSON.parse(data);
             console.log("works until sqlconstructor");
             sqlConstructorSignUp(signUpObject);
+            sqlConstructorRetrieveByID(signUpObject);
             res.end();
         });
     }
     login(req, res) {
         let logInObject;
         let data = "";
+    
         req.on("data", (chunk) => {
             data += chunk
             console.log(data);
