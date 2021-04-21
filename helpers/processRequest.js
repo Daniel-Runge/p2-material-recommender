@@ -2,6 +2,7 @@ const fs = require("fs");
 
 const { securePath } = require("./securePath");
 const { Website } = require("../website");
+const { verifyToken } = require("../jwtLogin");
 const website = new Website("Learning Path Recommender", [
     "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
     "style.css",
@@ -17,6 +18,9 @@ function processRequest(req, res) {
     const pathElements = queryPath.split("/");
     const rootFileSystem = process.cwd();
 
+    const token = req.headers?.cookie?.split('=')[1];
+
+
     switch (req.method) {
         case "POST":
             switch (pathElements[1]) {
@@ -30,10 +34,9 @@ function processRequest(req, res) {
             break;
         case "GET":
             switch (pathElements[1]) {
+
                 case "":
                     website.loginPage(res);
-                    console.log(req.headers.cookie);
-
                     break;
                 case "login":
                     website.loginPage(res);
@@ -42,7 +45,8 @@ function processRequest(req, res) {
                     website.signupPage(res);
                     break;
                 case "profile":
-                    website.profilePage(res);
+            break;
+                    website.profilePage(res, token);
                     break;
                 default:
                     const secured = securePath(req.url, rootFileSystem);

@@ -8,17 +8,18 @@ function handleSubmit(event) {
     console.log({ value });
     console.log("THIS COMMENT IS FOR THE EVENT " + event);
 
-    fetch("/login", {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify({ value })
-        })
-        .then(function(res) { console.log(res) })
-        .catch(function(res) { console.log(res) })
-
+    fetch("/signup",
+    {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify({value})
+    })
+    .then(function(res){ return res.text(); })
+    .then(function(html){ document.body.innerHTML = html })
+    .catch(function(res){ console.log(res) })
 }
 
 

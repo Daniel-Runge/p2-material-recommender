@@ -67,29 +67,51 @@ function profilehtml() {
     const slidersContainer = createLearningStyleSliders(user); //passes values into the function in slider.js
     const ILSContainer = ILSLink();
     const content = `
+const { createLearningStyleSliders } = require("./util/Sliders");
+const { courseCardhtml } = require("./util/courseCard");
+
+/**
+ * A profile page body that contains the courses as cards and a slider for the student based on the student information
+ * @author Daniel Runge Petersen, Lars Hansen & Raymond Kacso
+ * @param {object} studentInformation
+ * @returns HTML body with the profile page body that contains the courses as cards and slider for the student based on the student information
+ */
+function profilehtml(studentInformation) {
+  let courseCards = studentInformation.courses.reduce(
+    (accumulator, currentValue) => {
+      return accumulator + courseCardhtml(currentValue);
+    }
+  );
+
+  const slidersContainer = createLearningStyleSliders();
+  const content = `
     <main class="profile">
         <div class="courses-container">
             <h1>courses</h1>
             <p>Below you can see the courses you follow. Use the 'plus' button to add more courses from the brochure</p>
-            ${card}
-            ${card}
-            ${card}
+            ${courseCards}
             <a href="#" class=circle-button>
                 <i class='bx bx-plus'></i>
             </a>
         </div>
         <div class="right-side">
             <section class="details-container">
-                <h2 class="profile-name">Lars Hansen</h2>
+                <h2 class="profile-name">${studentInformation.username}</h2>
                 ${slidersContainer}
             </section>
-            ${ILSContainer}
+            <section class="ils-link">
+                <div>
+                    <h3>Take the test</h3>
+                    <p>Follow the link to take the ILS test.</p>
+                </div>
+                <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
+            </section>
         </div>
     </main>
 
 </body>
 </html>`;
-    return content;
+  return content;
 }
 
 module.exports = { profilehtml };

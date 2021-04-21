@@ -9,14 +9,16 @@ function signuphtml() {
   <main class="signup">
 		<div class="signup-container">
 			<h1>sign up</h1>
-			<p>Please choose a Username and Password</p>
+			<p>Please choose a Email and Password</p>
             <form action="/signup" method="POST">
-				<label>Username: </label>
-            	<input type="text" id="username" placeholder="Enter Username" name="username" required>
+				<label>Email: </label>
+            	<input type="email" id="email" placeholder="Enter Email" name="email" required>
             	<label>Password: </label>
             	<input type="password" id="password" placeholder="Enter Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-            	<input name="submit" value="SIGN UP" type="submit"></input>
-        	</form>
+            	<label>Confirm password: </label>
+              <input type="password" id="confpassword" placeholder="Confirm password" name="confpassword" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+              <input name="submit" value="SIGN UP" type="submit"></input> 
+              </form>
 		</div>
 		<div class="right-side">
             <section class="help-block">
