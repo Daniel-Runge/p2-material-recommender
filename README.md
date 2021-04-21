@@ -124,6 +124,8 @@ As the size of this project is rather small in scale, the major focus for writin
 
 After writing your code, make sure to properly document it. To keep documentation similar between writers, the project uses standard JSDoc annotations.
 
+The command
+
 ```JavaScript
 /**
 ```
