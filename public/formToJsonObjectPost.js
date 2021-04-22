@@ -1,27 +1,31 @@
 function handleSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const data = new FormData(event.target);
+  const data = new FormData(event.target);
 
-    const value = Object.fromEntries(data.entries());
+  const value = Object.fromEntries(data.entries());
 
-    console.log({ value });
-    console.log("THIS COMMENT IS FOR THE EVENT " + event);
+  console.log({ value });
+  console.log("THIS COMMENT IS FOR THE EVENT " + event);
 
-    fetch("/signup",
-    {
+  fetch("/signup", {
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify({value})
+    body: JSON.stringify({ value }),
+  })
+    .then(function (res) {
+      return res.text();
     })
-    .then(function(res){ return res.text(); })
-    .then(function(html){ document.body.innerHTML = html })
-    .catch(function(res){ console.log(res) })
+    .then(function (html) {
+      document.body.innerHTML = html;
+    })
+    .catch(function (res) {
+      console.log(res);
+    });
 }
 
-
-const form = document.querySelector('form');
-form.addEventListener('submit', handleSubmit);
+const form = document.querySelector("form");
+form.addEventListener("submit", handleSubmit);
