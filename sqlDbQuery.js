@@ -36,6 +36,11 @@ function sqlConstructorMaterial(Material) {
   return sql;
 }
 
+function sqlConstructorCourses() {
+  const sql = `SELECT * FROM courses`
+  return sql;
+}
+
 /**
  *
  * @param {takes a string format sql query} sql
@@ -99,4 +104,5 @@ module.exports = {
   sqlConstructorMaterial,
   asyncContainerDBQuery,
   sqlConstructorConfirmSignup,
+  sqlConstructorCourses
 };

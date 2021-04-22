@@ -28,6 +28,9 @@ function processRequest(req, res) {
         case "login":
           website.login(req, res);
           break;
+        case "enroll":
+          website.enroll(req, res, token);
+          break;
       }
       break;
     case "GET":
@@ -43,6 +46,9 @@ function processRequest(req, res) {
           break;
         case "profile":
           website.profilePage(res, token);
+          break;
+        case "addcourse":
+          website.addCourse(res, token);
           break;
         default:
           const secured = securePath(req.url, rootFileSystem);

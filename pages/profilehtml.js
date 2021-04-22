@@ -30,7 +30,7 @@ function profilehtml(studentInformation) {
             <p>Random description</p>
         </div>
     </div>
-            <a href="#" class=circle-button>
+            <a href="/addcourse" class=circle-button>
                 <i class='bx bx-plus'></i>
             </a>
         </div>

@@ -3,6 +3,7 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
+const { addCoursehtml } = require("./pages/addcoursehtml");
 const { createToken, verifyToken } = require("./jwtLogin");
 const {
   sqlConstructorSignUp,
@@ -10,6 +11,7 @@ const {
   sqlConstructorLogin,
   sqlConstructorConfirmSignup,
   asyncContainerDBQuery,
+  sqlConstructorCourses,
 } = require("./sqlDbQuery");
 
 class Website {
@@ -128,6 +130,25 @@ class Website {
 
     //implementer senere; authentication
   }
+  async addCourse(res, token) {
+    console.log(verifyToken(token).id);
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    const sql = sqlConstructorCourses();
+    const result = await queryToSqlDb(sql);
+
+    res.write(this.header + addCoursehtml(result));
+    res.end();
+  }
+
+  async enroll(req, res, token) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    
+  }
+
 }
 
 module.exports = { Website };
