@@ -4,14 +4,14 @@
  * @returns a html text string for the login page body
  */
 function loginhtml() {
-    const content = `
+  const content = `
     <main class="login">
         <div class="login-container">
             <h1>login</h1>
             <p>Enter Username and Password</p>
             <form action="/login" method="POST">
-                <label>Username: </label>
-                <input type="text" placeholder="Enter Username" name="username" required>
+                <label>Email: </label>
+                <input type="email" placeholder="Enter Email" name="email" required>
                 <label>Password: </label>
                 <input type="password" placeholder="Enter Password" name="password" required>
                 <input name="submit" value="LOGIN" type="submit"></input>
@@ -31,11 +31,10 @@ function loginhtml() {
             </section>
         </div>
     </main>
-    <script src="../formToJsonObjectPost.js"></script>
 </body>
 
 </html>`;
-    return content;
+  return content;
 }
 
 module.exports = { loginhtml };

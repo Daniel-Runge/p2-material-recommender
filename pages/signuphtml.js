@@ -5,7 +5,6 @@
  */
 function signuphtml() {
   const htmlcontent = `
-  <script src="../formToJsonObjectPost.js" defer></script>	
   <main class="signup">
 		<div class="signup-container">
 			<h1>sign up</h1>

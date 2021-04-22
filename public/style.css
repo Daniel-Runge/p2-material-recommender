@@ -32,7 +32,8 @@
 }
 
 html {
-  background: url("https://cdn.discordapp.com/attachments/805780370283954187/826350619639545896/element5-digital-OyCl7Y4y0Bk-unsplash.jpg") no-repeat center center fixed;;
+  background: url("https://cdn.discordapp.com/attachments/805780370283954187/826350619639545896/element5-digital-OyCl7Y4y0Bk-unsplash.jpg")
+    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -121,14 +122,15 @@ main {
   width: 966px;
 }
 
-.login, .signup {
+.login,
+.signup {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
 
 .profile {
   display: grid;
-  grid-template-columns: 3fr 2fr
+  grid-template-columns: 3fr 2fr;
 }
 
 .course {
@@ -148,7 +150,12 @@ main {
   justify-items: center;
 }
 
-.login-container, .signup-container, .course-container, .lecture-container, .courses-container, .details-container {
+.login-container,
+.signup-container,
+.course-container,
+.lecture-container,
+.courses-container,
+.details-container {
   align-self: start;
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
@@ -170,7 +177,7 @@ form {
 label {
   font-size: var(--smallerFont);
   font-weight: bold;
-;}
+}
 
 input[type="email"],
 input[type="password"] {
@@ -183,6 +190,21 @@ input[type="password"] {
   border-radius: 4px;
   appearance: menulist-button;
   background-color: rgb(232, 240, 254) !important;
+}
+
+input[type="text"] {
+  width: 40px;
+  padding: 5px 12px;
+  display: flex;
+  box-sizing: border-box;
+  border: 1px solid var(--titleColor);
+  border-radius: 4px;
+  appearance: menulist-button;
+  background-color: rgb(232, 240, 254) !important;
+}
+
+span {
+  width: 100px;
 }
 
 input[type="submit"] {
@@ -198,19 +220,19 @@ input[type="submit"].dislike {
   background-color: var(--orangeButton);
 }
 
-input[type="submit"]:hover{
+input[type="submit"]:hover {
   background-color: var(--greenHover);
 }
 
-input[type="button"]{
-  background-color: var(--greenButton)
+input[type="button"] {
+  background-color: var(--greenButton);
 }
 
-input[type="range"]{
+input[type="range"] {
   width: 90%;
 }
 
-.untargetable{
+.untargetable {
   pointer-events: none;
 }
 
@@ -233,10 +255,11 @@ input[type="range"]{
 .guide {
   list-style-type: disc;
   font-size: var(--smallerFont);
-  margin: 5% 0 0 5% ;
+  margin: 5% 0 0 5%;
 }
 
-.sign-up, .ils-link{
+.sign-up,
+.ils-link {
   display: grid;
   grid-template-columns: 4fr 1fr;
   background-color: var(--containerColor);
@@ -254,14 +277,19 @@ input[type="range"]{
   display: flex;
   align-items: center;
 }
+
+.bx-plus {
+  margin: auto;
+}
+
 .current {
   color: var(--greenDark);
   font-weight: bold;
-  padding: 2px 
+  padding: 2px;
 }
 
-.current:hover{
-  color: var(--greenLight)
+.current:hover {
+  color: var(--greenLight);
 }
 
 table {
@@ -272,7 +300,8 @@ table {
   width: 80%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
@@ -287,30 +316,30 @@ tfoot {
 }
 
 .courseCard {
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-	display: flex;
-  border: 1px solid rgba(0,0,0,.125);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.125);
   margin: 0 12px 12px 0;
 }
 
 .course-preview {
-	background-color: var(--greenLight);
-	color: #fff;
-	padding: 12px;
-	max-width: 250px;
+  background-color: var(--greenLight);
+  color: #fff;
+  padding: 12px;
+  max-width: 250px;
 }
 
 .course-preview a {
-	color: #fff;
-	display: inline-block;
-	font-size: 12px;
-	opacity: 0.6;
-	margin-top: 30px;
-	text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 30px;
+  text-decoration: none;
 }
 
 .course-info {
-	padding: 24px;
-	position: relative;
-	width: 100%;
+  padding: 24px;
+  position: relative;
+  width: 100%;
 }
