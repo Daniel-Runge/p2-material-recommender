@@ -8,6 +8,21 @@ require("dotenv").config();
  *  if the query is run add data(the signupdata, email and password) from signup into the mysql database
  */
 
+ // Access values of all the dimensions from the database using email
+async function sqlGetValuesForProfile(userEmail) {
+    const sql = `SELECT * FROM users WHERE Email = "${userEmail}"`;
+    let result = await queryToSqlDb(sql);
+    let res = JSON.parse(JSON.stringify(result));
+    return res;
+  }
+
+  // Update the dimensions value in Database using user email
+  async function updateValuesInDatabaseQuery(perception, input, processing, understanding, email) {
+    const sql = `update users set Perception=${perception}, Input=${input}, Processing=${processing}, Understanding=${understanding} WHERE Email="${email}"`;
+   const result= await queryToSqlDb(sql);
+   return result;
+}
+
 function sqlConstructorSignUp(email, password) {
   if (typeof email !== "string") {
     return "error";
@@ -99,4 +114,6 @@ module.exports = {
   sqlConstructorMaterial,
   asyncContainerDBQuery,
   sqlConstructorConfirmSignup,
+  sqlGetValuesForProfile,
+  updateValuesInDatabaseQuery
 };

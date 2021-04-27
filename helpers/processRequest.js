@@ -28,6 +28,9 @@ function processRequest(req, res) {
         case "login":
           website.login(req, res);
           break;
+        case "style": 
+          website.profileSave(req, res, token);
+          break;
       }
       break;
     case "GET":

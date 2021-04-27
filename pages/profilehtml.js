@@ -8,50 +8,59 @@ const { courseCardhtml } = require("./util/courseCard");
  * @param {object} studentInformation
  * @returns HTML body with the profile page body that contains the courses as cards and slider for the student based on the student information
  */
-function profilehtml(studentInformation) {
+async function profilehtml(userEmail) {
   // let courseCards = studentInformation.courses.reduce(
   //   (accumulator, currentValue) => {
   //     return accumulator + courseCardhtml(currentValue);
   //   }
   // );
-
-  const slidersContainer = createLearningStyleSliders();
+   //query the data from the database //query the data from the database
+   let user; 
+   await sqlGetValuesForProfile(userEmail).then(v => {
+       user =  v[0];
+  
+       
+   }); //For testing, using the email to find the 4 dimensional values.
+  //console.log("KING", user);
+  const slidersContainer = createLearningStyleSliders(user);
   const content = `
-    <main class="profile">
-        <div class="courses-container">
-            <h1>courses</h1>
-            <p>Below you can see the courses you follow. Use the 'plus' button to add more courses from the brochure</p>
-            <div class="courseCard">
-              <a class="course-preview" href="/course/testipop">
-              <h3 class="course-title">JS er sejt</h3>
-              <h4>Lol</h4>
-              </a>
-            <div class="course-info">
-            <p>Random description</p>
-        </div>
-    </div>
-            <a href="#" class=circle-button>
-                <i class='bx bx-plus'></i>
+  <main class="profile">
+      <div class="courses-container">
+          <h1>courses</h1>
+          <p>Below you can see the courses you follow. Use the 'plus' button to add more courses from the brochure</p>
+          <div class="courseCard">
+            <a class="course-preview" href="/course/testipop">
+            <h3 class="course-title">JS er sejt</h3>
+            <h4>Lol</h4>
             </a>
-        </div>
-        <div class="right-side">
-            <section class="details-container">
-                <h2 class="profile-name">Daniel</h2>
-                ${slidersContainer}
-            </section>
-            <section class="ils-link">
-                <div>
-                    <h3>Take the test</h3>
-                    <p>Follow the link to take the ILS test.</p>
-                </div>
-                <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
-            </section>
-        </div>
-    </main>
+          <div class="course-info">
+          <p>Random description</p>
+      </div>
+  </div>
+          <a href="#" class=circle-button>
+              <i class='bx bx-plus'></i>
+          </a>
+      </div>
+      <div class="right-side">
+          <section class="details-container">
+              <h2 class="profile-name">Daniel</h2>
+             ${slidersContainer}
+          </section>
+          <section class="ils-link">
+              <div>
+                  <h3>Take the test</h3>
+                  <p>Follow the link to take the ILS test.</p>
+              </div>
+              <a class="circle-button" href="https://www.webtools.ncsu.edu/learningstyles/" /><i class='bx bx-log-in'></i></a>
+          </section>
+      </div>
+  </main>
 
 </body>
 </html>`;
-  return content;
+return content;
+ 
+  
 }
 
 module.exports = { profilehtml };

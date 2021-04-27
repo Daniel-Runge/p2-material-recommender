@@ -10,6 +10,7 @@ const {
   sqlConstructorLogin,
   sqlConstructorConfirmSignup,
   asyncContainerDBQuery,
+  updateValuesInDatabaseQuery,
 } = require("./sqlDbQuery");
 
 class Website {
@@ -57,15 +58,54 @@ class Website {
     res.end();
   }
 
-  profilePage(res, token) {
-    if (!verifyToken(token)) {
+  // post request handler for update values of dimensions
+  profileSave(req, res, token) {
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk.toString();
+      console.log("show data ", data);
+    });
+    req.on("end", async () => {
+      const profileObj = parse(data);
+      const { perception, input, processing, understanding } = profileObj;
+      const email = verifyToken(token).id;
+      
+      try {
+        // update data in database 
+        const result = await updateValuesInDatabaseQuery(perception, input, processing, understanding, email);
+
+        if (result[0]) {
+          res.writeHead(200, {
+            "Content-Type": "text/html",
+            location: "/profile",
+          });
+          res.end();
+        }
+        res.writeHead(301, { location: "/profile" });
+        res.end();
+      } catch (error) {
+        // Error handling
+        console.log(error);
+        res.writeHead(301, { location: "/profile" });
+        res.end();
+      }
+    });
+
+  
+  }
+
+  // Make this function using async await as there is needed to wait for the DB query to complete before rendering HTML
+  async profilePage(res, token) {
+    const jwtDecoder = verifyToken(token); // call the verify funnction before the if statement, and took the email to find it if it exists
+    if (!jwtDecoder) {
       res.writeHead(301, { location: "/login" });
       res.end();
       return;
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    res.write(this.header + profilehtml());
+    const html = await profilehtml(jwtDecoder.id) //Find the email here using jwtDecoder.id 
+    res.write(this.header + html); 
     res.end();
   }
 
