@@ -1,36 +1,21 @@
-const { sqlGetValuesForProfile } = require("../sqlDbQuery");
 const { createLearningStyleSliders } = require("./util/Sliders");
-const { courseCardhtml } = require("./util/courseCard");
+const { enrolledInCourseCardsHtml } = require("./util/courseCard");
 
 /**
  * A profile page body that contains the courses as cards and a slider for the student based on the student information
- * @author Daniel Runge Petersen, Lars Hansen & Raymond Kacso
- * @param {object} studentInformation
- * @returns HTML body with the profile page body that contains the courses as cards and slider for the student based on the student information
+ * @author Daniel Runge Petersen, Lars Hansen, Mads Overgaard Nissum & Raymond Kacso
+ * @param {object} course an object containing information about all courses the student is enrolled in
+ * @returns HTML body with the profile page body that contains the courses as cards and sliders, based on the student information
  */
-function profilehtml(studentInformation) {
-  // let courseCards = studentInformation.courses.reduce(
-  //   (accumulator, currentValue) => {
-  //     return accumulator + courseCardhtml(currentValue);
-  //   }
-  // );
-
-  const slidersContainer = createLearningStyleSliders();
-  const content = `
+function profilehtml(course) {
+    const slidersContainer = createLearningStyleSliders();
+    const courseCards = createCourseCards(course);
+    const content = `
     <main class="profile">
-        <div class="courses-container">
-            <h1>courses</h1>
-            <p>Below you can see the courses you follow. Use the 'plus' button to add more courses from the brochure</p>
-            <div class="courseCard">
-              <a class="course-preview" href="/course/testipop">
-              <h3 class="course-title">JS er sejt</h3>
-              <h4>Lol</h4>
-              </a>
-            <div class="course-info">
-            <p>Random description</p>
-        </div>
-    </div>
-            <a href="/addcourse" class=circle-button>
+    <div class="courses-container">
+    <h1>Your Courses</h1>
+    ${courseCards}
+            <a href="/enroll" class=circle-button>
                 <i class='bx bx-plus'></i>
             </a>
         </div>
@@ -48,10 +33,24 @@ function profilehtml(studentInformation) {
             </section>
         </div>
     </main>
-
 </body>
 </html>`;
-  return content;
+    return content;
+}
+
+function createCourseCards(enrolledIn) {
+    let content = ``;
+    if (enrolledIn.length === 0) {
+        content = "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>"
+        return content;
+    }
+    else {
+        content = `<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>`
+        enrolledIn.map(element => {
+            content += enrolledInCourseCardsHtml(element);
+        })
+        return content;
+    }
 }
 
 module.exports = { profilehtml };
