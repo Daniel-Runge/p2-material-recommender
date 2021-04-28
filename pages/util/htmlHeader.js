@@ -1,3 +1,4 @@
+require("dotenv").config();
 /**
  * This function returns a HTML header string with a title, css styles and JS scripts, as well as the navigation and logo
  * @author Daniel Runge Petersen
@@ -35,6 +36,7 @@ function htmlHeader(title, csss = [], scripts = []) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href = ${process.env.BASEURL}>
         <title>${title}</title>
         ${cssString}
         ${scriptString}
