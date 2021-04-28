@@ -1,4 +1,4 @@
-const { courseCardhtml } = require("./util/courseCard")
+const { enrollCourseCardhtml } = require("./util/courseCard")
 
 /**
  * Creates the html for course catalog. UNTESTED
@@ -33,27 +33,28 @@ function enrollhtml(courses) {
     return content;
 }
 /**
- * Helper function for addCoursehtml
+ * Helper function for enrollhtml
  * @authors Lars Hansen & Mads Nissum
  * @param {Object} courses is an object containing courseIDs & courseNames
  * @returns a html string
  */
 function createCourseCatalogHtml(courses) {
-    let string = "<p>Below you can see the courses you can follow. click the courses you want to follow and add them to your profile.</p>";
-    if (courses.length === 0) {
-        string = "<p>Looks like you are enrolled in all available courses</p>"
-        return string;
+    console.log(courses);
+    let content = "<p>Below you can see the courses you can follow. click the courses you want to follow and add them to your profile.</p>";
+    if (!courses?.length) {
+        content = "<p>Looks like you are enrolled in all available courses</p>"
+        return content;
     }
     else {
-        string += `<form action="/enroll" method="POST">`
-        courses.map(element => {
-            string += courseCardhtml(element);
+        content += `<form action="/enroll" method="POST">`
+        courses.map(course => {
+            console.log(course);
+            content += enrollCourseCardhtml(course);
         });
-        string += `
-        <input type="submit" value="Enroll"></input>
+        content += `<input type="submit" value="Enroll"></input>
         </form>`
-        return string;
+        return content;
     }
 }
 
-module.exports = { enrollhtml };
+module.exports = { enrollhtml, createCourseCatalogHtml };
