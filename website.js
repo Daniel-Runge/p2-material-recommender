@@ -3,14 +3,15 @@ const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
+const { enrollhtml } = require("./pages/enrollhtml");
 const { coursehtml } = require("./pages/coursehtml");
 const { createToken, verifyToken } = require("./jwtLogin");
 const {
   sqlConstructorSignUp,
   queryToSqlDb,
   sqlConstructorLogin,
-  sqlConstructorConfirmSignup,
-  asyncContainerDBQuery,
+  sqlConstructorEnrollPage,
+  sqlConstructorEnroll,
 } = require("./sqlDbQuery");
 
 class Website {
@@ -58,7 +59,7 @@ class Website {
     res.end();
   }
 
-  profilePage(res, token) {
+  async profilePage(res, token) {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
@@ -66,7 +67,9 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    res.write(this.header + profilehtml());
+    const sql = `SELECT Coursename FROM courses WHERE CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${verifyToken(token).id}');`
+    const result = await queryToSqlDb(sql);
+    res.write(this.header + profilehtml(result));
     res.end();
   }
 
@@ -142,6 +145,52 @@ class Website {
 
     //implementer senere; authentication
   }
+  /**
+   * Creates an html page based on what courses the user is not enrolled in
+   * @author Mads Overgaard Nissum & Lars Hansen
+   * @param {Object} res the http response object
+   * @param {String} token should be changed to userData
+   */
+  async enrollPage(res, token) {
+    const userID = verifyToken(token).id
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    const sql = sqlConstructorEnrollPage(userID);
+    const result = await queryToSqlDb(sql);
+
+    res.write(this.header + enrollhtml(result));
+    res.end();
+  }
+
+  /**
+   * Enrolls user in courses and return to the profile page
+   * @author Mads Overgaard Nissum & Lars Hansen
+   * @param {Obejct} req the http request object
+   * @param {Object} res the http response object
+   * @param {String} token should be changed to userData
+   */
+  enroll(req, res, token) {
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk.toString();
+      console.log("show data ", data);
+    });
+    req.on("end", () =>{
+      let object = parse(data);
+      let arrayOfCourseKeys = Object.keys(object);
+      arrayOfCourseKeys.forEach(element => {
+        const sql = sqlConstructorEnroll(element, verifyToken(token).id) //use decode instead of verify, not implemented yet
+        queryToSqlDb(sql);
+      });
+    })
+    res.writeHead(303, {
+      "Content-Type": "text/html",
+      location: "/profile",
+    });
+    res.end()
+  }
+
 }
 
 module.exports = { Website };

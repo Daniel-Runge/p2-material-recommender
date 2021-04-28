@@ -36,6 +36,16 @@ function sqlConstructorMaterial(Material) {
   return sql;
 }
 
+function sqlConstructorEnrollPage(email) {
+  const sql = `SELECT * FROM courses WHERE NOT CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${email}');`
+  return sql;
+}
+
+function sqlConstructorEnroll(course, email){
+  const sql = `INSERT INTO enrolledin VALUES (${course}, '${email}')`
+  return sql;
+}
+
 /**
  *
  * @param {takes a string format sql query} sql
@@ -99,4 +109,6 @@ module.exports = {
   sqlConstructorMaterial,
   asyncContainerDBQuery,
   sqlConstructorConfirmSignup,
+  sqlConstructorEnrollPage,
+  sqlConstructorEnroll
 };

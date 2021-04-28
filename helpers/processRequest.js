@@ -28,7 +28,6 @@ function processRequest(req, res) {
     case "POST":
       handlePostRequest(req, res, pathElements);
       break;
-
     case "GET":
       handleGetRequest(req, res, token, pathElements);
       break;
@@ -55,6 +54,9 @@ function handleGetRequest(req, res, token, pathElements) {
       break;
     case "profile":
       website.profilePage(res, token);
+      break;
+    case "enroll":
+      website.enrollPage(res, token);
       break;
     case "course":
       switch (pathElements[2]) {
@@ -83,6 +85,9 @@ function handlePostRequest(req, res, pathElements) {
     case "login":
       website.login(req, res);
       break;
+    case "enroll":
+          website.enroll(req, res, token);
+          break;
   }
 }
 /**
