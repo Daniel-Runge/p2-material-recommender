@@ -4,6 +4,7 @@ const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { enrollhtml } = require("./pages/enrollhtml");
+const { coursehtml } = require("./pages/coursehtml");
 const { createToken, verifyToken } = require("./jwtLogin");
 const {
   sqlConstructorSignUp,
@@ -69,6 +70,19 @@ class Website {
     const sql = `SELECT Coursename FROM courses WHERE CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${verifyToken(token).id}');`
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
+    res.end();
+  }
+
+  coursePage(res, token)
+  {
+    if (!verifyToken(token)) {
+      res.writeHead(301, { location: "/login" });
+      res.end();
+      return;
+    }
+    res.statusCode = 200;
+    res.setHeader("Conent-Type", "text/html");
+    res.write(this.header + coursehtml());
     res.end();
   }
 
