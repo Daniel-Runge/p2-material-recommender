@@ -1,3 +1,5 @@
+const { generateNavBarhtml } = require("./navigationbar");
+
 /**
  * This function returns a HTML header string with a title, css styles and JS scripts, as well as the navigation and logo
  * @author Daniel Runge Petersen
@@ -6,12 +8,13 @@
  * @param {String[]} scripts Script file names
  * @returns {String} A HTML header string created from the parameters
  */
-function htmlHeader(title, csss = [], scripts = []) {
+function htmlHeader(title, csss = [], scripts = [], isUserLoggedIn = false) { // Isuserloggedin is whether token is present or not
   title = title ?? "Untitled";
   csss = csss ?? [""];
   scripts = scripts ?? [""];
   csss = Array.isArray(csss) ? csss : [csss];
   scripts = Array.isArray(scripts) ? scripts : [scripts];
+  const navbar = generateNavBarhtml(isUserLoggedIn); // token present or not decides isUserLoggedIn
 
   let cssString = "";
   for (let i = 0; i < csss.length; i++) {
@@ -41,9 +44,7 @@ function htmlHeader(title, csss = [], scripts = []) {
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        ${navbar}
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>

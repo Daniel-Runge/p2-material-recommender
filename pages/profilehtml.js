@@ -17,11 +17,9 @@ async function profilehtml(userEmail) {
    //query the data from the database //query the data from the database
    let user; 
    await sqlGetValuesForProfile(userEmail).then(v => {
-       user =  v[0];
-  
-       
-   }); //For testing, using the email to find the 4 dimensional values.
-  //console.log("KING", user);
+       user =  v[0];    
+   }); 
+   
   const slidersContainer = createLearningStyleSliders(user);
   const content = `
   <main class="profile">

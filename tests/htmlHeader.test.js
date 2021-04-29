@@ -8,7 +8,7 @@
  */
 const { htmlHeader } = require("../pages/util/htmlHeader");
 
-describe("The function to generate a HTML header", () => {
+describe("generate links in header if logged in", () => {
   test("Works on correct input", () => {
     const actual = htmlHeader(
       "Test Title",

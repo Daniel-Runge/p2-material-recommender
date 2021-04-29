@@ -26,5 +26,9 @@
     "dotenv": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": []
 }

@@ -1,0 +1,36 @@
+
+.navList li {
+    list-style-type: none;
+    overflow: hidden;
+  }
+
+.navList {
+    display: flex;
+    width: 40%;
+    justify-content: space-around;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+.navList a {
+    display: block;
+    color: grey;
+    /*text-align: center;*/
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: upperase;   
+}
+
+
+li a:hover {
+    color: blue;
+  }
+
+
+
+
+

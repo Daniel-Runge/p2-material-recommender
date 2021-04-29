@@ -2,6 +2,8 @@ const { parse } = require("querystring");
 const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { signuphtml } = require("./pages/signuphtml");
+const { aboutHtml } = require("./pages/abouthtml");
+const { coursehtml } = require("./pages/coursehtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { createToken, verifyToken } = require("./jwtLogin");
 const {
@@ -12,6 +14,7 @@ const {
   asyncContainerDBQuery,
   updateValuesInDatabaseQuery,
 } = require("./sqlDbQuery");
+
 
 class Website {
   title;
@@ -55,6 +58,22 @@ class Website {
       "Content-Type": "text/html",
     });
     res.write(this.header + signuphtml());
+    res.end();
+  }
+
+  aboutPage(res, token) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    res.write(htmlHeader(this.getTitle(), this.getCsss(), this.getScripts(), token) + aboutHtml());
+    res.end();
+  }
+
+  coursePage(res, token) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    res.write(htmlHeader(this.getTitle(), this.getCsss(), this.getScripts(), token) + coursehtml());
     res.end();
   }
 
@@ -105,9 +124,10 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
     const html = await profilehtml(jwtDecoder.id) //Find the email here using jwtDecoder.id 
-    res.write(this.header + html); 
+    res.write(htmlHeader(this.getTitle(), this.getCsss(), this.getScripts(), token) + html);  // calling the header function with flag as true so that we can render profile and logout nav links
     res.end();
   }
+
 
   signup(req, res) {
     res.statusCode = 200;
@@ -166,8 +186,22 @@ class Website {
       }
     });
 
-    //implementer senere; authentication
+    
   }
+
+  logoutPage(res){
+    res.setHeader("Content-Type", "text/html");
+   try {
+      res.writeHead(303, {
+        "Set-Cookie": "authCookie=;HttpOnly",
+        location: "/login",
+      });
+       res.end();
+     } catch (error) {
+       res.writeHead(303, { location: "/profile" });
+       res.end();
+     }
+ }
 }
 
 module.exports = { Website };

@@ -5,7 +5,7 @@ const { Website } = require("../website");
 const { verifyToken } = require("../jwtLogin");
 const website = new Website("Learning Path Recommender", [
   "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
-  "style.css",
+  "style.css", "navlist.css",
 ]);
 
 function processRequest(req, res) {
@@ -46,6 +46,15 @@ function processRequest(req, res) {
           break;
         case "profile":
           website.profilePage(res, token);
+          break;
+        case "about":
+          website.aboutPage(res, token);
+          break;
+        case "course":
+          website.coursePage(res, token);
+          break
+          case "logout":
+          website.logoutPage(res);
           break;
         default:
           const secured = securePath(req.url, rootFileSystem);

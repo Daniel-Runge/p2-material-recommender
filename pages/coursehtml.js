@@ -76,3 +76,5 @@ function coursehtml() {
 </html>`;
   return content;
 }
+
+module.exports = { coursehtml };
