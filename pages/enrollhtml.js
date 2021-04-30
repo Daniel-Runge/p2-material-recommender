@@ -9,11 +9,11 @@ const { enrollCourseCardhtml } = require("./util/courseCard")
 function enrollhtml(courses) {
     const courseCards = createCourseCatalogHtml(courses);
     const content = `
-    <main class="profile">
-        <div class="courses-container">
-            <h1>Course Catalog</h1>
-            ${courseCards}
-        </div >
+<main class="profile">
+    <div class="courses-container">
+        <h1>Course Catalog</h1>
+        ${courseCards}
+    </div >
         <div class="right-side">
             <section class="details-container">
                 <h2 class="profile-name">Daniel</h2>
@@ -25,10 +25,10 @@ function enrollhtml(courses) {
                 </div>
                 <a class="circle-button" href="/profile"><i class='bx bx-log-in'></i></a>
             </section>
-        </div>
-    </main >
-    </body >
-    </html >`
+    </div>
+</main >
+</body >
+</html >`
 
     return content;
 }
@@ -41,7 +41,8 @@ function enrollhtml(courses) {
 function createCourseCatalogHtml(courses) {
     console.log(courses);
     let content = "<p>Below you can see the courses you can follow. click the courses you want to follow and add them to your profile.</p>";
-    if (!courses?.length) {
+    console.log(courses.length);
+    if (!courses?.length || !courses[0]) {
         content = "<p>Looks like you are enrolled in all available courses</p>"
         return content;
     }

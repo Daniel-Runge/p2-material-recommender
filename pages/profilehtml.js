@@ -45,7 +45,7 @@ function profilehtml(course) {
  */
 function createCourseCards(courses) {
     let content = ``;
-    if (!courses?.length) {
+    if (!courses?.length || !courses[0]) {
         content = "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>"
         return content;
     }

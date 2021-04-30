@@ -25,18 +25,18 @@ function enrollCourseCardhtml(course) {
  * @param {object} course A single course parsed into the function
  * @returns  A course card div to be placed on the profile page of the user
  */
-function profileCourseCardshtml(course){
+function profileCourseCardshtml(course) {
   const content = `
-  <div class="courseCard">
-      <a class="course-preview">
-          <h3 class="course-title">${course.Coursename}</h3>
-          <h4>Number of Lectures</h4>
-      </a>
+<div class="courseCard">
+    <a class="course-preview">
+        <h3 class="course-title">${course.Coursename}</h3>
+        <h4>Number of Lectures</h4>
+    </a>
     <div class="course-info">
         <p>Description</p>
     </div>
-  </div>
-  `;
+</div>
+`;
   return content;
 }
 
