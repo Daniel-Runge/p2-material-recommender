@@ -46,6 +46,10 @@ function sqlConstructorEnroll(course, email){
   return sql;
 }
 
+function sqlConstructorCourse(){
+  return `SELECT Coursename FROM courses`
+}
+
 /**
  *
  * @param {takes a string format sql query} sql
@@ -110,5 +114,6 @@ module.exports = {
   asyncContainerDBQuery,
   sqlConstructorConfirmSignup,
   sqlConstructorEnrollPage,
-  sqlConstructorEnroll
+  sqlConstructorEnroll,
+  sqlConstructorCourse
 };

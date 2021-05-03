@@ -28,7 +28,7 @@ function enrollCourseCardhtml(course) {
 function profileCourseCardshtml(course){
   const content = `
   <div class="courseCard">
-      <a class="course-preview">
+      <a href="course/${course.Coursenamee}/" class="course-preview">
           <h3 class="course-title">${course.Coursename}</h3>
           <h4>Number of Lectures</h4>
       </a>
