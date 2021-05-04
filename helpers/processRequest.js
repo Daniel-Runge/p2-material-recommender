@@ -7,7 +7,10 @@ const website = new Website("Learning Path Recommender", [
   "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
   "style.css",
 ]);
-const { sqlConstructorCourse, queryToSqlDb } = require("../sqlDbQuery");
+const { 
+  sqlConstructorCourse, 
+  queryToSqlDb, 
+} = require("../sqlDbQuery");
 
 /**
  * processRequest processes the requests that come in form of POST, PATCH, GET... by using another functions
@@ -42,7 +45,7 @@ function processRequest(req, res) {
  * @param {string} token to validate the user 
  * @param {string} pathElements is the endpoint that is to be reached by the user 
  */
-function handleGetRequest(req, res, token, pathElements) {
+async function handleGetRequest(req, res, token, pathElements) {
   switch (pathElements[1]) {
     case "":
       website.loginPage(res);
@@ -61,8 +64,8 @@ function handleGetRequest(req, res, token, pathElements) {
       break;
     case "course":
       console.log(pathElements[2]); 
-      if (checkPath(pathElements[2])) {
-        website.coursePage(res, token);
+      if (await checkPath(pathElements[2])) {
+        website.coursePage(res, token, pathElements[2]);
       }
       break;
 

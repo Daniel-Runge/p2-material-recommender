@@ -50,6 +50,18 @@ function sqlConstructorCourse(){
   return `SELECT Coursename FROM courses`
 }
 
+function sqlConstructorCourseObj(courseName){
+  return `SELECT * FROM courses WHERE Coursename = '${courseName}'`
+}
+
+function sqlConstructorLessonObj(course){
+  return `SELECT * FROM lessons WHERE CourseID = ${course.CourseID}`;
+}
+
+function sqlConstructorLearningGoalObj(){
+  return `SELECT * FROM learninggoals`
+}
+
 /**
  *
  * @param {takes a string format sql query} sql
@@ -115,5 +127,8 @@ module.exports = {
   sqlConstructorConfirmSignup,
   sqlConstructorEnrollPage,
   sqlConstructorEnroll,
-  sqlConstructorCourse
+  sqlConstructorCourse,
+  sqlConstructorLearningGoalObj,
+  sqlConstructorLessonObj,
+  sqlConstructorCourseObj
 };

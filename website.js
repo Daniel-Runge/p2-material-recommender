@@ -12,6 +12,9 @@ const {
   sqlConstructorLogin,
   sqlConstructorEnrollPage,
   sqlConstructorEnroll,
+  sqlConstructorLearningGoalObj,
+  sqlConstructorLessonObj,
+  sqlConstructorCourseObj
 } = require("./sqlDbQuery");
 
 class Website {
@@ -73,7 +76,7 @@ class Website {
     res.end();
   }
 
-  coursePage(res, token)
+  async coursePage(res, token, path)
   {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
@@ -82,7 +85,13 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Conent-Type", "text/html");
-    res.write(this.header + coursehtml());
+    const courseConstructor = sqlConstructorCourseObj(path);
+    const courseObj = await queryToSqlDb(courseConstructor);
+    const lessonConstructor = sqlConstructorLessonObj(courseObj[0])
+    const lessonObj = await queryToSqlDb(lessonConstructor);
+    const learningGoalConstructor = sqlConstructorLearningGoalObj();
+    const learningGoalObj = await queryToSqlDb(learningGoalConstructor);
+    res.write(this.header + coursehtml(path, courseObj, lessonObj, learningGoalObj));
     res.end();
   }
 
@@ -191,7 +200,7 @@ class Website {
     res.end()
   }
 
-  
+
 
 }
 
