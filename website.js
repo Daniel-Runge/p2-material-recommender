@@ -70,7 +70,7 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const sql = `SELECT Coursename FROM courses WHERE CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${verifyToken(token).id}');`
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).id}');`
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
     res.end();
@@ -84,14 +84,11 @@ class Website {
       return;
     }
     res.statusCode = 200;
-    res.setHeader("Conent-Type", "text/html");
-    const courseConstructor = sqlConstructorCourseObj(path);
-    const courseObj = await queryToSqlDb(courseConstructor);
-    const lessonConstructor = sqlConstructorLessonObj(courseObj[0])
-    const lessonObj = await queryToSqlDb(lessonConstructor);
-    const learningGoalConstructor = sqlConstructorLearningGoalObj();
-    const learningGoalObj = await queryToSqlDb(learningGoalConstructor);
-    res.write(this.header + coursehtml(path, courseObj, lessonObj, learningGoalObj));
+    res.setHeader("Content-Type", "text/html");
+    const courseID = 1;
+    const mysql =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
+    const result = await queryToSqlDb(mysql);
+    res.write(this.header + coursehtml(path, result));
     res.end();
   }
 

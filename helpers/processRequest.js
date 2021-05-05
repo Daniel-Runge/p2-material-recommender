@@ -30,7 +30,7 @@ function processRequest(req, res) {
 
   switch (req.method) {
     case "POST":
-      handlePostRequest(req, res, pathElements);
+      handlePostRequest(req, res, token, pathElements);
       break;
     case "GET":
       handleGetRequest(req, res, token, pathElements);
@@ -81,7 +81,7 @@ async function handleGetRequest(req, res, token, pathElements) {
  * @param {object} res
  * @param {string} pathElements is the endpoint that is to be reached by the user 
  */
-function handlePostRequest(req, res, pathElements) {
+function handlePostRequest(req, res, token, pathElements) {
   switch (pathElements[1]) {
     case "signup":
       website.signup(req, res);
@@ -131,7 +131,7 @@ async function checkPath(path){
   const sql = sqlConstructorCourse();
   let courses = await queryToSqlDb(sql);
   console.log(courses);
-  if (courses.some(course => course.Coursename === path)) {
+  if (courses.some(course => course.CourseName === path)) {
     return true;
   }
   else{

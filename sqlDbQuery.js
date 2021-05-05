@@ -13,18 +13,18 @@ function sqlConstructorSignUp(email, password) {
     return "error";
   } else {
     console.log("sign up ", email);
-    const sql = `INSERT INTO users (Email, UserPassword) VALUES ("${email}", "${password}")`;
+    const sql = `INSERT INTO Users (Email, UserPassword) VALUES ("${email}", "${password}")`;
     return sql;
   }
 }
 
 function sqlConstructorLogin(email, password) {
-  const sql = `SELECT * FROM users WHERE Email = "${email}" AND UserPassword = "${password}"`;
+  const sql = `SELECT * FROM Users WHERE Email = "${email}" AND UserPassword = "${password}"`;
   return sql;
 }
 
 function sqlConstructorConfirmSignup(email) {
-  const sql = `SELECT Email FROM users WHERE Email = "${email}"`;
+  const sql = `SELECT Email FROM Users WHERE Email = "${email}"`;
   return sql;
 }
 
@@ -37,29 +37,57 @@ function sqlConstructorMaterial(Material) {
 }
 
 function sqlConstructorEnrollPage(email) {
-  const sql = `SELECT * FROM courses WHERE NOT CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${email}');`
+  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`
   return sql;
 }
 
 function sqlConstructorEnroll(course, email){
-  const sql = `INSERT INTO enrolledin VALUES (${course}, '${email}')`
+  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`
   return sql;
 }
 
 function sqlConstructorCourse(){
-  return `SELECT Coursename FROM courses`
+  return `SELECT CourseName FROM Courses`
 }
 
 function sqlConstructorCourseObj(courseName){
-  return `SELECT * FROM courses WHERE Coursename = '${courseName}'`
+  return `SELECT * FROM Courses WHERE CourseName = '${courseName}'`
 }
 
 function sqlConstructorLessonObj(course){
-  return `SELECT * FROM lessons WHERE CourseID = ${course.CourseID}`;
+  return `SELECT * FROM Lessons WHERE CourseID = ${course.CourseID}`;
 }
 
 function sqlConstructorLearningGoalObj(){
-  return `SELECT * FROM learninggoals`
+  return `SELECT * FROM LearningGoals`
+}
+
+function sqlConstructorLesson(Lesson) {
+  const sql = `INSERT INTO Lessons (LessonNumber, Lessonname, CourseID)
+  VALUES ("${Lesson.LessonNumber}", "${Lesson.Lessonname}", "${Lesson.CourseID}")`;
+  return sql;
+}
+
+function sqlConstructorLearningGoal(LearningGoal) {
+  const sql = `INSERT INTO learninggoals (LearningGoalName, lessonID)
+  VALUES ("${LearningGoal.LearningGoalName}", "${LearningGoal.LessonID}")`;
+  return sql;
+}
+
+function sqlConstructorTags(Tags) {
+  const sql = `INSERT INTO tags (LearningGoalID, MaterialID)
+  VALUES ("${Tags.LearningGoalID}", "${Tags.MaterialID}")`;
+  return sql;
+}
+
+function sqlConstructorPersonalCourse(Email) {
+  const sql = `SELECT (CourseID) FROM enrolledin WHERE (Email) = ("${Email}");`
+  return sql;
+}
+
+function sqlConstructorCourseName(ID) {
+  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`
+  return sql;
 }
 
 /**
@@ -130,5 +158,10 @@ module.exports = {
   sqlConstructorCourse,
   sqlConstructorLearningGoalObj,
   sqlConstructorLessonObj,
-  sqlConstructorCourseObj
+  sqlConstructorCourseObj,
+  sqlConstructorLesson,
+  sqlConstructorLearningGoal,
+  sqlConstructorCourseName,
+  sqlConstructorTags,
+  sqlConstructorPersonalCourse
 };
