@@ -13,18 +13,18 @@ function sqlConstructorSignUp(email, password) {
     return "error";
   } else {
     console.log("sign up ", email);
-    const sql = `INSERT INTO users (Email, UserPassword) VALUES ("${email}", "${password}")`;
+    const sql = `INSERT INTO Users (Email, UserPassword) VALUES ("${email}", "${password}")`;
     return sql;
   }
 }
 
 function sqlConstructorLogin(email, password) {
-  const sql = `SELECT * FROM users WHERE Email = "${email}" AND UserPassword = "${password}"`;
+  const sql = `SELECT * FROM Users WHERE Email = "${email}" AND UserPassword = "${password}"`;
   return sql;
 }
 
 function sqlConstructorConfirmSignup(email) {
-  const sql = `SELECT Email FROM users WHERE Email = "${email}"`;
+  const sql = `SELECT Email FROM Users WHERE Email = "${email}"`;
   return sql;
 }
 
@@ -37,12 +37,12 @@ function sqlConstructorMaterial(Material) {
 }
 
 function sqlConstructorEnrollPage(email) {
-  const sql = `SELECT * FROM courses WHERE NOT CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${email}');`
+  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${email}');`;
   return sql;
 }
 
-function sqlConstructorEnroll(course, email){
-  const sql = `INSERT INTO enrolledin VALUES (${course}, '${email}')`
+function sqlConstructorEnroll(course, email) {
+  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`;
   return sql;
 }
 
@@ -110,5 +110,5 @@ module.exports = {
   asyncContainerDBQuery,
   sqlConstructorConfirmSignup,
   sqlConstructorEnrollPage,
-  sqlConstructorEnroll
+  sqlConstructorEnroll,
 };

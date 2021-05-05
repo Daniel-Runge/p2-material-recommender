@@ -11,8 +11,8 @@ const website = new Website("Learning Path Recommender", [
 /**
  * processRequest processes the requests that come in form of POST, PATCH, GET... by using another functions
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
- * @param {object} req 
- * @param {object} res 
+ * @param {object} req
+ * @param {object} res
  */
 function processRequest(req, res) {
   const baseURL = "http://" + req.headers.host + "/";
@@ -36,10 +36,10 @@ function processRequest(req, res) {
 /**
  * handleGetRequest uses a switch statement to get the possible "GET" requests from the user.
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
- * @param {object} req  
+ * @param {object} req
  * @param {object} res
- * @param {string} token to validate the user 
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} token to validate the user
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 function handleGetRequest(req, res, token, pathElements) {
   switch (pathElements[1]) {
@@ -48,6 +48,9 @@ function handleGetRequest(req, res, token, pathElements) {
       break;
     case "login":
       website.loginPage(res);
+      break;
+    case "logout":
+      website.logoutPage(res);
       break;
     case "signup":
       website.signupPage(res);
@@ -75,7 +78,7 @@ function handleGetRequest(req, res, token, pathElements) {
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 function handlePostRequest(req, res, pathElements) {
   switch (pathElements[1]) {
@@ -86,8 +89,8 @@ function handlePostRequest(req, res, pathElements) {
       website.login(req, res);
       break;
     case "enroll":
-          website.enroll(req, res, token);
-          break;
+      website.enroll(req, res, token);
+      break;
   }
 }
 /**
@@ -96,7 +99,7 @@ function handlePostRequest(req, res, pathElements) {
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 function handleFile(req, res) {
   const rootFileSystem = process.cwd();
@@ -115,7 +118,6 @@ function handleFile(req, res) {
   });
 }
 
-
 function errorResponse(res, code, reason) {
   res.statusCode = code;
   res.setHeader("Content-Type", "text/txt");
@@ -124,4 +126,3 @@ function errorResponse(res, code, reason) {
 }
 
 module.exports = { processRequest };
-

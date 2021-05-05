@@ -128,6 +128,15 @@ main {
   grid-template-columns: 2fr 1fr;
 }
 
+.logout {
+  background-color: var(--containerColor);
+  margin: 0 6px 6px 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .profile {
   display: grid;
   grid-template-columns: 3fr 2fr;

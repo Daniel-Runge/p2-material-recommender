@@ -1,6 +1,7 @@
 const { parse } = require("querystring");
 const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
+const { logouthtml } = require("./pages/logouthtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { enrollhtml } = require("./pages/enrollhtml");
@@ -51,6 +52,15 @@ class Website {
     res.end();
   }
 
+  logoutPage(res) {
+    res.writeHead(200, {
+      "Set-Cookie": "authCookie=; HttpOnly",
+      "Content-Type": "text/html",
+    });
+    res.write(this.header + logouthtml());
+    res.end();
+  }
+
   signupPage(res) {
     res.writeHead(200, {
       "Content-Type": "text/html",
@@ -67,14 +77,15 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const sql = `SELECT Coursename FROM courses WHERE CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${verifyToken(token).id}');`
+    const sql = `SELECT CourseName FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
+      verifyToken(token).id
+    }');`;
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
     res.end();
   }
 
-  coursePage(res, token)
-  {
+  coursePage(res, token) {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
@@ -152,7 +163,7 @@ class Website {
    * @param {String} token should be changed to userData
    */
   async enrollPage(res, token) {
-    const userID = verifyToken(token).id
+    const userID = verifyToken(token).id;
     res.writeHead(200, {
       "Content-Type": "text/html",
     });
@@ -176,21 +187,20 @@ class Website {
       data += chunk.toString();
       console.log("show data ", data);
     });
-    req.on("end", () =>{
+    req.on("end", () => {
       let object = parse(data);
       let arrayOfCourseKeys = Object.keys(object);
-      arrayOfCourseKeys.forEach(element => {
-        const sql = sqlConstructorEnroll(element, verifyToken(token).id) //use decode instead of verify, not implemented yet
+      arrayOfCourseKeys.forEach((element) => {
+        const sql = sqlConstructorEnroll(element, verifyToken(token).id); //use decode instead of verify, not implemented yet
         queryToSqlDb(sql);
       });
-    })
+    });
     res.writeHead(303, {
       "Content-Type": "text/html",
       location: "/profile",
     });
-    res.end()
+    res.end();
   }
-
 }
 
 module.exports = { Website };
