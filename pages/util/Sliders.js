@@ -33,7 +33,7 @@ function createLearningStyleSliders(user) {
             oninput="updateTextInput(this.value, 'UnderstandingVal');">
         <input type="text" id="UnderstandingVal" value="0" class="untargetable">
 
-        <input type="submit" value="Update" onClick="updateValueToDatabase()">
+        <input type="submit" value="Update">
     </form>
 
 </div>
@@ -41,14 +41,6 @@ function createLearningStyleSliders(user) {
     function updateTextInput(val, id) {
         document.getElementById(id).value = val;
         console.log("The value of " + id + " is: " + val);
-    }
-    function updateValueToDatabase() {
-    const obj = {};
-    obj.perception = document.getElementById("PerceptionVal", "Perception").value ;
-    obj.input = document.getElementById("InputVal", "Input").value;
-    obj.processing = document.getElementById("ProcessingVal").value;
-    obj.understanding = document.getElementById("UnderstandingVal").value;
-    updateValueToDatabase(obj);
     }
 </script>`;
   return slider;
