@@ -39,7 +39,7 @@ function createLearningStyleSliders(user) {
 </div>
 <script>
     function updateTextInput(val, id) {
-        document.getElementById(id).value = val;
+        document.getElementById(id).value = Math.abs(val);
         console.log("The value of " + id + " is: " + val);
     }
 </script>`;

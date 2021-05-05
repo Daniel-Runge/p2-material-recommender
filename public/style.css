@@ -142,6 +142,25 @@ main {
   width: 100%;
   background-color: var(--containerColor);
   padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-container > a {
+  margin-left: 36px;
+  color: var(--titleColor);
+}
+
+.nav-container > h3 {
+  margin-right: auto;
+}
+
+.nav-container > a:hover {
+  color: var(--hoverViolet);
+}
+
+.guide li {
+  pointer-events: none;
 }
 
 .sliders {
