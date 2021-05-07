@@ -1,4 +1,4 @@
-const { createLearningStyleSliders } = require("./util/Sliders");
+const { createLearningStyleSliders } = require("./util/sliders");
 const { profileCourseCardshtml } = require("./util/courseCard");
 
 /**
@@ -8,9 +8,9 @@ const { profileCourseCardshtml } = require("./util/courseCard");
  * @returns HTML body with the profile page body that contains the courses as cards and sliders, based on the student information
  */
 function profilehtml(course) {
-    const slidersContainer = createLearningStyleSliders();
-    const courseCards = createCourseCards(course);
-    const content = `
+  const slidersContainer = createLearningStyleSliders();
+  const courseCards = createCourseCards(course);
+  const content = `
     <main class="profile">
     <div class="courses-container">
     <h1>Your Courses</h1>
@@ -35,7 +35,7 @@ function profilehtml(course) {
     </main>
 </body>
 </html>`;
-    return content;
+  return content;
 }
 /**
  * Helper function for profilehtml
@@ -44,18 +44,18 @@ function profilehtml(course) {
  * @returns a html string
  */
 function createCourseCards(courses) {
-    let content = ``;
-    if (!courses?.length) {
-        content = "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>"
-        return content;
-    }
-    else {
-        content = `<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>`
-        courses.map(course => {
-            content += profileCourseCardshtml(course);
-        })
-        return content;
-    }
+  let content = ``;
+  if (!courses?.length) {
+    content =
+      "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>";
+    return content;
+  } else {
+    content = `<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>`;
+    courses.map((course) => {
+      content += profileCourseCardshtml(course);
+    });
+    return content;
+  }
 }
 
 module.exports = { profilehtml, createCourseCards };

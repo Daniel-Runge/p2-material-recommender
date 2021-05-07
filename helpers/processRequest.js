@@ -26,7 +26,7 @@ function processRequest(req, res) {
 
   switch (req.method) {
     case "POST":
-      handlePostRequest(req, res, pathElements);
+      handlePostRequest(req, res, token, pathElements);
       break;
     case "GET":
       handleGetRequest(req, res, token, pathElements);
@@ -55,6 +55,9 @@ function handleGetRequest(req, res, token, pathElements) {
     case "signup":
       website.signupPage(res);
       break;
+    case "about":
+      website.aboutPage(res);
+      break;
     case "profile":
       website.profilePage(res, token);
       break;
@@ -80,7 +83,7 @@ function handleGetRequest(req, res, token, pathElements) {
  * @param {object} res
  * @param {string} pathElements is the endpoint that is to be reached by the user
  */
-function handlePostRequest(req, res, pathElements) {
+function handlePostRequest(req, res, token, pathElements) {
   switch (pathElements[1]) {
     case "signup":
       website.signup(req, res);
@@ -90,6 +93,12 @@ function handlePostRequest(req, res, pathElements) {
       break;
     case "enroll":
       website.enroll(req, res, token);
+      break;
+    case "style":
+      website.updateStyle(req, res, token);
+      break;
+    default:
+      errorResponse(res, 404, "No post request at this point");
       break;
   }
 }

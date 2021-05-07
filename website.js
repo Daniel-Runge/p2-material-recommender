@@ -1,4 +1,5 @@
 const { parse } = require("querystring");
+const { abouthtml } = require("./pages/abouthtml");
 const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
 const { logouthtml } = require("./pages/logouthtml");
@@ -54,7 +55,8 @@ class Website {
 
   logoutPage(res) {
     res.writeHead(200, {
-      "Set-Cookie": "authCookie=; HttpOnly",
+      "Set-Cookie":
+        "authCookie=; Expires=" + new Date().toUTCString() + "; HttpOnly;",
       "Content-Type": "text/html",
     });
     res.write(this.header + logouthtml());
@@ -69,9 +71,17 @@ class Website {
     res.end();
   }
 
+  aboutPage(res) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    res.write(this.header + abouthtml());
+    res.end();
+  }
+
   async profilePage(res, token) {
     if (!verifyToken(token)) {
-      res.writeHead(301, { location: "/login" });
+      res.writeHead(301, { location: "/" });
       res.end();
       return;
     }
@@ -201,6 +211,35 @@ class Website {
     });
     res.end();
   }
+
+  async updateStyle(req, res, token) {
+    const body = await collectPostBody(req);
+    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
+      body.input
+    }, Processing = ${body.processing}, Understanding = ${
+      body.understanding
+    } WHERE Email='${verifyToken(token).id}';`;
+    await queryToSqlDb(sql);
+    res.writeHead(303, {
+      "Content-Type": "text/html",
+      location: "/profile",
+    });
+    res.end();
+  }
+}
+
+function collectPostBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk.toString();
+    });
+    req.on("end", () => {
+      console.log("show pre-parse data:", data);
+      let body = parse(data);
+      resolve(body);
+    });
+  });
 }
 
 module.exports = { Website };

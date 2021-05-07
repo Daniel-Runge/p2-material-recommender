@@ -37,7 +37,7 @@ function sqlConstructorMaterial(Material) {
 }
 
 function sqlConstructorEnrollPage(email) {
-  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${email}');`;
+  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`;
   return sql;
 }
 

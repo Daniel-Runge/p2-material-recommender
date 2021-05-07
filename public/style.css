@@ -123,7 +123,8 @@ main {
 }
 
 .login,
-.signup {
+.signup,
+.about {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
@@ -183,7 +184,7 @@ main {
 .course-container,
 .lecture-container,
 .courses-container,
-.details-container {
+.about-container {
   align-self: start;
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
@@ -274,7 +275,8 @@ input[type="range"] {
   margin-bottom: 16px;
 }
 
-.help-block {
+.help-block,
+.details-container {
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
   padding: 20px;
@@ -287,7 +289,8 @@ input[type="range"] {
 }
 
 .sign-up,
-.ils-link {
+.ils-link,
+.other-link {
   display: grid;
   grid-template-columns: 4fr 1fr;
   background-color: var(--containerColor);
