@@ -33,7 +33,7 @@ function processRequest(req, res) {
       handlePostRequest(req, res, token, pathElements);
       break;
     case "GET":
-      handleGetRequest(req, res, token, pathElements);
+      handleGetRequest(req, res, token, pathElements, searchParams);
       break;
   }
 }
@@ -45,7 +45,7 @@ function processRequest(req, res) {
  * @param {string} token to validate the user 
  * @param {string} pathElements is the endpoint that is to be reached by the user 
  */
-async function handleGetRequest(req, res, token, pathElements) {
+async function handleGetRequest(req, res, token, pathElements, searchParams) {
   switch (pathElements[1]) {
     case "":
       website.loginPage(res);
@@ -65,7 +65,7 @@ async function handleGetRequest(req, res, token, pathElements) {
     case "course":
       console.log(pathElements[2]); 
       if (await checkPath(pathElements[2])) {
-        website.coursePage(res, token, pathElements[2]);
+        website.coursePage(res, token, pathElements[2], searchParams);
       }
       break;
 

@@ -76,7 +76,7 @@ class Website {
     res.end();
   }
 
-  async coursePage(res, token, path)
+  async coursePage(res, token, path, searchParams)
   {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
@@ -88,7 +88,7 @@ class Website {
     const courseID = 1;
     const mysql =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
     const result = await queryToSqlDb(mysql);
-    res.write(this.header + coursehtml(path, result));
+    res.write(this.header + coursehtml(path, result, searchParams));
     res.end();
   }
 

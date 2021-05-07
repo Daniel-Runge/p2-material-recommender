@@ -3,7 +3,7 @@
  * @author Daniel Runge Petersen
  * @returns HTML body for a course and its lecture material
  */
-function coursehtml(path, dbObject) {
+function coursehtml(path, dbObject, searchParams) {
     const materialObj = [
         {
             MaterialID: 1,
@@ -60,6 +60,7 @@ function coursehtml(path, dbObject) {
         <thead>
             <tr>
                 <th>Material/link</th>
+                <button onclick="makeURLParams()">Click on me!</button>
                 <th>Fit</th>
             </tr>
         </thead>
@@ -83,10 +84,16 @@ function coursehtml(path, dbObject) {
 </div>
 </div> 
     </main>
-
+<script> function makeURLParams(){
+let urlParams = new URLSearchParams();
+urlParams.set("lesson", 3);
+window.location.href = "/course/${path}" + "/?" + urlParams.toString();
+}
+</script>
 </body>
 
 </html>`;
+    console.log(searchParams);
     return content;
 }
 
@@ -117,8 +124,7 @@ function createLessonArray(result) {
     console.log(lessonArray);
     return lessonArray;
 }
-function createLearningGoalArray(result)
-{
+function createLearningGoalArray(result) {
     let learningGoalArray = [];
     result.map((learningGoal) => {
         const learningGoalObject = {
@@ -142,6 +148,7 @@ function createLearningGoalArray(result)
 }
 
 
+
 //In my database it is written Lessonname !!! IT SHOULD BE LessonName !!!
 function lectureOverviewhtml(dbObject) {
     let content = ``;
@@ -149,15 +156,15 @@ function lectureOverviewhtml(dbObject) {
     const learningGoals = createLearningGoalArray(dbObject);
     lectures.forEach(lecture => {
         content += `<h3>${lecture.lessonNumber}. ${lecture.lessonName}</h3>`;
-        content += `<ol>`
+        // content += `<ol>`
 
-        learningGoals.forEach(learningGoal => {
-            if (learningGoal.lessonID === lecture.lessonID) {
-                content += `<li>${learningGoal.learningGoalName}</li>`
-            }
-        })
+        // learningGoals.forEach(learningGoal => {
+        //     if (learningGoal.lessonID === lecture.lessonID) {
+        //         content += `<li>${learningGoal.learningGoalName}</li>`
+        //     }
+        // })
 
-        content += `</ol>`
+        // content += `</ol>`
     });
     return content;
 }
