@@ -1,6 +1,8 @@
 const { parse } = require("querystring");
+const { abouthtml } = require("./pages/abouthtml");
 const { htmlHeader } = require("./pages/util/htmlHeader");
 const { loginhtml } = require("./pages/loginhtml");
+const { logouthtml } = require("./pages/logouthtml");
 const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { enrollhtml } = require("./pages/enrollhtml");
@@ -51,6 +53,16 @@ class Website {
     res.end();
   }
 
+  logoutPage(res) {
+    res.writeHead(200, {
+      "Set-Cookie":
+        "authCookie=; Expires=" + new Date().toUTCString() + "; HttpOnly;",
+      "Content-Type": "text/html",
+    });
+    res.write(this.header + logouthtml());
+    res.end();
+  }
+
   signupPage(res) {
     res.writeHead(200, {
       "Content-Type": "text/html",
@@ -59,22 +71,31 @@ class Website {
     res.end();
   }
 
+  aboutPage(res) {
+    res.writeHead(200, {
+      "Content-Type": "text/html",
+    });
+    res.write(this.header + abouthtml());
+    res.end();
+  }
+
   async profilePage(res, token) {
     if (!verifyToken(token)) {
-      res.writeHead(301, { location: "/login" });
+      res.writeHead(301, { location: "/" });
       res.end();
       return;
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const sql = `SELECT Coursename FROM courses WHERE CourseID IN (SELECT CourseID FROM enrolledin WHERE Email='${verifyToken(token).id}');`
+    const sql = `SELECT CourseName FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
+      verifyToken(token).id
+    }');`;
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
     res.end();
   }
 
-  coursePage(res, token)
-  {
+  coursePage(res, token) {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
@@ -152,7 +173,7 @@ class Website {
    * @param {String} token should be changed to userData
    */
   async enrollPage(res, token) {
-    const userID = verifyToken(token).id
+    const userID = verifyToken(token).id;
     res.writeHead(200, {
       "Content-Type": "text/html",
     });
@@ -166,7 +187,7 @@ class Website {
   /**
    * Enrolls user in courses and return to the profile page
    * @author Mads Overgaard Nissum & Lars Hansen
-   * @param {Obejct} req the http request object
+   * @param {Object} req the http request object
    * @param {Object} res the http response object
    * @param {String} token should be changed to userData
    */
@@ -176,21 +197,62 @@ class Website {
       data += chunk.toString();
       console.log("show data ", data);
     });
-    req.on("end", () =>{
+    req.on("end", () => {
       let object = parse(data);
       let arrayOfCourseKeys = Object.keys(object);
-      arrayOfCourseKeys.forEach(element => {
-        const sql = sqlConstructorEnroll(element, verifyToken(token).id) //use decode instead of verify, not implemented yet
+      arrayOfCourseKeys.forEach((element) => {
+        const sql = sqlConstructorEnroll(element, verifyToken(token).id); //use decode instead of verify, not implemented yet
         queryToSqlDb(sql);
       });
-    })
+    });
     res.writeHead(303, {
       "Content-Type": "text/html",
       location: "/profile",
     });
-    res.end()
+    res.end();
   }
 
+  /**
+   * Update the database with the requested values for the user represented by the token
+   * @author Daniel Runge Petersen
+   * @param {Object} req
+   * @param {Object} res
+   * @param {String} token
+   */
+  async updateStyle(req, res, token) {
+    const body = await collectPostBody(req);
+    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
+      body.input
+    }, Processing = ${body.processing}, Understanding = ${
+      body.understanding
+    } WHERE Email='${verifyToken(token).id}';`;
+    await queryToSqlDb(sql);
+    res.writeHead(303, {
+      "Content-Type": "text/html",
+      location: "/profile",
+    });
+    res.end();
+  }
+}
+
+/**
+ * Helper function for obtaining the post body of a http request
+ * @author Daniel Runge Petersen
+ * @param {Object} req
+ * @returns A promise that resolves to the body of the request
+ */
+function collectPostBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = "";
+    req.on("data", (chunk) => {
+      data += chunk.toString();
+    });
+    req.on("end", () => {
+      console.log("show pre-parse data:", data);
+      let body = parse(data);
+      resolve(body);
+    });
+  });
 }
 
 module.exports = { Website };

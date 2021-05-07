@@ -123,9 +123,19 @@ main {
 }
 
 .login,
-.signup {
+.signup,
+.about {
   display: grid;
   grid-template-columns: 2fr 1fr;
+}
+
+.logout {
+  background-color: var(--containerColor);
+  margin: 0 6px 6px 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile {
@@ -142,6 +152,25 @@ main {
   width: 100%;
   background-color: var(--containerColor);
   padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-container > a {
+  margin-left: 36px;
+  color: var(--titleColor);
+}
+
+.nav-container > h3 {
+  margin-right: auto;
+}
+
+.nav-container > a:hover {
+  color: var(--hoverViolet);
+}
+
+.guide li {
+  pointer-events: none;
 }
 
 .sliders {
@@ -155,7 +184,7 @@ main {
 .course-container,
 .lecture-container,
 .courses-container,
-.details-container {
+.about-container {
   align-self: start;
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
@@ -246,7 +275,8 @@ input[type="range"] {
   margin-bottom: 16px;
 }
 
-.help-block {
+.help-block,
+.details-container {
   background-color: var(--containerColor);
   margin: 0 6px 6px 0;
   padding: 20px;
@@ -259,7 +289,8 @@ input[type="range"] {
 }
 
 .sign-up,
-.ils-link {
+.ils-link,
+.other-link {
   display: grid;
   grid-template-columns: 4fr 1fr;
   background-color: var(--containerColor);
