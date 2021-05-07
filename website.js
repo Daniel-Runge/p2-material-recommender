@@ -187,7 +187,7 @@ class Website {
   /**
    * Enrolls user in courses and return to the profile page
    * @author Mads Overgaard Nissum & Lars Hansen
-   * @param {Obejct} req the http request object
+   * @param {Object} req the http request object
    * @param {Object} res the http response object
    * @param {String} token should be changed to userData
    */
@@ -212,6 +212,13 @@ class Website {
     res.end();
   }
 
+  /**
+   * Update the database with the requested values for the user represented by the token
+   * @author Daniel Runge Petersen
+   * @param {Object} req
+   * @param {Object} res
+   * @param {String} token
+   */
   async updateStyle(req, res, token) {
     const body = await collectPostBody(req);
     const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
@@ -228,6 +235,12 @@ class Website {
   }
 }
 
+/**
+ * Helper function for obtaining the post body of a http request
+ * @author Daniel Runge Petersen
+ * @param {Object} req
+ * @returns A promise that resolves to the body of the request
+ */
 function collectPostBody(req) {
   return new Promise((resolve, reject) => {
     let data = "";

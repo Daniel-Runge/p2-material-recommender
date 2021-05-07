@@ -1,3 +1,8 @@
+/**
+ * This function returns a HTML navigation bar string
+ * @author Daniel Runge Petersen
+ * @returns A basic HTML navigation string
+ */
 function navigationBarhtml() {
   const navigationBar = `
     <nav class="nav-container">

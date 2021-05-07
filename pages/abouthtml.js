@@ -1,3 +1,8 @@
+/**
+ * The about page body. No real content yet
+ * @author Daniel Runge Petersen
+ * @returns a html string for the about page body
+ */
 function abouthtml() {
   const html = `
     <main class="about">

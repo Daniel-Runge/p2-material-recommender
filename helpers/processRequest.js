@@ -9,7 +9,7 @@ const website = new Website("Learning Path Recommender", [
 ]);
 
 /**
- * processRequest processes the requests that come in form of POST, PATCH, GET... by using another functions
+ * processRequest processes the requests that come in form of POST, PATCH, GET... by using other functions
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
@@ -34,7 +34,7 @@ function processRequest(req, res) {
   }
 }
 /**
- * handleGetRequest uses a switch statement to get the possible "GET" requests from the user.
+ * handleGetRequest uses a switch statement to get the possible "GET" requests from the user
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
@@ -77,7 +77,7 @@ function handleGetRequest(req, res, token, pathElements) {
   }
 }
 /**
- * handlePostRequest uses a switch statement to get the possible "POST" requests from the user.
+ * handlePostRequest uses a switch statement to get the possible "POST" requests from the user
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
@@ -127,6 +127,13 @@ function handleFile(req, res) {
   });
 }
 
+/**
+ * Helper function to serve an error response
+ * @author Brian Nielsen
+ * @param {Object} res
+ * @param {number} code
+ * @param {String} reason
+ */
 function errorResponse(res, code, reason) {
   res.statusCode = code;
   res.setHeader("Content-Type", "text/txt");
