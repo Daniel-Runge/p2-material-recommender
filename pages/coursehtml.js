@@ -213,6 +213,7 @@ function createMaterialTableHmtl(lessonNumber, materialDb, dbObject) {
     });
     return text;
 }
+
 module.exports = {
     coursehtml,
     courseDescriptionhtml,
@@ -223,3 +224,6 @@ module.exports = {
     C2_20RecommendationAlgoritmen,
     lectureOverviewhtml
 };
+=======
+module.exports = { coursehtml };
+

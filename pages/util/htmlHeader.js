@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { navigationBarhtml } = require("./navigationBar");
 /**
  * This function returns a HTML header string with a title, css styles and JS scripts, as well as the navigation and logo
  * @author Daniel Runge Petersen
@@ -43,9 +44,7 @@ function htmlHeader(title, csss = [], scripts = []) {
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        ${navigationBarhtml()}
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>

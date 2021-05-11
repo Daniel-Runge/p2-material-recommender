@@ -13,10 +13,10 @@ const {
 } = require("../sqlDbQuery");
 
 /**
- * processRequest processes the requests that come in form of POST, PATCH, GET... by using another functions
+ * processRequest processes the requests that come in form of POST, PATCH, GET... by using other functions
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
- * @param {object} req 
- * @param {object} res 
+ * @param {object} req
+ * @param {object} res
  */
 function processRequest(req, res) {
   const baseURL = "http://" + req.headers.host + "/";
@@ -38,12 +38,12 @@ function processRequest(req, res) {
   }
 }
 /**
- * handleGetRequest uses a switch statement to get the possible "GET" requests from the user.
+ * handleGetRequest uses a switch statement to get the possible "GET" requests from the user
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
- * @param {object} req  
+ * @param {object} req
  * @param {object} res
- * @param {string} token to validate the user 
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} token to validate the user
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 async function handleGetRequest(req, res, token, pathElements, searchParams) {
   switch (pathElements[1]) {
@@ -53,8 +53,14 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
     case "login":
       website.loginPage(res);
       break;
+    case "logout":
+      website.logoutPage(res);
+      break;
     case "signup":
       website.signupPage(res);
+      break;
+    case "about":
+      website.aboutPage(res);
       break;
     case "profile":
       website.profilePage(res, token);
@@ -75,11 +81,11 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
   }
 }
 /**
- * handlePostRequest uses a switch statement to get the possible "POST" requests from the user.
+ * handlePostRequest uses a switch statement to get the possible "POST" requests from the user
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 function handlePostRequest(req, res, token, pathElements) {
   switch (pathElements[1]) {
@@ -90,8 +96,14 @@ function handlePostRequest(req, res, token, pathElements) {
       website.login(req, res);
       break;
     case "enroll":
-          website.enroll(req, res, token);
-          break;
+      website.enroll(req, res, token);
+      break;
+    case "style":
+      website.updateStyle(req, res, token);
+      break;
+    default:
+      errorResponse(res, 404, "No post request at this point");
+      break;
   }
 }
 /**
@@ -100,7 +112,7 @@ function handlePostRequest(req, res, token, pathElements) {
  * @author Daniel Runge, Gustav Graversen, Raymond Kacso
  * @param {object} req
  * @param {object} res
- * @param {string} pathElements is the endpoint that is to be reached by the user 
+ * @param {string} pathElements is the endpoint that is to be reached by the user
  */
 function handleFile(req, res) {
   const rootFileSystem = process.cwd();
@@ -119,13 +131,20 @@ function handleFile(req, res) {
   });
 }
 
-
+/**
+ * Helper function to serve an error response
+ * @author Brian Nielsen
+ * @param {Object} res
+ * @param {number} code
+ * @param {String} reason
+ */
 function errorResponse(res, code, reason) {
   res.statusCode = code;
   res.setHeader("Content-Type", "text/txt");
   res.write(reason);
   res.end("\n");
 }
+
 
 async function checkPath(path){
   const sql = sqlConstructorCourse();
