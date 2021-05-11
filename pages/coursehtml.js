@@ -224,6 +224,5 @@ module.exports = {
     C2_20RecommendationAlgoritmen,
     lectureOverviewhtml
 };
-=======
 module.exports = { coursehtml };
 
