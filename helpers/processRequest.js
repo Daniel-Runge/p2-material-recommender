@@ -7,6 +7,10 @@ const website = new Website("Learning Path Recommender", [
   "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
   "style.css",
 ]);
+const { 
+  sqlConstructorCourse, 
+  queryToSqlDb, 
+} = require("../sqlDbQuery");
 
 /**
  * processRequest processes the requests that come in form of POST, PATCH, GET... by using other functions
@@ -29,7 +33,7 @@ function processRequest(req, res) {
       handlePostRequest(req, res, token, pathElements);
       break;
     case "GET":
-      handleGetRequest(req, res, token, pathElements);
+      handleGetRequest(req, res, token, pathElements, searchParams);
       break;
   }
 }
@@ -41,7 +45,7 @@ function processRequest(req, res) {
  * @param {string} token to validate the user
  * @param {string} pathElements is the endpoint that is to be reached by the user
  */
-function handleGetRequest(req, res, token, pathElements) {
+async function handleGetRequest(req, res, token, pathElements, searchParams) {
   switch (pathElements[1]) {
     case "":
       website.loginPage(res);
@@ -65,12 +69,12 @@ function handleGetRequest(req, res, token, pathElements) {
       website.enrollPage(res, token);
       break;
     case "course":
-      switch (pathElements[2]) {
-        case "testipop":
-          website.coursePage(res, token);
-          break;
+      console.log(pathElements[2]); 
+      if (await checkPath(pathElements[2])) {
+        website.coursePage(res, token, pathElements[2], searchParams);
       }
       break;
+
     default:
       handleFile(req, res);
       break;
@@ -139,6 +143,19 @@ function errorResponse(res, code, reason) {
   res.setHeader("Content-Type", "text/txt");
   res.write(reason);
   res.end("\n");
+}
+
+
+async function checkPath(path){
+  const sql = sqlConstructorCourse();
+  let courses = await queryToSqlDb(sql);
+  console.log(courses);
+  if (courses.some(course => course.CourseName === path)) {
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
 module.exports = { processRequest };

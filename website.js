@@ -14,6 +14,9 @@ const {
   sqlConstructorLogin,
   sqlConstructorEnrollPage,
   sqlConstructorEnroll,
+  sqlConstructorLearningGoalObj,
+  sqlConstructorLessonObj,
+  sqlConstructorCourseObj
 } = require("./sqlDbQuery");
 
 class Website {
@@ -87,23 +90,31 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const sql = `SELECT CourseName FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
-      verifyToken(token).id
-    }');`;
+
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).id}');`
+
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
     res.end();
   }
 
-  coursePage(res, token) {
+
+  async coursePage(res, token, path, searchParams)
+  {
+
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
       return;
     }
     res.statusCode = 200;
-    res.setHeader("Conent-Type", "text/html");
-    res.write(this.header + coursehtml());
+    res.setHeader("Content-Type", "text/html");
+    const courseID = 1;
+    const mysql =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
+    const mysql2 =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
+    const materialDb = await queryToSqlDb(mysql2);
+    const result = await queryToSqlDb(mysql);
+    res.write(this.header + coursehtml(path, result, searchParams, materialDb));
     res.end();
   }
 
@@ -235,6 +246,7 @@ class Website {
   }
 }
 
+
 /**
  * Helper function for obtaining the post body of a http request
  * @author Daniel Runge Petersen
@@ -253,6 +265,7 @@ function collectPostBody(req) {
       resolve(body);
     });
   });
+
 }
 
 module.exports = { Website };

@@ -37,12 +37,57 @@ function sqlConstructorMaterial(Material) {
 }
 
 function sqlConstructorEnrollPage(email) {
-  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`;
+
+  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`
   return sql;
 }
 
-function sqlConstructorEnroll(course, email) {
-  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`;
+function sqlConstructorEnroll(course, email){
+  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`
+  return sql;
+}
+
+function sqlConstructorCourse(){
+  return `SELECT CourseName FROM Courses`
+}
+
+function sqlConstructorCourseObj(courseName){
+  return `SELECT * FROM Courses WHERE CourseName = '${courseName}'`
+}
+
+function sqlConstructorLessonObj(course){
+  return `SELECT * FROM Lessons WHERE CourseID = ${course.CourseID}`;
+}
+
+function sqlConstructorLearningGoalObj(){
+  return `SELECT * FROM LearningGoals`
+}
+
+function sqlConstructorLesson(Lesson) {
+  const sql = `INSERT INTO Lessons (LessonNumber, Lessonname, CourseID)
+  VALUES ("${Lesson.LessonNumber}", "${Lesson.Lessonname}", "${Lesson.CourseID}")`;
+  return sql;
+}
+
+function sqlConstructorLearningGoal(LearningGoal) {
+  const sql = `INSERT INTO learninggoals (LearningGoalName, lessonID)
+  VALUES ("${LearningGoal.LearningGoalName}", "${LearningGoal.LessonID}")`;
+  return sql;
+}
+
+function sqlConstructorTags(Tags) {
+  const sql = `INSERT INTO tags (LearningGoalID, MaterialID)
+  VALUES ("${Tags.LearningGoalID}", "${Tags.MaterialID}")`;
+  return sql;
+}
+
+function sqlConstructorPersonalCourse(Email) {
+  const sql = `SELECT (CourseID) FROM enrolledin WHERE (Email) = ("${Email}");`
+  return sql;
+}
+
+function sqlConstructorCourseName(ID) {
+  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`
   return sql;
 }
 
@@ -111,4 +156,14 @@ module.exports = {
   sqlConstructorConfirmSignup,
   sqlConstructorEnrollPage,
   sqlConstructorEnroll,
+  sqlConstructorCourse,
+  sqlConstructorLearningGoalObj,
+  sqlConstructorLessonObj,
+  sqlConstructorCourseObj,
+  sqlConstructorLesson,
+  sqlConstructorLearningGoal,
+  sqlConstructorCourseName,
+  sqlConstructorTags,
+  sqlConstructorPersonalCourse
+
 };
