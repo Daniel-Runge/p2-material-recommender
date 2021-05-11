@@ -65,7 +65,7 @@ function courseDescriptionhtml(course) {
  */
 function createLessonArray(DbQueryData) {
     let lessonArray = [];
-    DbQueryData.map((lesson) => {
+    DbQueryData.forEach((lesson) => {
         const lessonObject = {
             lessonID: lesson.LessonID,
             lessonNumber: lesson.LessonNumber,
@@ -73,7 +73,7 @@ function createLessonArray(DbQueryData) {
         };
 
         let checker = false;
-        lessonArray.map(existingElement => {
+        lessonArray.forEach(existingElement => {
             if (existingElement.lessonID == lessonObject.lessonID) {
                 checker = true;
             }
@@ -103,14 +103,13 @@ function createLessonArray(DbQueryData) {
  */
 function createLearningGoalArray(DbQueryData) {
     let learningGoalArray = [];
-    DbQueryData.map((learningGoal) => {
+    DbQueryData.forEach((learningGoal) => {
         const learningGoalObject = {
             learningGoalID: learningGoal.LearningGoalID,
             lessonID: learningGoal.LessonID,
             learningGoalName: learningGoal.LearningGoalName,
             lessonNumber: learningGoal.LessonNumber
         };
-
         let checker = false;
         learningGoalArray.map(existingElement => {
             if (existingElement.learningGoalID == learningGoalObject.learningGoalID) {
@@ -146,7 +145,6 @@ function createMaterialDatastructure(materialDb, learningGoalArray, number) {
                     temporaryArray.push(material);
                 }
             });
-            console.log(temporaryArray, "DEBUG");
             materialDatastructure = materialDatastructure.concat(C2_20RecommendationAlgoritmen(temporaryArray));
         }
     });
@@ -215,4 +213,13 @@ function createMaterialTableHmtl(lessonNumber, materialDb, dbObject) {
     });
     return text;
 }
-module.exports = { coursehtml };
+module.exports = {
+    coursehtml,
+    courseDescriptionhtml,
+    createLearningGoalArray,
+    createLessonArray,
+    createMaterialDatastructure,
+    createMaterialTableHmtl,
+    C2_20RecommendationAlgoritmen,
+    lectureOverviewhtml
+};
