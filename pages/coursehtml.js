@@ -1,50 +1,13 @@
 /**
  * A course page body that contains the course and lecture information and a presentation of material relevant to the specific student
- * @author Daniel Runge Petersen
+ * @author Daniel Runge Petersen, Gustav Graversen and Raymond Kacso
+ * @param {string} path The course on which the user has clicked(SLIAL, IWP...)
+ * @param {object} dbObject A query from "async coursePage" which has LearningGoals and Lessons depending on the CourseID 
+ * @param {string} searchParams Upon clicking one of the lessons searchParams ("lesson=x")is appended to the website's url
+ * @param {object} materialDb A query from "async coursePage" which has Materials with the same ID as the TagID
  * @returns HTML body for a course and its lecture material
  */
-function coursehtml(path, dbObject, searchParams) {
-    const materialObj = [
-        {
-            MaterialID: 1,
-            MaterialName: "Matrix in youtube",
-            MaterialDescription: "Read pages 24-29"
-        }
-        ,
-        {
-            MaterialID: 2,
-            MaterialName: "Matrix multi in facebook",
-            MaterialDescription: "Read something on facebook"
-        }
-        ,
-        {
-            MaterialID: 3,
-            MaterialName: "Matrix multi in reddit",
-            MaterialDescription: "HREF youtube"
-        }];
-
-    const learningGoalObjDummy = [
-        {
-            LearningGoalID: 1,
-            LearningGoalName: "Multiplikation"
-        }
-        ,
-        {
-            LearningGoalID: 2,
-            LearningGoalName: "Vektorregning"
-        }];
-
-    const tagsObj = [
-        {
-            LearningGoalID: 1,
-            MaterialID: 2
-        }
-        ,
-        {
-            LearningGoalID: 1,
-            MaterialID: 3
-        }];
-
+function coursehtml(path, dbObject, searchParams, materialDb) {
     const content = `
     <main class="course">
         <div class="course-container">
@@ -53,61 +16,60 @@ function coursehtml(path, dbObject, searchParams) {
 
         </div>
         <div class="lecture-container">
-            <h1>${path}</h1>
+            <h1>Lesson ${searchParams.get("lesson") || "1"}</h1>
             <div class="lecture">
-                <h3>OK</h3>
+                <h3></h3>
     <table>
         <thead>
             <tr>
                 <th>Material/link</th>
-                <button onclick="makeURLParams()">Click on me!</button>
                 <th>Fit</th>
             </tr>
         </thead>
         <tbody>
-           ${createMaterialTableHmtl(materialObj, learningGoalObjDummy, tagsObj)}
-            <tr>
-                <td>
-                    <a target="_blank" href="https://www.youtube.com/watch?v=4VqmGXwpLqc"
-                        class="material">Merge
-                        Sort</a>
-                </td>
-                <td>
-                    <div class="like-dislike">
-                        <input type="submit" class="dislike" value="dislike">
-                        <input type="submit" value="like">
-                    </div>
-                </td>
-            </tr>
+           ${createMaterialTableHmtl(searchParams.get("lesson"), materialDb, dbObject)}
         </tbody>
     </table>
 </div>
 </div> 
     </main>
-<script> function makeURLParams(){
-let urlParams = new URLSearchParams();
-urlParams.set("lesson", 3);
-window.location.href = "/course/${path}" + "/?" + urlParams.toString();
+<script>
+function activateButton(number){
+    let urlParams = new URLSearchParams();
+    urlParams.set("lesson", number);
+    window.location.href = "/course/SLIAL" + "?" + urlParams.toString();
 }
 </script>
 </body>
 
 </html>`;
-    console.log(searchParams);
+
     return content;
 }
 
+
+/**
+ * courseDescriptionhtml gives the name of the course in the course container
+ * @author Gustav Graversen and Raymond Kacso
+ * @param {string} course name of the course 
+ * @returns an html string containing the name of the course, which is used in coursehtml
+ */
 function courseDescriptionhtml(course) {
     return '<h1>' + course + '</h1>';
 }
-
-function createLessonArray(result) {
+/**
+ * This function extracts relevant object elements from the query "mysql" and makes a new array with the selected object elements
+ * @author Gustav Graversen and Raymond Kacso
+ * @param {array of objects} DbQueryData DbQueryData is the query made in "async coursePage" for the const mysql. 
+ * @returns {array of objects}  lessonArray - An array of objects with lessonID, lessonNumber and lessonName as elements
+ */
+function createLessonArray(DbQueryData) {
     let lessonArray = [];
-    result.map((lesson) => {
+    DbQueryData.map((lesson) => {
         const lessonObject = {
             lessonID: lesson.LessonID,
             lessonNumber: lesson.LessonNumber,
-            lessonName: lesson.Lessonname
+            lessonName: lesson.LessonName
         };
 
         let checker = false;
@@ -121,16 +83,32 @@ function createLessonArray(result) {
             lessonArray.push(lessonObject);
         }
     });
-    console.log(lessonArray);
+    lessonArray.sort(compare);
+    function compare(a, b) {
+        if (a.lessonNumber > b.lessonNumber) return 1;
+        if (b.lessonNumber > a.lessonNumber) return -1;
+
+        return 0;
+    }
+
     return lessonArray;
 }
-function createLearningGoalArray(result) {
+
+/**
+ * This function extracts relevant object elements from the query "mysql" and makes a new array with the selected object elements
+ * @author Gustav Graversen and Raymond Kacso
+ * @param {array of objects} DbQueryData DbQueryData is the query made in "async coursePage" for the const mysql. 
+ * @returns {array of objects} learningGoalArray - An array of objects with learningGoalID, lessonID, 
+ * learningGoalName and lessonNumber as elements
+ */
+function createLearningGoalArray(DbQueryData) {
     let learningGoalArray = [];
-    result.map((learningGoal) => {
+    DbQueryData.map((learningGoal) => {
         const learningGoalObject = {
             learningGoalID: learningGoal.LearningGoalID,
             lessonID: learningGoal.LessonID,
-            learningGoalName: learningGoal.LearningGoalName
+            learningGoalName: learningGoal.LearningGoalName,
+            lessonNumber: learningGoal.LessonNumber
         };
 
         let checker = false;
@@ -144,18 +122,60 @@ function createLearningGoalArray(result) {
             learningGoalArray.push(learningGoalObject);
         }
     });
+
     return learningGoalArray;
 }
+/**
+ * This function checks for the lessonNumber on which the user has clicked. It also checks for the learningGoalID to ensure that it
+ * coincides with the material.learningGoalID. It then pushes into an empty array which is then handled by the recommendation algorithm
+ * @author Gustav Graversen and Raymond Kacso
+ * @param {array of objects} materialDb It contains the elements of the object Material plus LearningGoalID
+ * @param {array of objects} learningGoalArray It is created in createLearningGoalArray
+ * @param {number} number An integer which is contains the lesson number 
+ * @returns {array of objects} materialDatastructure - An array of objects which contains the material that is best suited for the user 
+ */
+function createMaterialDatastructure(materialDb, learningGoalArray, number) {
 
+    //there may be a better implementation to this function
+    materialDatastructure = [];
+    learningGoalArray.forEach((learningGoal) => {
+        if (learningGoal.lessonNumber == number) {
+            let temporaryArray = [];
+            materialDb.forEach((material) => {
+                if (material.LearningGoalID === learningGoal.learningGoalID) {
+                    temporaryArray.push(material);
+                }
+            });
+            console.log(temporaryArray, "DEBUG");
+            materialDatastructure = materialDatastructure.concat(C2_20RecommendationAlgoritmen(temporaryArray));
+        }
+    });
+    return materialDatastructure;
+}
 
-
-//In my database it is written Lessonname !!! IT SHOULD BE LessonName !!!
+/**
+ * 
+ * @param {array of objects} input the array of objects from createMaterialDatastructure
+ * @returns {array of objects} input - for now the algortihm has not been implemented in the code
+ */
+function C2_20RecommendationAlgoritmen(input) {
+    return input;
+}
+/**
+ * This function displays the amount of lessons that are in the "course-container" in the form of buttons depending on the database data
+ * @author Gustav Graversen and Raymond Kacso
+ * @param {array of objects} dbObject A datastructure made in a query made in "async coursePage" on "mysql"
+ * @returns {string} content - the amount of buttons that are to be created depending on the lessons
+ */
 function lectureOverviewhtml(dbObject) {
     let content = ``;
     const lectures = createLessonArray(dbObject);
     const learningGoals = createLearningGoalArray(dbObject);
     lectures.forEach(lecture => {
-        content += `<h3>${lecture.lessonNumber}. ${lecture.lessonName}</h3>`;
+
+        // What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed 
+
+        content += `<button onclick="activateButton(${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>`;
         // content += `<ol>`
 
         // learningGoals.forEach(learningGoal => {
@@ -168,19 +188,30 @@ function lectureOverviewhtml(dbObject) {
     });
     return content;
 }
-
-function createMaterialTableHmtl(materialObj, learningGoalObj, tagsObj) {
+/**
+ * This function creates a string for the client-side which contains the list of materials which are made in the function createMaterialDatastructure 
+ * @param {number} lessonNumber the number of the lesson on which the user has clicked
+ * @param {array of objects} materialDb It contains the elements of the object Material plus LearningGoalID
+ * @param {array of objects} dbObject A datastructure made in a query made in "async coursePage" on "mysql"
+ * @returns {string} text - html string that displays the materials and the like/dislike buttons
+ */
+function createMaterialTableHmtl(lessonNumber, materialDb, dbObject) {
     let text = ``;
-    materialObj.forEach(individualMaterial => {
+    if (lessonNumber == null) lessonNumber = 1;
+
+    const learningGoals = createLearningGoalArray(dbObject);
+    const materials = createMaterialDatastructure(materialDb, learningGoals, lessonNumber);
+
+    materials.forEach(material => {
         text += `<tr>
-                <td>${individualMaterial.MaterialDescription}</td>
-                <td>
-                <div class="like-dislike">
-                <input type="submit" class="dislike" value="dislike">
-                <input type="submit" value="like">
-                </div>
-                </td>
-                </tr>`
+            <td>${material.MaterialName}</td>
+            <td>
+            <div class="like-dislike">
+            <input id = ${material.MaterialID} type="submit" class="dislike" value="dislike">
+            <input id = ${material.MaterialID} type="submit" value="like">
+            </div>
+            </td>
+            </tr>`
     });
     return text;
 }
