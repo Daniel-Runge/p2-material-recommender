@@ -12,8 +12,8 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
     <main class="course">
         <div class="course-container">
            ${courseDescriptionhtml(path)} 
-                ${lectureOverviewhtml(dbObject)}
-
+           <h3>Lessons</h3>
+           ${lectureOverviewhtml(dbObject)}
         </div>
         <div class="lecture-container">
             <h1>Lesson ${searchParams.get("lesson") || "1"}</h1>
@@ -173,7 +173,7 @@ function lectureOverviewhtml(dbObject) {
 
         // What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed 
 
-        content += `<button onclick="activateButton(${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>`;
+        content += `<button class="lectureButton" onclick="activateButton(${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>`;
         // content += `<ol>`
 
         // learningGoals.forEach(learningGoal => {

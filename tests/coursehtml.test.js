@@ -163,7 +163,7 @@ describe("It returns an array of objects", () => {
                 }
             ];
         const result = lectureOverviewhtml(dummyObject2);
-        expect(result).toStrictEqual(`<button onclick="activateButton(2)">2. Dummy1</button>`)
+        expect(result).toStrictEqual(`<button class="lectureButton" onclick="activateButton(2)">2. Dummy1</button>`)
     });
 
 });

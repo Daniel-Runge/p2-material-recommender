@@ -343,3 +343,18 @@ tfoot {
   position: relative;
   width: 100%;
 }
+
+.lectureButton {
+  background: transparent;
+  border: none !important;
+  border-radius: 20px;
+  font-size: 20px;
+  font-family: Helvetica;
+  opacity: 0.7;
+  transition: 0.5s;
+}
+
+.lectureButton:hover {
+  opacity: 1;
+  color: var(--titleColor);
+}
