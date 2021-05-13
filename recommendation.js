@@ -1,99 +1,71 @@
-let person = {
-    Perception: 11,
-    Input: 1,
-    Processing: -1,
-    Understanding: 11
-};
+/**
+ * @author C2-20
+ * @param {Object} user an object with all the users FSLM values, ranging from -11 to 11
+ * @param {Array} material an array of objects that contain all information about all the materials. Id, pole values etc.
+ * @returns The sorted array of all given material, based on the users FSLM scores
+ */
+function recommendationAlgo(user, materials) {
+    //Checks if there is user or material object
+    if (!user || !materials) {
+        return Error
+    }
 
-let lars = {
-    Perception: -3,
-    Input: 5,
-    Processing: -9,
-    Understanding: 7
-};
+    //Checks for null in user object
+    const dimensions = Object.values(user) 
+    for (const value of dimensions)
+        if (!value)
+            return Error
 
-let rejemond = {
-    Perception: 11,
-    Input: 11,
-    Processing: 11,
-    Understanding: 11
-};
+    let scoresArray = []
+    materials.forEach(material => {
+        scoresArray.push(calculateScore(user, material))
+    });
 
-let crazyRaymond = {
-    Perception: 1,
-    Input: 1,
-    Processing: 1,
-    Understanding: 1
-};
-
-
-const student = {
-    Perception: 5,
-    Input: 11,
-    Processing: -3,
-    Understanding: 5
+    return scoresArray.sort(byPersonalScore)
 }
-
-const material = {
-    ac: 32,
-    re: 55,
-    se: -11,
-    in: -15,
-    vi: 10,
-    ve: 25,
-    sq: 22,
-    gl: -40
-};
-
 
 /**
- * @author Mads Overgaard Nissum & Raymond Kacso & Lars Emanuel Hansen
- * @param {object} person Object from database with the results from the Felder Silverman test
- * @param {object} material Object from database with the scores from the scoringAlgorithm
- * @returns Score based on the personal fit for the person viewing the material
+ * @author C2-20
+ * Helper function to sort an array, based on .personalScore and sets the highest scoring material first.
  */
- function calcPersonalMaterialScore(person, material) {
-    if (!person || !material)
-        return new Error("Something went wrong. Missing either person or material value.");
-
-    if (!person.Perception || !person.Processing || !person.Input || !person.Understanding) {
-        return new Error("Something went wrong. A falsy value has been given.");
-    }
-    if (!material.Active || !material.Reflective || !material.Sensing || !material.Intuitive || !material.Visual || !material.Verbal || !material.Sequential || !material.Global) {
-        return new Error("Something went wrong. A falsy value has been given.");
-    } else {
-        let total = Math.abs(person.Perception) + Math.abs(person.Input) + Math.abs(person.Processing) + Math.abs(person.Understanding);
-        let procent1 = (Math.abs(person.Perception) / total);
-        let procent2 = (Math.abs(person.Input) / total);
-        let procent3 = (Math.abs(person.Processing) / total);
-        let procent4 = (Math.abs(person.Understanding) / total);
-
-        let score1;
-        let score2;
-        let score3;
-        let score4;
-
-        if (person.Perception < 0)
-            score1 = procent1 * material.Active;
-        else
-            score1 = procent1 * material.Reflective;
-        if (person.Input < 0)
-            score2 = procent2 * material.Sensing;
-        else
-            score2 = procent2 * material.Intuitive;
-        if (person.Processing < 0)
-            score3 = procent3 * material.Visual;
-        else
-            score3 = procent3 * material.Verbal;
-        if (person.Understanding < 0)
-            score4 = procent4 * material.Sequential;
-        else
-            score4 = procent4 * material.Global;
-
-        console.log('Ac & Re ' + score1, 'Se & In ' + score2, 'Vi & Ve ' + score3, 'Sq & Gl ' + score4);
-
-
-        return score1 + score2 + score3 + score4;
-    }
+function byPersonalScore(a, b) {
+    if (a.personalScore < b.personalScore) return 1;
+    if (b.personalScore < a.personalScore) return -1;
+    return 0;
 }
-module.exports = { calcPersonalMaterialScore };
+
+/**
+ * @author C2-20
+ * @param {object} user an object with a single users information
+ * @param {object} material an object with a single material and its values
+ * @returns the material with a new value called .personalScore which contains a percentage of how will the fit is between the user and the material
+ */
+function calculateScore(user, material) {
+    let totalScore = 0, score = 0, i = 0
+    let materialArray = Object.values(material)
+    materialArray.shift() //Removes ID from array
+
+    for (const key in user) {
+        if (user[key] > 0) { //if the user is on the left side of a dimmension
+            totalScore += user[key]
+            score += user[key] * materialArray[i]
+            i++
+        }
+        else { //If the user is on the right side of a dimmension
+            i++
+            totalScore += Math.abs(user[key])
+            score += Math.abs(user[key]) * materialArray[i]
+        }
+        i++
+    }
+
+    material.personalScore = score / totalScore
+    return material
+}
+
+module.exports =
+{
+    calculateScore,
+    byPersonalScore,
+    recommendationAlgo
+}
