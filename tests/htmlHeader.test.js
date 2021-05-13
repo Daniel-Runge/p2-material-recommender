@@ -22,7 +22,7 @@ describe("The function to generate a HTML header", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <base href = http://localhost:3001/>
+        <base href = http://localhost:3000/>
         <title>Test Title</title>
         <link rel="stylesheet" href="style.css">
 
@@ -32,9 +32,12 @@ describe("The function to generate a HTML header", () => {
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        <nav class="nav-container">
+        <h3>C2-20 Material Recommender</h3>
+        <a href=\"/about\">About</a>
+        <a href=\"/profile\">Profile</a>
+        <a id=\"loginOrOut\" href=\"/logout\">logout</a>
+    </nav>
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
@@ -50,7 +53,7 @@ describe("The function to generate a HTML header", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <base href = http://localhost:3001/>
+        <base href = http://localhost:3000/>
         <title>Corrections!</title>
         <link rel="stylesheet" href="style.css">
 
@@ -59,9 +62,12 @@ describe("The function to generate a HTML header", () => {
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        <nav class="nav-container">
+        <h3>C2-20 Material Recommender</h3>
+        <a href=\"/about\">About</a>
+        <a href=\"/profile\">Profile</a>
+        <a id=\"loginOrOut\" href=\"/logout\">logout</a>
+    </nav>
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
@@ -77,16 +83,19 @@ describe("The function to generate a HTML header", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <base href = http://localhost:3001/>
+        <base href = http://localhost:3000/>
         <title>Untitled</title>
         ${""}
         ${""}
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        <nav class="nav-container">
+        <h3>C2-20 Material Recommender</h3>
+        <a href=\"/about\">About</a>
+        <a href=\"/profile\">Profile</a>
+        <a id=\"loginOrOut\" href=\"/logout\">logout</a>
+    </nav>
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>
@@ -102,16 +111,19 @@ describe("The function to generate a HTML header", () => {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <base href = http://localhost:3001/>
+        <base href = http://localhost:3000/>
         <title>Untitled</title>
         ${""}
         ${""}
     </head>
     <body>
       <header>
-        <div class="nav-container">
-            <h2>Navigation will come here</h1>
-        </div>
+        <nav class="nav-container">
+        <h3>C2-20 Material Recommender</h3>
+        <a href=\"/about\">About</a>
+        <a href=\"/profile\">Profile</a>
+        <a id=\"loginOrOut\" href=\"/logout\">logout</a>
+    </nav>
         <a href="https://www.aau.dk/">
             <img class="logo" src="images/logo_en.png" alt="AAU logo">
         </a>

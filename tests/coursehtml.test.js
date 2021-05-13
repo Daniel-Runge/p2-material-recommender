@@ -12,7 +12,7 @@ describe("It returns the name of the course", () => {
 
     test("Works on correct input", () => {
         const string = courseDescriptionhtml("Test");
-        expect(string).toBe("<h1>Test</h1>");
+        expect(string).toBe(`<h1>Test</h1>`);
     });
 });
 
@@ -165,5 +165,4 @@ describe("It returns an array of objects", () => {
         const result = lectureOverviewhtml(dummyObject2);
         expect(result).toStrictEqual(`<button class="lectureButton" onclick="activateButton(2)">2. Dummy1</button>`)
     });
-
 });

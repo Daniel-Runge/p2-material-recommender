@@ -5,18 +5,25 @@
  * @returns A course card div to be placed in the enroll tab of a users profile
  */
 function enrollCourseCardhtml(course) {
-  // Design inspiration from https://codepen.io/FlorinPop17/pen/dyPvNKK
-  const card = `<div class="courseCard">
+    // Design inspiration from https://codepen.io/FlorinPop17/pen/dyPvNKK
+    if (!course) 
+        return Error
+
+    if (!course.CourseID || !course.CourseName)
+        return Error
+    
+    const card = `
+    <div class="courseCard">
         <a class="course-preview">
-            <h3 class="course-title">${course.Coursename}</h3>
+            <h3 class="course-title">${course.CourseName}</h3>
             <h4>Number of Lectures</h4>
             <input name="${course.CourseID}" type="checkbox">Enroll</input>
         </a>
         <div class="course-info">
             <p>Description</p>
-            </div>
-            </div>`;
-  return card;
+        </div>
+    </div>`;
+    return card;
 }
 
 /**
@@ -25,19 +32,24 @@ function enrollCourseCardhtml(course) {
  * @param {object} course A single course parsed into the function
  * @returns  A course card div to be placed on the profile page of the user
  */
-function profileCourseCardshtml(course){
-  const content = `
-  <div class="courseCard">
-      <a href="course/${course.Coursename}/" class="course-preview">
-          <h3 class="course-title">${course.Coursename}</h3>
-          <h4>Number of Lectures</h4>
-      </a>
-    <div class="course-info">
-        <p>Description</p>
-    </div>
-  </div>
-  `;
-  return content;
+function profileCourseCardshtml(course) {
+    if (!course) 
+        return Error
+        
+    if (!course.CourseName)
+        return Error
+    
+    const content = `
+    <div class="courseCard">
+        <a href="course/${course.CourseName}/" class="course-preview">
+            <h3 class="course-title">${course.CourseName}</h3>
+            <h4>Number of Lectures</h4>
+        </a>
+        <div class="course-info">
+            <p>Description</p>
+        </div>
+    </div>`;
+    return content;
 }
 
 module.exports = { enrollCourseCardhtml, profileCourseCardshtml };
