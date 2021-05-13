@@ -31,7 +31,7 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
         </tbody>
     </table>
 </div>
-</div> 
+</div>
     </main>
 <script>
 function activateButton(number){
