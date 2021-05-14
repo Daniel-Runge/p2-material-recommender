@@ -11,12 +11,19 @@ describe("Return HTML for course page", () => {
     test("Works on correct input", () => {
         const lessonObject = [
             {
-                lessonNumber: 1,
-                lessonName: "IWP"
+                LessonNumber: 1,
+                LessonName: "Ddasdf",
+                LearningGoalID: 1,
+                LessonID: 1,
+                LearningGoalName: "Hje",
+
             },
             {
-                lessonNumber: 2,
-                lessonName: "SLIAL"
+                LessonNumber: 2,
+                LessonName : "komme1",
+                LearningGoalID: 2,
+                LessonID: 2,
+                LearningGoalName: "huh"
             }
         ]
         const objectMaterial = [
@@ -58,7 +65,7 @@ describe("Return HTML for course page", () => {
         <div class=\"course-container\">
            <h1>Test</h1>
            <h3>Lessons</h3>
-           <button class=\"lectureButton\" onclick=\"activateButton(undefined)\">undefined. undefined</button>
+           <button class="lectureButton" onclick="activateButton(1)">1. Ddasdf</button><button class="lectureButton" onclick="activateButton(2)">2. komme1</button>
         </div>
         <div class=\"lecture-container\">
             <h1>Lesson 2</h1>
@@ -72,7 +79,6 @@ describe("Return HTML for course page", () => {
             </tr>
         </thead>
         <tbody>
-        
         </tbody>
     </table>
 </div>
@@ -86,6 +92,7 @@ function activateButton(number){
 }
 </script>
 </body>
+
 </html>`);
 
     })
