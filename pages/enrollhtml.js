@@ -36,7 +36,6 @@ function enrollhtml(courses) {
  * @returns a html string
  */
 function createCourseCatalogHtml(courses) {
-  console.log(courses);
   let content =
     "<p>Below you can see the courses you can follow. click the courses you want to follow and add them to your profile.</p>";
   if (!courses?.length) {
@@ -45,7 +44,6 @@ function createCourseCatalogHtml(courses) {
   } else {
     content += `<form action="/enroll" method="POST">`;
     courses.map((course) => {
-      console.log(course);
       content += enrollCourseCardhtml(course);
     });
     content += `<input type="submit" value="Enroll"></input>

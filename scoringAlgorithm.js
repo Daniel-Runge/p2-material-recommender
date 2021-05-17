@@ -111,8 +111,7 @@ const material = {
     sequantial: 22,
     global: -40
 }
-console.log(scoringAlgorithm(-1, student, material));
-//console.log(calculateDimensionLeft(1, student.processing, material.active))
+
 module.exports = {
     rateDimension,
     rateDimensionOpposite,

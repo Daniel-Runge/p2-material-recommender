@@ -11,7 +11,7 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
     const content = `
     <main class="course">
         <div class="course-container">
-           ${courseDescriptionhtml(path)} 
+           ${courseDescriptionhtml(path)}
            <h3>Lessons</h3>
            ${lectureOverviewhtml(dbObject)}
         </div>
@@ -26,12 +26,11 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
                 <th>Fit</th>
             </tr>
         </thead>
-        <tbody>
-           ${createMaterialTableHmtl(searchParams.get("lesson"), materialDb, dbObject)}
+        <tbody>${createMaterialTableHmtl(searchParams.get("lesson"), materialDb, dbObject)}
         </tbody>
     </table>
 </div>
-</div> 
+</div>
     </main>
 <script>
 function activateButton(number){
@@ -224,5 +223,3 @@ module.exports = {
     C2_20RecommendationAlgoritmen,
     lectureOverviewhtml
 };
-module.exports = { coursehtml };
-

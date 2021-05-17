@@ -1,4 +1,4 @@
-const { calculateScore, byPersonalScore, recommendationAlgo } = require('../recommendationNew')
+const { calculateScore, byPersonalScore, recommendationAlgo } = require('../recommendation')
 
 describe("Tests if the scoreing algorithm works on correct input", () => {
     const userObject = {
