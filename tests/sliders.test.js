@@ -1,16 +1,14 @@
-const { createLearningStyleSliders } = require("../pages/util/Sliders");
+const { createLearningStyleSliders } = require("../pages/util/sliders");
 
 describe("The function to generate four sliders for input", () => {
-
-const user = {
+  const user = {
     perception: 11,
     input: -5,
     processing: 7,
-    understanding: 9
-}
+    understanding: 9,
+  };
 
-
-test("Works with null input", () => {
+  test("Works with null input", () => {
     const actual = createLearningStyleSliders(user);
     expect(actual).toBe(`
 <div class ="sliders-container">
