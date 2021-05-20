@@ -37,30 +37,29 @@ function sqlConstructorMaterial(Material) {
 }
 
 function sqlConstructorEnrollPage(email) {
-
-  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`
+  const sql = `SELECT * FROM Courses WHERE NOT CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${email}');`;
   return sql;
 }
 
-function sqlConstructorEnroll(course, email){
-  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`
+function sqlConstructorEnroll(course, email) {
+  const sql = `INSERT INTO EnrolledIn VALUES (${course}, '${email}')`;
   return sql;
 }
 
-function sqlConstructorCourse(){
-  return `SELECT CourseName FROM Courses`
+function sqlConstructorCourse() {
+  return `SELECT CourseName FROM Courses`;
 }
 
-function sqlConstructorCourseObj(courseName){
-  return `SELECT * FROM Courses WHERE CourseName = '${courseName}'`
+function sqlConstructorCourseObj(courseName) {
+  return `SELECT * FROM Courses WHERE CourseName = '${courseName}'`;
 }
 
-function sqlConstructorLessonObj(course){
+function sqlConstructorLessonObj(course) {
   return `SELECT * FROM Lessons WHERE CourseID = ${course.CourseID}`;
 }
 
-function sqlConstructorLearningGoalObj(){
-  return `SELECT * FROM LearningGoals`
+function sqlConstructorLearningGoalObj() {
+  return `SELECT * FROM LearningGoals`;
 }
 
 function sqlConstructorLesson(Lesson) {
@@ -82,12 +81,12 @@ function sqlConstructorTags(Tags) {
 }
 
 function sqlConstructorPersonalCourse(Email) {
-  const sql = `SELECT (CourseID) FROM enrolledin WHERE (Email) = ("${Email}");`
+  const sql = `SELECT (CourseID) FROM enrolledin WHERE (Email) = ("${Email}");`;
   return sql;
 }
 
 function sqlConstructorCourseName(ID) {
-  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`
+  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`;
   return sql;
 }
 
@@ -123,26 +122,21 @@ async function asyncContainerDBQuery(sql) {
  * @returns returns a object with the result of the query, unless there is a error then it will throw a error,
  */
 
-function queryToSqlDb(sqlquery) {
-  return new Promise((resolve, reject) => {
-    const con = mysql.createConnection({
-      host: process.env.DATABASE_HOST || "localhost",
-      user: process.env.DATABASE_USER || "g",
-      password: process.env.DATABASE_PASSWORD || "123456",
-      database: process.env.DATABASE || "db",
-    });
+function queryToSqlDb(query) {
+  const connectionObject = {
+    host: process.env.DATABASE_HOST || "localhost",
+    user: process.env.DATABASE_USER || "root",
+    password: process.env.DATABASE_PASSWORD || "",
+    database: process.env.DATABASE || "db",
+  };
+  const con = mysql.createConnection(connectionObject);
 
-    con.connect(function (err) {
-      if (err) throw err;
-      console.log("Connected!");
-      console.log(sqlquery);
-      con.query(sqlquery, (error, result, fields) => {
-        if (error) {
-          return reject(error);
-        }
-        console.log(result);
-        return resolve(result);
-      });
+  return new Promise((resolve, reject) => {
+    con.query(query, (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
     });
   });
 }
@@ -164,6 +158,5 @@ module.exports = {
   sqlConstructorLearningGoal,
   sqlConstructorCourseName,
   sqlConstructorTags,
-  sqlConstructorPersonalCourse
-
+  sqlConstructorPersonalCourse,
 };
