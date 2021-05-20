@@ -5,14 +5,12 @@
  * @returns A course card div to be placed in the enroll tab of a users profile
  */
 function enrollCourseCardhtml(course) {
-    // Design inspiration from https://codepen.io/FlorinPop17/pen/dyPvNKK
-    if (!course) 
-        return Error
+  // Design inspiration from https://codepen.io/FlorinPop17/pen/dyPvNKK
+  if (!course) return Error;
 
-    if (!course.CourseID || !course.CourseName)
-        return Error
-    
-    const card = `
+  if (!course.CourseID || !course.CourseName) return Error;
+
+  const card = `
     <div class="courseCard">
         <a class="course-preview">
             <h3 class="course-title">${course.CourseName}</h3>
@@ -23,7 +21,7 @@ function enrollCourseCardhtml(course) {
             <p>Description</p>
         </div>
     </div>`;
-    return card;
+  return card;
 }
 
 /**
@@ -33,13 +31,11 @@ function enrollCourseCardhtml(course) {
  * @returns  A course card div to be placed on the profile page of the user
  */
 function profileCourseCardshtml(course) {
-    if (!course) 
-        return Error
-        
-    if (!course.CourseName)
-        return Error
-    
-    const content = `
+  if (!course) return Error;
+
+  if (!course.CourseName) return Error;
+
+  const content = `
     <div class="courseCard">
         <a href="course/${course.CourseName}/" class="course-preview">
             <h3 class="course-title">${course.CourseName}</h3>
@@ -49,7 +45,7 @@ function profileCourseCardshtml(course) {
             <p>Description</p>
         </div>
     </div>`;
-    return content;
+  return content;
 }
 
 module.exports = { enrollCourseCardhtml, profileCourseCardshtml };
