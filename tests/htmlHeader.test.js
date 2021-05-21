@@ -102,7 +102,7 @@ describe("The function to generate a HTML header", () => {
       </header>`);
   });
 
-  test("Nullish values are handled", () => {
+  test("Handles nullish values correctly", () => {
     const actual = htmlHeader(null, null, null);
     expect(actual).toBe(`
   <!DOCTYPE html>
