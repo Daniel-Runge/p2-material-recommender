@@ -7,7 +7,7 @@ const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { enrollhtml } = require("./pages/enrollhtml");
 const { coursehtml } = require("./pages/coursehtml");
-const { createToken, verifyToken } = require("./jwtLogin");
+const { createToken, verifyToken } = require("./helpers/jwtLogin");
 const {
   sqlConstructorSignUp,
   queryToSqlDb,
@@ -16,7 +16,7 @@ const {
   sqlConstructorEnroll,
   sqlConstructorLearningGoalObj,
   sqlConstructorLessonObj,
-  sqlConstructorCourseObj
+  sqlConstructorCourseObj,
 } = require("./sqlDbQuery");
 
 class Website {
@@ -91,17 +91,16 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).id}');`
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
+      verifyToken(token).id
+    }');`;
 
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
     res.end();
   }
 
-
-  async coursePage(res, token, path, searchParams)
-  {
-
+  async coursePage(res, token, path, searchParams) {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
@@ -110,8 +109,8 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
     const courseID = 1;
-    const mysql =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
-    const mysql2 =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
+    const mysql = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
+    const mysql2 = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
     const materialDb = await queryToSqlDb(mysql2);
     const result = await queryToSqlDb(mysql);
     res.write(this.header + coursehtml(path, result, searchParams, materialDb));
@@ -246,7 +245,6 @@ class Website {
   }
 }
 
-
 /**
  * Helper function for obtaining the post body of a http request
  * @author Daniel Runge Petersen
@@ -265,7 +263,6 @@ function collectPostBody(req) {
       resolve(body);
     });
   });
-
 }
 
 module.exports = { Website };

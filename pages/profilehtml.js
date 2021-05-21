@@ -1,5 +1,5 @@
 const { createLearningStyleSliders } = require("./util/sliders");
-const { profileCourseCardshtml } = require("./util/courseCard");
+const { createCourseCards } = require("./util/courseCard");
 
 /**
  * A profile page body that contains the courses as cards and a slider for the student based on the student information
@@ -37,25 +37,5 @@ function profilehtml(course) {
 </html>`;
   return content;
 }
-/**
- * Helper function for profilehtml
- * @author Lars Hansen & Mads Nissum
- * @param {Object} courses is an object containing courseIDs & courseNames
- * @returns a html string
- */
-function createCourseCards(courses) {
-  let content = ``;
-  if (!courses?.length) {
-    content =
-      "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>";
-    return content;
-  } else {
-    content = `<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>`;
-    courses.map((course) => {
-      content += profileCourseCardshtml(course);
-    });
-    return content;
-  }
-}
 
-module.exports = { profilehtml, createCourseCards };
+module.exports = { profilehtml };
