@@ -53,6 +53,4 @@ function createLearningStyleSliders(user) {
   return slider;
 }
 
-createLearningStyleSliders();
-
 module.exports = { createLearningStyleSliders };
