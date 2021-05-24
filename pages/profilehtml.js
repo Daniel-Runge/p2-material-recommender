@@ -7,8 +7,8 @@ const { profileCourseCardshtml } = require("./util/courseCard");
  * @param {object} course an object containing information about all courses the student is enrolled in
  * @returns HTML body with the profile page body that contains the courses as cards and sliders, based on the student information
  */
-function profilehtml(course) {
-  const slidersContainer = createLearningStyleSliders();
+function profilehtml(course, user) {
+  const slidersContainer = createLearningStyleSliders(user);
   const courseCards = createCourseCards(course);
   const content = `
     <main class="profile">
@@ -21,7 +21,7 @@ function profilehtml(course) {
         </div>
         <div class="right-side">
             <section class="details-container">
-                <h2 class="profile-name">Daniel</h2>
+                <h2 class="profile-name">${user.email}</h2>
                 ${slidersContainer}
             </section>
             <section class="ils-link">

@@ -14,7 +14,6 @@ function createToken(userObject) {
     understanding: userObject.Understanding
   };
   const token = jwt.sign({ user },  `${process.env.JWT_SECRET}`);
-  console.log(user);
   return token;
 }
 

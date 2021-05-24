@@ -91,10 +91,12 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
+    
+
     const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).user.email}');`
 
     const result = await queryToSqlDb(sql);
-    res.write(this.header + profilehtml(result));
+    res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
   }
 
@@ -109,7 +111,7 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    
+
     const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}'`;
     const courseDB = await queryToSqlDb(courseIDQuery);
     const courseID = courseDB[0].CourseID;
@@ -120,7 +122,7 @@ class Website {
     const materialTagsQuery =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
     const materialDb = await queryToSqlDb(materialTagsQuery);
 
-    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb));
+    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb, token));
     res.end();
   }
 
@@ -163,9 +165,9 @@ class Website {
       try {
         const result = await queryToSqlDb(sql);
 
+        //Leger med token
         if (result[0]) {
-          const token = createToken(result[0]);
-          console.log(verifyToken(token).user.email);
+          let token = createToken(result[0]);
           
           res.writeHead(303, {
             "Set-Cookie": "authCookie=" + token + "; HttpOnly",
@@ -246,7 +248,14 @@ class Website {
       body.understanding
     } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
+
+    const result = await queryToSqlDb(`SELECT * FROM Users WHERE Email = '${verifyToken(token).user.email}';`)
+    console.log(result, "Result here");
+    token = createToken(result[0])
+    console.log(verifyToken(token))
+
     res.writeHead(303, {
+      "Set-Cookie": "authCookie=" + token + "; HttpOnly",
       "Content-Type": "text/html",
       location: "/profile",
     });

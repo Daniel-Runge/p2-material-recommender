@@ -1,3 +1,6 @@
+const { calculateScore, byPersonalScore, recommendationAlgo } = require("../recommendation")
+const { createToken, verifyToken } = require("../jwtLogin");
+
 /**
  * A course page body that contains the course and lecture information and a presentation of material relevant to the specific student
  * @author Daniel Runge Petersen, Gustav Graversen and Raymond Kacso
@@ -7,7 +10,7 @@
  * @param {object} materialDb A query from "async coursePage" which has Materials with the same ID as the TagID
  * @returns HTML body for a course and its lecture material
  */
-function coursehtml(path, dbObject, searchParams, materialDb) {
+function coursehtml(path, dbObject, searchParams, materialDb, token) {
   const content = `
     <main class="course">
         <div class="course-container">
@@ -16,7 +19,7 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
            ${lectureOverviewhtml(dbObject)}
         </div>
         <div class="lecture-container">
-            <h1>Lesson ${searchParams?.get("lesson")}</h1>
+            <h1>Lesson ${searchParams?.get("lesson") || 'Home page' }</h1>
             <div class="lecture">
                 <h3></h3>
     <table>
@@ -29,7 +32,8 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
         <tbody>${createMaterialTableHmtl(
           searchParams?.get("lesson"),
           materialDb,
-          dbObject
+          dbObject,
+          token
         )}
         </tbody>
     </table>
@@ -133,7 +137,8 @@ function createLearningGoalArray(DbQueryData) {
  * @param {number} number An integer which is contains the lesson number
  * @returns {array of objects} materialDatastructure - An array of objects which contains the material that is best suited for the user
  */
-function createMaterialDatastructure(materialDb, learningGoalArray, number) {
+function createMaterialDatastructure(materialDb, learningGoalArray, number, token) {
+  console.log("Course Token here!", verifyToken(token));
   //there may be a better implementation to this function
   materialDatastructure = [];
   learningGoalArray.forEach((learningGoal) => {
@@ -145,7 +150,7 @@ function createMaterialDatastructure(materialDb, learningGoalArray, number) {
         }
       });
       materialDatastructure = materialDatastructure.concat(
-        C2_20RecommendationAlgoritmen(temporaryArray)
+        C2_20RecommendationAlgoritmen(verifyToken(token).user, temporaryArray)
       );
     }
   });
@@ -157,8 +162,15 @@ function createMaterialDatastructure(materialDb, learningGoalArray, number) {
  * @param {array of objects} input the array of objects from createMaterialDatastructure
  * @returns {array of objects} input - for now the algortihm has not been implemented in the code
  */
-function C2_20RecommendationAlgoritmen(input) {
-  return input;
+function C2_20RecommendationAlgoritmen(user, materials) {
+  let newUser = {
+    perception: user.perception,
+    input: user.input,
+    processing: user.processing,
+    understanding: user.understanding
+  };
+  sortedBestMaterials = recommendationAlgo(newUser, materials)
+  return sortedBestMaterials;
 }
 /**
  * This function displays the amount of lessons that are in the "course-container" in the form of buttons depending on the database data
@@ -193,14 +205,15 @@ function lectureOverviewhtml(dbObject) {
  * @param {array of objects} dbObject A datastructure made in a query made in "async coursePage" on "mysql"
  * @returns {string} text - html string that displays the materials and the like/dislike buttons
  */
-function createMaterialTableHmtl(lessonNumber, materialDb, dbObject) {
+function createMaterialTableHmtl(lessonNumber, materialDb, dbObject, token) {
   let text = ``;
 
   const learningGoals = createLearningGoalArray(dbObject);
   const materials = createMaterialDatastructure(
     materialDb,
     learningGoals,
-    lessonNumber
+    lessonNumber,
+    token
   );
 
   materials.forEach((material) => {
