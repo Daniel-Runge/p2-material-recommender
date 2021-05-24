@@ -28,10 +28,9 @@ function sqlConstructorConfirmSignup(email) {
   return sql;
 }
 
-function sqlConstructorMaterial(Material) {
-  console.log("material ", Material.value);
-  const sql = `INSERT INTO Material (Sensing, Intuitive, Visual, Verbal, Active, Reflective, Sequential, Global) 
-  VALUES ("${Material.Sensing}","${Material.Intuitive}","${Material.Visual}","${Material.Verbal}",
+function sqlConstructorMaterial(Material, MaterialName) {
+  const sql = `INSERT INTO Material (MaterialName, Sensing, Intuitive, Visual, Verbal, Active, Reflective, Sequential, Global) 
+  VALUES ("${Material.MaterialName}","${Material.Sensing}","${Material.Intuitive}","${Material.Visual}","${Material.Verbal}",
   "${Material.Active}","${Material.Reflective}","${Material.Sequential}","${Material.Global}")`;
   return sql;
 }
