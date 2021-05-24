@@ -40,7 +40,7 @@ function coursehtml(path, dbObject, searchParams, materialDb) {
 function activateButton(number){
     let urlParams = new URLSearchParams();
     urlParams.set("lesson", number);
-    window.location.href = "/course/SLIAL" + "?" + urlParams.toString();
+    window.location.href = "/course/${path}" + "?" + urlParams.toString();
 }
 </script>
 </body>

@@ -2,7 +2,7 @@ const { sqlConstructorMaterial, sqlConstructorCourse, sqlConstructorLesson, sqlC
 
 let email = 'nissum_10@hotmail.com'
 
-checkPersonalCourse(email);
+//checkPersonalCourse(email);
 
 async function checkPersonalCourse(Email) {
     let array = [];
@@ -42,13 +42,14 @@ function getPersonalCourse(Array) {
  */
 
 function createTagData() {
-    for (let i = 1; i < 25; i++) {
-        console.log(GenerateTags(2, i));
-        let sql = sqlConstructorTags(GenerateTags(3, i))
-        queryToSqlDb(sql, (result) => console.log('succes', result));
+    learningGoalID = 2;
+    for (let i = 1; i < 5; i++) {
+        console.log(GenerateTags(learningGoalID, i));
+        let sql = sqlConstructorTags(GenerateTags(learningGoalID, i))
+        queryToSqlDb(sql);
     }
 }
-
+//Virker
 function createLearningGoalsData() {
     for (let i = 0; i < 3; i++) {
         console.log(GenerateLearningGoals(i));
@@ -56,7 +57,7 @@ function createLearningGoalsData() {
         queryToSqlDb(sql, (result) => console.log('succes', result));
     }
 }
-
+//Virker
 function createLessonData() {
     for (let i = 0; i < 13; i++) {
         let sql = sqlConstructorLesson(generateLesson(i));
@@ -72,11 +73,11 @@ function createCoursesData() {
         queryToSqlDb(sql, (result) => console.log('succes', result));
     }
 }
-
+//Virker
 function createMaterialData() {
-    for (let i = 0; i < 50; i++) {
-        let sql = sqlConstructorMaterial(generateMaterial());
-        queryToSqlDb(sql, (result) => console.log('succes', result));
+    for (let i = 0; i < 6; i++) {
+        let sql = sqlConstructorMaterial(generateMaterial(), i);
+        queryToSqlDb(sql);
     }
 }
 
@@ -95,7 +96,7 @@ function generateMaterial() {
         Visual: Math.random().toFixed(2),
         Verbal: Math.random().toFixed(2),
         Sequential: Math.random().toFixed(2),
-        Global: Math.random().toFixed(2)
+        Global: Math.random().toFixed(2),
     };
     return material;
 }
@@ -119,7 +120,7 @@ function generateLesson(lessonNr) {
     const lesson = {
         LessonNumber: lessonNr + 1,
         Lessonname: lessonList[lessonNr],
-        CourseID: 4
+        CourseID: 1
     };
     return lesson;
 }
@@ -145,9 +146,10 @@ function GenerateTags(LearningGoalID, MaterialID) {
     return tags;
 }
 
-createCoursesData();
-createLessonData();
-createLearningGoalsData();
+// createCoursesData();
+// createLessonData();
+// createLearningGoalsData();
+// createTagData();
 createTagData();
 
 module.exports = {

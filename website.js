@@ -91,7 +91,7 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).id}');`
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).user.email}');`
 
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result));
@@ -109,12 +109,18 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const courseID = 1;
-    const mysql =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
-    const mysql2 =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
-    const materialDb = await queryToSqlDb(mysql2);
-    const result = await queryToSqlDb(mysql);
-    res.write(this.header + coursehtml(path, result, searchParams, materialDb));
+    
+    const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}'`;
+    const courseDB = await queryToSqlDb(courseIDQuery);
+    const courseID = courseDB[0].CourseID;
+
+    const lessongLearningGoalQuery =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
+    const lessonLearningGoalDb = await queryToSqlDb(lessongLearningGoalQuery);
+
+    const materialTagsQuery =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
+    const materialDb = await queryToSqlDb(materialTagsQuery);
+
+    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb));
     res.end();
   }
 
@@ -158,7 +164,9 @@ class Website {
         const result = await queryToSqlDb(sql);
 
         if (result[0]) {
-          const token = createToken(email);
+          const token = createToken(result[0]);
+          console.log(verifyToken(token).user.email);
+          
           res.writeHead(303, {
             "Set-Cookie": "authCookie=" + token + "; HttpOnly",
             "Content-Type": "text/html",
@@ -184,7 +192,7 @@ class Website {
    * @param {String} token should be changed to userData
    */
   async enrollPage(res, token) {
-    const userID = verifyToken(token).id;
+    const userID = verifyToken(token).user.email;
     res.writeHead(200, {
       "Content-Type": "text/html",
     });
@@ -212,7 +220,7 @@ class Website {
       let object = parse(data);
       let arrayOfCourseKeys = Object.keys(object);
       arrayOfCourseKeys.forEach((element) => {
-        const sql = sqlConstructorEnroll(element, verifyToken(token).id); //use decode instead of verify, not implemented yet
+        const sql = sqlConstructorEnroll(element, verifyToken(token).user.email); //use decode instead of verify, not implemented yet
         queryToSqlDb(sql);
       });
     });
@@ -236,7 +244,7 @@ class Website {
       body.input
     }, Processing = ${body.processing}, Understanding = ${
       body.understanding
-    } WHERE Email='${verifyToken(token).id}';`;
+    } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
     res.writeHead(303, {
       "Content-Type": "text/html",

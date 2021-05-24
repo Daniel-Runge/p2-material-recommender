@@ -5,8 +5,16 @@ const jwt = require("jsonwebtoken");
  * @param {number} id user id to generate tokens
  * @returns a long string with  the token headers, payload and signature separated by dots
  */
-function createToken(id) {
-  const token = jwt.sign({ id }, `${process.env.JWT_SECRET}`);
+function createToken(userObject) {
+  let user = {
+    email: userObject.Email,
+    perception: userObject.Perception,
+    input: userObject.Input,
+    processing: userObject.Processing,
+    understanding: userObject.Understanding
+  };
+  const token = jwt.sign({ user },  `${process.env.JWT_SECRET}`);
+  console.log(user);
   return token;
 }
 
