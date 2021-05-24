@@ -17,7 +17,7 @@ describe("The function to generate html for enroll page", () => {
         <div class=\"courses-container\">
             <h1>Course Catalog</h1>
             <p>Below you can see the courses you can follow. click the courses you want to follow and add them to your profile.</p><form action=\"/enroll\" method=\"POST\">function Error() { [native code] }<input type=\"submit\" value=\"Enroll\"></input>
-        </form>
+          </form>
         </div >
         <div class=\"right-side\">
             <section class=\"other-link\">

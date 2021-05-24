@@ -7,7 +7,7 @@ const { signuphtml } = require("./pages/signuphtml");
 const { profilehtml } = require("./pages/profilehtml");
 const { enrollhtml } = require("./pages/enrollhtml");
 const { coursehtml } = require("./pages/coursehtml");
-const { createToken, verifyToken } = require("./jwtLogin");
+const { createToken, verifyToken } = require("./helpers/jwtLogin");
 const {
   sqlConstructorSignUp,
   queryToSqlDb,
@@ -16,7 +16,7 @@ const {
   sqlConstructorEnroll,
   sqlConstructorLearningGoalObj,
   sqlConstructorLessonObj,
-  sqlConstructorCourseObj
+  sqlConstructorCourseObj,
 } = require("./sqlDbQuery");
 
 class Website {
@@ -91,19 +91,16 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    
-
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).user.email}');`
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
+      verifyToken(token).id
+    }');`;
 
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
   }
 
-
-  async coursePage(res, token, path, searchParams)
-  {
-
+  async coursePage(res, token, path, searchParams) {
     if (!verifyToken(token)) {
       res.writeHead(301, { location: "/login" });
       res.end();
@@ -111,18 +108,12 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-
-    const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}'`;
-    const courseDB = await queryToSqlDb(courseIDQuery);
-    const courseID = courseDB[0].CourseID;
-
-    const lessongLearningGoalQuery =`SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
-    const lessonLearningGoalDb = await queryToSqlDb(lessongLearningGoalQuery);
-
-    const materialTagsQuery =`SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
-    const materialDb = await queryToSqlDb(materialTagsQuery);
-
-    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb, token));
+    const courseID = 1;
+    const mysql = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
+    const mysql2 = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
+    const materialDb = await queryToSqlDb(mysql2);
+    const result = await queryToSqlDb(mysql);
+    res.write(this.header + coursehtml(path, result, searchParams, materialDb));
     res.end();
   }
 
@@ -168,7 +159,7 @@ class Website {
         //Leger med token
         if (result[0]) {
           let token = createToken(result[0]);
-          
+
           res.writeHead(303, {
             "Set-Cookie": "authCookie=" + token + "; HttpOnly",
             "Content-Type": "text/html",
@@ -222,7 +213,10 @@ class Website {
       let object = parse(data);
       let arrayOfCourseKeys = Object.keys(object);
       arrayOfCourseKeys.forEach((element) => {
-        const sql = sqlConstructorEnroll(element, verifyToken(token).user.email); //use decode instead of verify, not implemented yet
+        const sql = sqlConstructorEnroll(
+          element,
+          verifyToken(token).user.email
+        ); //use decode instead of verify, not implemented yet
         queryToSqlDb(sql);
       });
     });
@@ -249,10 +243,12 @@ class Website {
     } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
 
-    const result = await queryToSqlDb(`SELECT * FROM Users WHERE Email = '${verifyToken(token).user.email}';`)
+    const result = await queryToSqlDb(
+      `SELECT * FROM Users WHERE Email = '${verifyToken(token).user.email}';`
+    );
     console.log(result, "Result here");
-    token = createToken(result[0])
-    console.log(verifyToken(token))
+    token = createToken(result[0]);
+    console.log(verifyToken(token));
 
     res.writeHead(303, {
       "Set-Cookie": "authCookie=" + token + "; HttpOnly",
@@ -262,7 +258,6 @@ class Website {
     res.end();
   }
 }
-
 
 /**
  * Helper function for obtaining the post body of a http request
@@ -282,7 +277,6 @@ function collectPostBody(req) {
       resolve(body);
     });
   });
-
 }
 
 module.exports = { Website };

@@ -3,7 +3,6 @@
  * @author Lars Hansen & Daniel Runge Petersen
  * @returns A HTML for four sliders for input of FelderSilverman results
  */
-
 function createLearningStyleSliders(user) {
   const perception = user?.perception ?? 0;
   const input = user?.input ?? 0;

@@ -25,7 +25,28 @@ function enrollCourseCardhtml(course) {
 }
 
 /**
- * This function returns a HTML card based on a course object.
+ * Helper function for profilehtml
+ * @author Lars Hansen & Mads Nissum
+ * @param {Object} courses is an object containing courseIDs & courseNames
+ * @returns a html string
+ */
+function createCourseCards(courses) {
+  let content = ``;
+  if (!courses?.length) {
+    content =
+      "<p>Looks like you are not enrolled in any courses. Click the button below to add courses</p>";
+    return content;
+  } else {
+    content = `<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>`;
+    courses.map((course) => {
+      content += profileCourseCardshtml(course);
+    });
+    return content;
+  }
+}
+
+/**
+ * This function returns a HTML card based on a course object. Helper for createCourseCards.
  * @author Mads Overgaard Nissum & Lars Emanuel Hansen
  * @param {object} course A single course parsed into the function
  * @returns  A course card div to be placed on the profile page of the user
@@ -48,4 +69,8 @@ function profileCourseCardshtml(course) {
   return content;
 }
 
-module.exports = { enrollCourseCardhtml, profileCourseCardshtml };
+module.exports = {
+  enrollCourseCardhtml,
+  profileCourseCardshtml,
+  createCourseCards,
+};

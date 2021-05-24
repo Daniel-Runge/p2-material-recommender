@@ -2,15 +2,12 @@ const fs = require("fs");
 
 const { securePath } = require("./securePath");
 const { Website } = require("../website");
-const { verifyToken } = require("../jwtLogin");
+const { errorResponse } = require("./errorResponse");
+const { checkPath } = require("./checkPath");
 const website = new Website("Learning Path Recommender", [
   "https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css",
   "style.css",
 ]);
-const { 
-  sqlConstructorCourse, 
-  queryToSqlDb, 
-} = require("../sqlDbQuery");
 
 /**
  * processRequest processes the requests that come in form of POST, PATCH, GET... by using other functions
@@ -69,7 +66,7 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
       website.enrollPage(res, token);
       break;
     case "course":
-      console.log(pathElements[2]); 
+      console.log(pathElements[2]);
       if (await checkPath(pathElements[2])) {
         website.coursePage(res, token, pathElements[2], searchParams);
       }
@@ -129,32 +126,6 @@ function handleFile(req, res) {
       res.end("\n");
     }
   });
-}
-
-/**
- * Helper function to serve an error response
- * @author Brian Nielsen
- * @param {Object} res
- * @param {number} code
- * @param {String} reason
- */
-function errorResponse(res, code, reason) {
-  res.statusCode = code;
-  res.setHeader("Content-Type", "text/txt");
-  res.write(reason);
-  res.end("\n");
-}
-
-
-async function checkPath(path){
-  const sql = sqlConstructorCourse();
-  let courses = await queryToSqlDb(sql);
-  if (courses.some(course => course.CourseName === path)) {
-    return true;
-  }
-  else{
-    return false;
-  }
 }
 
 module.exports = { processRequest };
