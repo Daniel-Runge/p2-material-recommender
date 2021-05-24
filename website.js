@@ -96,7 +96,7 @@ class Website {
     }');`;
 
     const result = await queryToSqlDb(sql);
-    res.write(this.header + profilehtml(result));
+    res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
   }
 
@@ -156,8 +156,10 @@ class Website {
       try {
         const result = await queryToSqlDb(sql);
 
+        //Leger med token
         if (result[0]) {
-          const token = createToken(email);
+          let token = createToken(result[0]);
+
           res.writeHead(303, {
             "Set-Cookie": "authCookie=" + token + "; HttpOnly",
             "Content-Type": "text/html",
@@ -183,7 +185,7 @@ class Website {
    * @param {String} token should be changed to userData
    */
   async enrollPage(res, token) {
-    const userID = verifyToken(token).id;
+    const userID = verifyToken(token).user.email;
     res.writeHead(200, {
       "Content-Type": "text/html",
     });
@@ -211,7 +213,10 @@ class Website {
       let object = parse(data);
       let arrayOfCourseKeys = Object.keys(object);
       arrayOfCourseKeys.forEach((element) => {
-        const sql = sqlConstructorEnroll(element, verifyToken(token).id); //use decode instead of verify, not implemented yet
+        const sql = sqlConstructorEnroll(
+          element,
+          verifyToken(token).user.email
+        ); //use decode instead of verify, not implemented yet
         queryToSqlDb(sql);
       });
     });
@@ -235,9 +240,18 @@ class Website {
       body.input
     }, Processing = ${body.processing}, Understanding = ${
       body.understanding
-    } WHERE Email='${verifyToken(token).id}';`;
+    } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
+
+    const result = await queryToSqlDb(
+      `SELECT * FROM Users WHERE Email = '${verifyToken(token).user.email}';`
+    );
+    console.log(result, "Result here");
+    token = createToken(result[0]);
+    console.log(verifyToken(token));
+
     res.writeHead(303, {
+      "Set-Cookie": "authCookie=" + token + "; HttpOnly",
       "Content-Type": "text/html",
       location: "/profile",
     });

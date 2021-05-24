@@ -20,8 +20,8 @@ function recommendationAlgo(user, materials) {
     materials.forEach(material => {
         scoresArray.push(calculateScore(user, material))
     });
-
-    return scoresArray.sort(byPersonalScore)
+    console.log(scoresArray.sort(byPersonalScore)[0]);
+    return scoresArray.sort(byPersonalScore)[0]
 }
 
 /**
@@ -41,12 +41,13 @@ function byPersonalScore(a, b) {
  * @returns the material with a new value called .personalScore which contains a percentage of how will the fit is between the user and the material
  */
 function calculateScore(user, material) {
-    let totalScore = 0, score = 0, i = 0
+    let totalScore = 0, score = 0, i = 3
     let materialArray = Object.values(material)
-    materialArray.shift() //Removes ID from array
+    //materialArray.shift() //Removes ID from array
 
     for (const key in user) {
-        if (user[key] > 0) { //if the user is on the left side of a dimmension
+        console.log("HERE", materialArray[i], user[key]);
+        if (user[key] < 0) { //if the user is on the left side of a dimmension
             totalScore += user[key]
             score += user[key] * materialArray[i]
             i++
