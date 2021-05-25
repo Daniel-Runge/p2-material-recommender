@@ -91,9 +91,8 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
-      verifyToken(token).user.email
-    }');`;
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).user.email
+      }');`;
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
@@ -240,11 +239,9 @@ class Website {
    */
   async updateStyle(req, res, token) {
     const body = await collectPostBody(req);
-    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
-      body.input
-    }, Processing = ${body.processing}, Understanding = ${
-      body.understanding
-    } WHERE Email='${verifyToken(token).user.email}';`;
+    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${body.input
+      }, Processing = ${body.processing}, Understanding = ${body.understanding
+      } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
 
     const result = await queryToSqlDb(
@@ -261,7 +258,18 @@ class Website {
     });
     res.end();
   }
+
+  /**
+   * @author Lars Hansen
+   */
+  async likeDislikeRating(){
+    goBack();
+  }
 }
+function goBack() {
+  window.history.back();
+}
+
 
 /**
  * Helper function for obtaining the post body of a http request
