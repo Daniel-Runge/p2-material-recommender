@@ -3,7 +3,7 @@ require("dotenv").config();
 
 /**
  *
- * @param {takes jason object from sign up page} signUpData
+ * @param {takes json object from sign up page} signUpData
  * @returns a sql query,
  *  if the query is run add data(the signupdata, email and password) from signup into the mysql database
  */
@@ -85,21 +85,8 @@ function sqlConstructorPersonalCourse(Email) {
 }
 
 function sqlConstructorCourseName(ID) {
-  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`;
+  const sql = `SELECT (CourseName) FROM courses WHERE (CourseID) = ("${ID}");`;
   return sql;
-}
-
-/**
- *
- * @param {takes a string format sql query} sql
- * passes this query to the query to sql db func.
- * the purpose of this function is making queryToSqlDb into a async function by wrapping it
- * @returns returns what query to sql db returns
- */
-async function asyncContainerDBQuery(sql) {
-  let result = await queryToSqlDb(sql);
-  console.log("query to sql db returns", result);
-  return result;
 }
 
 /**
@@ -135,6 +122,11 @@ function queryToSqlDb(query) {
       if (error) {
         return reject(error);
       }
+      con.end((err) => {
+        if (err) {
+          return console.log("error:" + err.message);
+        }
+      });
       return resolve(result);
     });
   });

@@ -1,115 +1,146 @@
-const {
-  coursehtml,
-  courseDescriptionhtml,
-  createLearningGoalArray,
-  createLessonArray,
-  createMaterialDatastructure,
-  createMaterialTableHmtl,
-  C2_20RecommendationAlgoritmen,
-  lectureOverviewhtml,
-} = require("../pages/coursehtml");
+const { createToken } = require("../helpers/jwtLogin");
+const { coursehtml } = require("../pages/coursehtml");
 
 describe("Return HTML for course page", () => {
   test("Works on correct input", () => {
     const lessonObject = [
       {
-        LessonNumber: 2,
-        LessonName: "komme1",
-        LearningGoalID: 2,
+        LearningGoalID: 4,
+        LearningGoalName: "Memory",
         LessonID: 2,
-        LearningGoalName: "huh",
-      },
-      {
         LessonNumber: 2,
-        LessonName: "Ddasdf",
-        LearningGoalID: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
+      },
+      {
+        LearningGoalID: 3,
+        LearningGoalName: "Run time",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
+      },
+      {
+        LearningGoalID: 1,
+        LearningGoalName: "Run time analysis",
         LessonID: 1,
-        LearningGoalName: "Hje",
-      },
-      {
         LessonNumber: 1,
-        LessonName: "Nej",
-        LearningGoalID: 1,
-        LessonID: 3,
-        LearningGoalName: "Tak",
+        LessonName: "MergeSort",
+        CourseID: 1,
       },
       {
-        LessonNumber: 3,
-        LessonName: "Top",
-        LearningGoalID: 1,
-        LessonID: 3,
-        LearningGoalName: "Per",
+        LearningGoalID: 2,
+        LearningGoalName: "Memory analysis",
+        LessonID: 1,
+        LessonNumber: 1,
+        LessonName: "MergeSort",
+        CourseID: 1,
       },
       {
-        LessonNumber: 3,
-        LessonName: "Top",
-        LearningGoalID: 1,
-        LessonID: 4,
-        LearningGoalName: "Per",
+        LearningGoalID: 5,
+        LearningGoalName: "Memory analysis",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "MergeSort",
+        CourseID: 1,
       },
     ];
     const objectMaterial = [
       {
         MaterialID: 1,
-        MaterialName: "DummyMat1",
-        MaterialDescription: "Wooow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
-        Global: 1,
-        LearningGoalID: 1,
-      },
-      {
-        MaterialID: 2,
-        MaterialName: "DummyMat2",
-        MaterialDescription: "Wooow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
-        Global: 1,
+        MaterialName: "CLRS",
+        MaterialDescription: "Page 29",
+        SensingLike: 12,
+        IntuitiveLike: 473,
+        VisualLike: 13,
+        VerbalLike: 55,
+        ActiveLike: 22,
+        ReflectiveLike: 261,
+        SequentialLike: 367,
+        GlobalLike: 5,
+        SensingDislike: 7,
+        IntuitiveDislike: 379,
+        VisualDislike: 3,
+        VerbalDislike: 47,
+        ActiveDislike: 1,
+        ReflectiveDislike: 212,
+        SequentialDislike: 300,
+        GlobalDislike: 0,
         LearningGoalID: 1,
       },
       {
         MaterialID: 3,
-        MaterialName: "DummyMat3",
-        MaterialDescription: "Wooow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
-        Global: 1,
+        MaterialName: "Exercises",
+        MaterialDescription: "NA",
+        SensingLike: 1,
+        IntuitiveLike: 13,
+        VisualLike: 21,
+        VerbalLike: 1,
+        ActiveLike: 32,
+        ReflectiveLike: 2,
+        SequentialLike: 32,
+        GlobalLike: 12,
+        SensingDislike: 1,
+        IntuitiveDislike: 1,
+        VisualDislike: 1,
+        VerbalDislike: 1,
+        ActiveDislike: 2,
+        ReflectiveDislike: 4,
+        SequentialDislike: 6,
+        GlobalDislike: 1,
         LearningGoalID: 2,
       },
+      {
+        MaterialID: 2,
+        MaterialName: "YouTube",
+        MaterialDescription: "MergeSort",
+        SensingLike: 33,
+        IntuitiveLike: 451,
+        VisualLike: 55,
+        VerbalLike: 64,
+        ActiveLike: 9,
+        ReflectiveLike: 264,
+        SequentialLike: 353,
+        GlobalLike: 4,
+        SensingDislike: 3,
+        IntuitiveDislike: 393,
+        VisualDislike: 12,
+        VerbalDislike: 41,
+        ActiveDislike: 4,
+        ReflectiveDislike: 191,
+        SequentialDislike: 267,
+        GlobalDislike: 1,
+        LearningGoalID: 1,
+      },
     ];
-    let url = new URL("http://localhost/");
+    const token = createToken({
+      email: "test@test.com",
+      perception: 9,
+      input: 1,
+      processing: 5,
+      understanding: -7,
+    });
+    let url = new URL("http://localhost:3000/course/ALG?lesson=1");
     let params = new URLSearchParams(url.search);
-    params.set("lesson", 2);
-    const content = coursehtml("Test", lessonObject, params, objectMaterial);
+    const content = coursehtml(
+      "ALG",
+      lessonObject,
+      params,
+      objectMaterial,
+      token
+    );
     expect(content).toBe(`
-    <main class=\"course\">
-        <div class=\"course-container\">
-           <h1>Test</h1>
+    <main class="course">
+        <div class="course-container">
+           <h1>ALG</h1>
            <h3>Lessons</h3>
-           <button class="lectureButton" onclick="activateButton(1)">1. Nej</button>
-<button class="lectureButton" onclick="activateButton(2)">2. komme1</button>
-<button class="lectureButton" onclick="activateButton(2)">2. Ddasdf</button>
-<button class="lectureButton" onclick="activateButton(3)">3. Top</button>
+           <button class="lectureButton" onclick="activateButton('lesson', 1)">1. MergeSort</button>
+<button class="lectureButton" onclick="activateButton('lesson', 2)">2. InsertionSort</button>
 
         </div>
-        <div class=\"lecture-container\">
-            <h1>Lesson 2</h1>
-            <div class=\"lecture\">
+        <div class="lecture-container">
+            <h1>Lesson 1</h1>
+            <div class="lecture">
                 <h3></h3>
     <table>
         <thead>
@@ -119,11 +150,31 @@ describe("Return HTML for course page", () => {
             </tr>
         </thead>
         <tbody><tr>
-            <td>DummyMat3</td>
+            <td>undefined</td>
             <td>
             <div class="like-dislike">
-            <input id = 3 type="submit" class="dislike" value="dislike">
-            <input id = 3 type="submit" value="like">
+            <form action="" method="POST">
+                <input type="hidden" name="materialID" value="undefined" required>
+                <input name="submit" value="Like" type="submit"></input>
+            </form>
+            <form action="" method="POST">
+            <input type="hidden" name="materialID" value="undefined" required>
+            <input class="dislike" name="submit" value="Dislike" type="submit"></input>
+            </form>
+            </div>
+            </td>
+            </tr><tr>
+            <td>undefined</td>
+            <td>
+            <div class="like-dislike">
+            <form action="" method="POST">
+                <input type="hidden" name="materialID" value="undefined" required>
+                <input name="submit" value="Like" type="submit"></input>
+            </form>
+            <form action="" method="POST">
+            <input type="hidden" name="materialID" value="undefined" required>
+            <input class="dislike" name="submit" value="Dislike" type="submit"></input>
+            </form>
             </div>
             </td>
             </tr>
@@ -133,11 +184,12 @@ describe("Return HTML for course page", () => {
 </div>
     </main>
 <script>
-function activateButton(number){
-    let urlParams = new URLSearchParams();
-    urlParams.set(\"lesson\", number);
-    window.location.href = \"/course/SLIAL\" + \"?\" + urlParams.toString();
+function activateButton(name, number){
+  let urlParams = new URLSearchParams();
+  urlParams.set(name, number);
+  window.location.href = "/course/ALG" + "?" + urlParams.toString();
 }
+
 </script>
 </body>
 

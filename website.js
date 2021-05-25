@@ -18,6 +18,7 @@ const {
   sqlConstructorLessonObj,
   sqlConstructorCourseObj,
 } = require("./sqlDbQuery");
+const { updateMaterialInDatabase } = require("./helpers/updateMaterial");
 
 class Website {
   title;
@@ -91,8 +92,9 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).user.email
-      }');`;
+    const sql = `SELECT CourseName FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
+      verifyToken(token).user.email
+    }');`;
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
@@ -106,17 +108,20 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}';`
+    const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}';`;
     const courseDB = await queryToSqlDb(courseIDQuery);
     const courseID = courseDB[0].CourseID;
 
-    const lessongLearningGoalQuery = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID};`
+    const lessongLearningGoalQuery = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID};`;
     const lessonLearningGoalDb = await queryToSqlDb(lessongLearningGoalQuery);
 
-    const materialTagsQuery = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID;`
+    const materialTagsQuery = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID;`;
     const materialDb = await queryToSqlDb(materialTagsQuery);
 
-    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb, token));
+    res.write(
+      this.header +
+        coursehtml(path, lessonLearningGoalDb, searchParams, materialDb, token)
+    );
     res.end();
   }
 
@@ -239,9 +244,11 @@ class Website {
    */
   async updateStyle(req, res, token) {
     const body = await collectPostBody(req);
-    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${body.input
-      }, Processing = ${body.processing}, Understanding = ${body.understanding
-      } WHERE Email='${verifyToken(token).user.email}';`;
+    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
+      body.input
+    }, Processing = ${body.processing}, Understanding = ${
+      body.understanding
+    } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
 
     const result = await queryToSqlDb(
@@ -262,14 +269,13 @@ class Website {
   /**
    * @author Lars Hansen
    */
-  async likeDislikeRating(){
-    goBack();
+  async rating(req, res, token, pathElements, searchParams) {
+    const data = await collectPostBody(req);
+    const user = verifyToken(token).user;
+    updateMaterialInDatabase(data, user);
+    this.coursePage(res, token, pathElements, searchParams);
   }
 }
-function goBack() {
-  window.history.back();
-}
-
 
 /**
  * Helper function for obtaining the post body of a http request

@@ -7,9 +7,9 @@ const { createCourseCards } = require("./util/courseCard");
  * @param {object} course an object containing information about all courses the student is enrolled in
  * @returns HTML body with the profile page body that contains the courses as cards and sliders, based on the student information
  */
-function profilehtml(course, user) {
+function profilehtml(courses, user) {
   const slidersContainer = createLearningStyleSliders(user);
-  const courseCards = createCourseCards(course);
+  const courseCards = createCourseCards(courses);
   const content = `
     <main class="profile">
     <div class="courses-container">
