@@ -45,9 +45,9 @@ function coursehtml(path, dbObject, searchParams, materialDb, token) {
 </div>
     </main>
 <script>
-function activateButton(number){
+function activateButton(name,number){
     let urlParams = new URLSearchParams();
-    urlParams.set("lesson", number);
+    urlParams.set(name, number);
     window.location.href = "/course/${path}" + "?" + urlParams.toString();
 }
 </script>
@@ -194,7 +194,7 @@ function lectureOverviewhtml(dbObject) {
   lectures.forEach((lecture) => {
     // What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed
 
-    content += `<button class="lectureButton" onclick="activateButton(${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
+    content += `<button class="lectureButton" onclick="activateButton('lesson', ${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
     // content += `<ol>`
 
     // learningGoals.forEach(learningGoal => {
@@ -230,8 +230,8 @@ function createMaterialTableHmtl(lessonNumber, materialDb, dbObject, token) {
             <td>${material?.MaterialName}</td>
             <td>
             <div class="like-dislike">
-            <input id = ${material?.MaterialID} type="submit" class="dislike" value="dislike">
-            <input id = ${material?.MaterialID} type="submit" value="like">
+            <input id = ${material?.MaterialID} type="submit" class="dislike" onClick = activateButton('dislike',${material?.MaterialID} ) value="dislike">
+            <input id = ${material?.MaterialID} type="submit" onClick = activateButton('like', ${material?.MaterialID}) value="like">
             </div>
             </td>
             </tr>`;

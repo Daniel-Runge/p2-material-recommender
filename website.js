@@ -91,9 +91,8 @@ class Website {
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
 
-    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
-      verifyToken(token).id
-    }');`;
+    const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${verifyToken(token).id
+      }');`;
 
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result, verifyToken(token).user));
@@ -113,6 +112,9 @@ class Website {
     const mysql2 = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
     const materialDb = await queryToSqlDb(mysql2);
     const result = await queryToSqlDb(mysql);
+    likeDislike(searchparams, token);
+
+
     res.write(this.header + coursehtml(path, result, searchParams, materialDb));
     res.end();
   }
@@ -236,11 +238,9 @@ class Website {
    */
   async updateStyle(req, res, token) {
     const body = await collectPostBody(req);
-    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${
-      body.input
-    }, Processing = ${body.processing}, Understanding = ${
-      body.understanding
-    } WHERE Email='${verifyToken(token).user.email}';`;
+    const sql = `UPDATE Users SET Perception = ${body.perception}, Input = ${body.input
+      }, Processing = ${body.processing}, Understanding = ${body.understanding
+      } WHERE Email='${verifyToken(token).user.email}';`;
     await queryToSqlDb(sql);
 
     const result = await queryToSqlDb(
@@ -256,6 +256,60 @@ class Website {
       location: "/profile",
     });
     res.end();
+  }
+  
+  async likeDislike(searchparams, token) {
+    const materialID = searchParams?.get("like")
+    let like = true
+    if (materialID == null) {
+      materialID = searchparams?.get("dislike")
+      like = false
+    }
+
+    const userPoles = userPoles(token.user)
+    ratingConstructor(materialId, userPoles)
+  }
+
+  userPoles(user) {
+    userpoles = []
+    if (user.perception < 0) {
+      userpoles.push("Sensing")
+    }
+    else {
+      userpoles.push("Intuitive")
+    }
+    if (user.input < 0) {
+      userpoles.push(`Visual`)
+    }
+    // = Visual + ${user.input}
+    else {
+      userpoles.push("Verbal")
+    }
+    if (user.processing < 0) {
+      userpoles.push("Active")
+    }
+    else {
+      userpoles.push("Reflective")
+    }
+    if (understanding < 0) {
+      userpoles.push("Sequential")
+    }
+    else {
+      userpoles.push("Global")
+    }
+    return userpoles
+  }
+  ratingConstructor(userPoles, material, like) {
+    if (like == true){
+      let query = ``;
+      
+      userPoles.forEach(element)
+      {
+        query += `${element}like = ${elment}like + 1`
+      }
+    }
+
+    const rating = `UPDATE Material SET ${query} WHERE MaterialID = ${material.id};`
   }
 }
 
