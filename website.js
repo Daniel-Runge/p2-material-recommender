@@ -264,6 +264,16 @@ class Website {
     });
     res.end();
   }
+
+  /**
+   * @author Lars Hansen
+   */
+  async likeDislikeRating() {
+    goBack();
+  }
+}
+function goBack() {
+  window.history.back();
 }
 
 /**

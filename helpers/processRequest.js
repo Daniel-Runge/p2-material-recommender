@@ -71,7 +71,6 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
         website.coursePage(res, token, pathElements[2], searchParams);
       }
       break;
-
     default:
       handleFile(req, res);
       break;
@@ -98,6 +97,14 @@ function handlePostRequest(req, res, token, pathElements) {
     case "style":
       website.updateStyle(req, res, token);
       break;
+      case "like":
+        console.log("LIKE");
+        //website.likeDislikeRating(req, );
+        break;
+      case "dislike":
+        console.log("DISLIKE");
+        website.likeDislike();
+        break;
     default:
       errorResponse(res, 404, "No post request at this point");
       break;

@@ -4,6 +4,7 @@ const {
   recommendationAlgo,
 } = require("../recommendation");
 const { createToken, verifyToken } = require("../helpers/jwtLogin");
+const { formatMaterials } = require("../dataFormatting");
 
 /**
  * A course page body that contains the course and lecture information and a presentation of material relevant to the specific student
@@ -49,11 +50,12 @@ function coursehtml(path, dbObject, searchParams, materialDb, token) {
 </div>
     </main>
 <script>
-function activateButton(number){
-    let urlParams = new URLSearchParams();
-    urlParams.set("lesson", number);
-    window.location.href = "/course/${path}" + "?" + urlParams.toString();
+function activateButton(name, number){
+  let urlParams = new URLSearchParams();
+  urlParams.set(name, number);
+  window.location.href = window.location.href + "?" + urlParams.toString();
 }
+
 </script>
 </body>
 
@@ -182,7 +184,7 @@ function C2_20RecommendationAlgoritmen(user, materials) {
     processing: user.processing,
     understanding: user.understanding,
   };
-  sortedBestMaterials = recommendationAlgo(newUser, materials);
+  sortedBestMaterials = recommendationAlgo(newUser, formatMaterials(materials));
   return sortedBestMaterials;
 }
 /**
@@ -198,7 +200,7 @@ function lectureOverviewhtml(dbObject) {
   lectures.forEach((lecture) => {
     // What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed
 
-    content += `<button class="lectureButton" onclick="activateButton(${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
+    content += `<button class="lectureButton" onclick="activateButton('lesson', ${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
     // content += `<ol>`
 
     // learningGoals.forEach(learningGoal => {
@@ -234,8 +236,12 @@ function createMaterialTableHmtl(lessonNumber, materialDb, dbObject, token) {
             <td>${material?.MaterialName}</td>
             <td>
             <div class="like-dislike">
-            <input id = ${material?.MaterialID} type="submit" class="dislike" value="dislike">
-            <input id = ${material?.MaterialID} type="submit" value="like">
+            <form action="/dislike" method="POST">
+              <input id = ${material?.MaterialID} type="submit" class="dislike" value="dislike">
+            </form>
+            <form action="/like" method="POST">
+              <input id = ${material?.MaterialID} type="submit" value="like">
+              </form>
             </div>
             </td>
             </tr>`;
