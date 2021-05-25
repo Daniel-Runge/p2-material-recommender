@@ -9,19 +9,19 @@ function recommendationAlgo(user, materials) {
     if (!user || !materials) {
         return Error
     }
-
+    
     //Checks for null in user object
     const dimensions = Object.values(user) 
     for (const value of dimensions)
-        if (!value)
-            return Error
-
+    if (!value)
+    return Error
+    
     let scoresArray = []
     materials.forEach(material => {
         scoresArray.push(calculateScore(user, material))
     });
-    console.log(scoresArray.sort(byPersonalScore)[0]);
-    return scoresArray.sort(byPersonalScore)[0]
+    //console.log(scoresArray.sort(byPersonalScore)[0]);
+    return scoresArray.sort(byPersonalScore)
 }
 
 /**
@@ -54,7 +54,7 @@ function calculateScore(user, material) {
         else { //If the user is on the right side of a dimmension
             i++
             totalScore += Math.abs(user[key])
-            score += Math.abs(user[key]) * materialArray[i]
+            score += user[key] * materialArray[i]
         }
         i++
     }
