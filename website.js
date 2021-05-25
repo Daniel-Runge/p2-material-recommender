@@ -92,9 +92,8 @@ class Website {
     res.setHeader("Content-Type", "text/html");
 
     const sql = `SELECT Coursename FROM Courses WHERE CourseID IN (SELECT CourseID FROM EnrolledIn WHERE Email='${
-      verifyToken(token).id
+      verifyToken(token).user.email
     }');`;
-
     const result = await queryToSqlDb(sql);
     res.write(this.header + profilehtml(result, verifyToken(token).user));
     res.end();
@@ -108,12 +107,17 @@ class Website {
     }
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
-    const courseID = 1;
-    const mysql = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID}`;
-    const mysql2 = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID`;
-    const materialDb = await queryToSqlDb(mysql2);
-    const result = await queryToSqlDb(mysql);
-    res.write(this.header + coursehtml(path, result, searchParams, materialDb));
+    const courseIDQuery = `SELECT CourseID FROM Courses WHERE CourseName = '${path}';`
+    const courseDB = await queryToSqlDb(courseIDQuery);
+    const courseID = courseDB[0].CourseID;
+
+    const lessongLearningGoalQuery = `SELECT * FROM LearningGoals INNER JOIN Lessons ON LearningGoals.LessonID=Lessons.LessonID WHERE CourseID=${courseID};`
+    const lessonLearningGoalDb = await queryToSqlDb(lessongLearningGoalQuery);
+
+    const materialTagsQuery = `SELECT * FROM Material INNER JOIN Tags ON Material.MaterialID=Tags.MaterialID;`
+    const materialDb = await queryToSqlDb(materialTagsQuery);
+
+    res.write(this.header + coursehtml(path, lessonLearningGoalDb, searchParams, materialDb, token));
     res.end();
   }
 
