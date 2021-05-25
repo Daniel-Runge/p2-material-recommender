@@ -46,10 +46,9 @@ function calculateScore(user, material) {
     //materialArray.shift() //Removes ID from array
 
     for (const key in user) {
-        console.log("HERE", materialArray[i], user[key]);
         if (user[key] < 0) { //if the user is on the left side of a dimmension
-            totalScore += user[key]
-            score += user[key] * materialArray[i]
+            totalScore += Math.abs(user[key])
+            score += Math.abs(user[key]) * materialArray[i]
             i++
         }
         else { //If the user is on the right side of a dimmension
