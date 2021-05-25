@@ -27,7 +27,7 @@ function processRequest(req, res) {
 
   switch (req.method) {
     case "POST":
-      handlePostRequest(req, res, token, pathElements);
+      handlePostRequest(req, res, token, pathElements, searchParams);
       break;
     case "GET":
       handleGetRequest(req, res, token, pathElements, searchParams);
@@ -83,7 +83,7 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
  * @param {object} res
  * @param {string} pathElements is the endpoint that is to be reached by the user
  */
-function handlePostRequest(req, res, token, pathElements) {
+function handlePostRequest(req, res, token, pathElements, searchParams) {
   switch (pathElements[1]) {
     case "signup":
       website.signup(req, res);
@@ -97,14 +97,10 @@ function handlePostRequest(req, res, token, pathElements) {
     case "style":
       website.updateStyle(req, res, token);
       break;
-      case "like":
-        console.log("LIKE");
-        //website.likeDislikeRating(req, );
-        break;
-      case "dislike":
-        console.log("DISLIKE");
-        website.likeDislike();
-        break;
+    case "course":
+      console.log("hello");
+      website.rating(req, res, token, pathElements[2], searchParams);
+      break;
     default:
       errorResponse(res, 404, "No post request at this point");
       break;

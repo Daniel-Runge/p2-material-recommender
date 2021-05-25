@@ -1,18 +1,25 @@
 const { createToken } = require("../helpers/jwtLogin");
-const {
-  coursehtml,
-  courseDescriptionhtml,
-  createLearningGoalArray,
-  createLessonArray,
-  createMaterialDatastructure,
-  createMaterialTableHmtl,
-  C2_20RecommendationAlgoritmen,
-  lectureOverviewhtml,
-} = require("../pages/coursehtml");
+const { coursehtml } = require("../pages/coursehtml");
 
 describe("Return HTML for course page", () => {
   test("Works on correct input", () => {
     const lessonObject = [
+      {
+        LearningGoalID: 4,
+        LearningGoalName: "Memory",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
+      },
+      {
+        LearningGoalID: 3,
+        LearningGoalName: "Run time",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
+      },
       {
         LearningGoalID: 1,
         LearningGoalName: "Run time analysis",
@@ -30,19 +37,11 @@ describe("Return HTML for course page", () => {
         CourseID: 1,
       },
       {
-        LearningGoalID: 3,
-        LearningGoalName: "Run time",
+        LearningGoalID: 5,
+        LearningGoalName: "Memory analysis",
         LessonID: 2,
         LessonNumber: 2,
-        LessonName: "InsertionSort",
-        CourseID: 1,
-      },
-      {
-        LearningGoalID: 4,
-        LearningGoalName: "Memory",
-        LessonID: 2,
-        LessonNumber: 2,
-        LessonName: "InsertionSort",
+        LessonName: "MergeSort",
         CourseID: 1,
       },
     ];
@@ -51,43 +50,67 @@ describe("Return HTML for course page", () => {
         MaterialID: 1,
         MaterialName: "CLRS",
         MaterialDescription: "Page 29",
-        Sensing: 0.5,
-        Intuitive: 0.4,
-        Visual: 0.2,
-        Verbal: 0.9,
-        Active: 0.8,
-        Reflective: 0.9,
-        Sequential: 0,
-        Global: 1,
-        LearningGoalID: 1,
-      },
-      {
-        MaterialID: 2,
-        MaterialName: "Youtube",
-        MaterialDescription: '"Video on MergeSort"',
-        Sensing: 0.3,
-        Intuitive: 0.9,
-        Visual: 0.95,
-        Verbal: 0.7,
-        Active: 0.3,
-        Reflective: 0.8,
-        Sequential: 0.8,
-        Global: 0.8,
+        SensingLike: 12,
+        IntuitiveLike: 473,
+        VisualLike: 13,
+        VerbalLike: 55,
+        ActiveLike: 22,
+        ReflectiveLike: 261,
+        SequentialLike: 367,
+        GlobalLike: 5,
+        SensingDislike: 7,
+        IntuitiveDislike: 379,
+        VisualDislike: 3,
+        VerbalDislike: 47,
+        ActiveDislike: 1,
+        ReflectiveDislike: 212,
+        SequentialDislike: 300,
+        GlobalDislike: 0,
         LearningGoalID: 1,
       },
       {
         MaterialID: 3,
-        MaterialName: "CLRS",
-        MaterialDescription: "Page 18",
-        Sensing: 0.6,
-        Intuitive: 0.1,
-        Visual: 0.5,
-        Verbal: 0.98,
-        Active: 0.3,
-        Reflective: 0.9,
-        Sequential: 0.9,
-        Global: 0.6,
-        LearningGoalID: 3,
+        MaterialName: "Exercises",
+        MaterialDescription: "NA",
+        SensingLike: 1,
+        IntuitiveLike: 13,
+        VisualLike: 21,
+        VerbalLike: 1,
+        ActiveLike: 32,
+        ReflectiveLike: 2,
+        SequentialLike: 32,
+        GlobalLike: 12,
+        SensingDislike: 1,
+        IntuitiveDislike: 1,
+        VisualDislike: 1,
+        VerbalDislike: 1,
+        ActiveDislike: 2,
+        ReflectiveDislike: 4,
+        SequentialDislike: 6,
+        GlobalDislike: 1,
+        LearningGoalID: 2,
+      },
+      {
+        MaterialID: 2,
+        MaterialName: "YouTube",
+        MaterialDescription: "MergeSort",
+        SensingLike: 33,
+        IntuitiveLike: 451,
+        VisualLike: 55,
+        VerbalLike: 64,
+        ActiveLike: 9,
+        ReflectiveLike: 264,
+        SequentialLike: 353,
+        GlobalLike: 4,
+        SensingDislike: 3,
+        IntuitiveDislike: 393,
+        VisualDislike: 12,
+        VerbalDislike: 41,
+        ActiveDislike: 4,
+        ReflectiveDislike: 191,
+        SequentialDislike: 267,
+        GlobalDislike: 1,
+        LearningGoalID: 1,
       },
     ];
     const token = createToken({
@@ -97,29 +120,27 @@ describe("Return HTML for course page", () => {
       processing: 5,
       understanding: -7,
     });
-    let url = new URL("http://localhost/");
+    let url = new URL("http://localhost:3000/course/ALG?lesson=1");
     let params = new URLSearchParams(url.search);
-    params.set("lesson", 1);
-    const searchParams = new URLSearchParams(url.search);
     const content = coursehtml(
       "ALG",
       lessonObject,
-      searchParams,
+      params,
       objectMaterial,
       token
     );
     expect(content).toBe(`
-    <main class=\"course\">
-        <div class=\"course-container\">
+    <main class="course">
+        <div class="course-container">
            <h1>ALG</h1>
            <h3>Lessons</h3>
-           <button class="lectureButton" onclick="activateButton(1)">1. <button class="lectureButton" onclick="activateButton(1)">1. MergeSort</button>
-           + <button class="lectureButton" onclick="activateButton(2)">2. InsertionSort</button>
+           <button class="lectureButton" onclick="activateButton('lesson', 1)">1. MergeSort</button>
+<button class="lectureButton" onclick="activateButton('lesson', 2)">2. InsertionSort</button>
 
         </div>
-        <div class=\"lecture-container\">
-            <h1>Lesson Home page</h1>
-            <div class=\"lecture\">
+        <div class="lecture-container">
+            <h1>Lesson 1</h1>
+            <div class="lecture">
                 <h3></h3>
     <table>
         <thead>
@@ -129,11 +150,31 @@ describe("Return HTML for course page", () => {
             </tr>
         </thead>
         <tbody><tr>
-            <td>DummyMat3</td>
+            <td>undefined</td>
             <td>
             <div class="like-dislike">
-            <input id = 3 type="submit" class="dislike" value="dislike">
-            <input id = 3 type="submit" value="like">
+            <form action="" method="POST">
+                <input type="hidden" name="materialID" value="undefined" required>
+                <input name="submit" value="Like" type="submit"></input>
+            </form>
+            <form action="" method="POST">
+            <input type="hidden" name="materialID" value="undefined" required>
+            <input class="dislike" name="submit" value="Dislike" type="submit"></input>
+            </form>
+            </div>
+            </td>
+            </tr><tr>
+            <td>undefined</td>
+            <td>
+            <div class="like-dislike">
+            <form action="" method="POST">
+                <input type="hidden" name="materialID" value="undefined" required>
+                <input name="submit" value="Like" type="submit"></input>
+            </form>
+            <form action="" method="POST">
+            <input type="hidden" name="materialID" value="undefined" required>
+            <input class="dislike" name="submit" value="Dislike" type="submit"></input>
+            </form>
             </div>
             </td>
             </tr>
@@ -143,11 +184,12 @@ describe("Return HTML for course page", () => {
 </div>
     </main>
 <script>
-function activateButton(number){
-    let urlParams = new URLSearchParams();
-    urlParams.set(\"lesson\", number);
-    window.location.href = \"/course/Test\" + \"?\" + urlParams.toString();
+function activateButton(name, number){
+  let urlParams = new URLSearchParams();
+  urlParams.set(name, number);
+  window.location.href = "/course/ALG" + "?" + urlParams.toString();
 }
+
 </script>
 </body>
 

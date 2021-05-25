@@ -18,6 +18,7 @@ const {
   sqlConstructorLessonObj,
   sqlConstructorCourseObj,
 } = require("./sqlDbQuery");
+const { updateMaterialInDatabase } = require("./helpers/updateMaterial");
 
 class Website {
   title;
@@ -268,12 +269,12 @@ class Website {
   /**
    * @author Lars Hansen
    */
-  async likeDislikeRating() {
-    goBack();
+  async rating(req, res, token, pathElements, searchParams) {
+    const data = await collectPostBody(req);
+    const user = verifyToken(token).user;
+    updateMaterialInDatabase(data, user);
+    this.coursePage(res, token, pathElements, searchParams);
   }
-}
-function goBack() {
-  window.history.back();
 }
 
 /**
