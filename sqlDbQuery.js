@@ -85,7 +85,7 @@ function sqlConstructorPersonalCourse(Email) {
 }
 
 function sqlConstructorCourseName(ID) {
-  const sql = `SELECT (Coursename) FROM courses WHERE (CourseID) = ("${ID}");`;
+  const sql = `SELECT (CourseName) FROM courses WHERE (CourseID) = ("${ID}");`;
   return sql;
 }
 

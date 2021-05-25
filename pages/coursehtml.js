@@ -15,6 +15,10 @@ const { createToken, verifyToken } = require("../helpers/jwtLogin");
  * @returns HTML body for a course and its lecture material
  */
 function coursehtml(path, dbObject, searchParams, materialDb, token) {
+  console.log("This is the path", path);
+  console.log("This is the params", searchParams.toString());
+  console.log(dbObject);
+  console.log(materialDb);
   const content = `
     <main class="course">
         <div class="course-container">

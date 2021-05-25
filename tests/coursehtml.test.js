@@ -14,115 +14,111 @@ describe("Return HTML for course page", () => {
   test("Works on correct input", () => {
     const lessonObject = [
       {
-        LessonNumber: 2,
-        LessonName: "komme1",
-        LearningGoalID: 2,
-        LessonID: 2,
-        LearningGoalName: "huh",
-      },
-      {
-        LessonNumber: 2,
-        LessonName: "Ddasdf",
-        LearningGoalID: 2,
+        LearningGoalID: 1,
+        LearningGoalName: "Run time analysis",
         LessonID: 1,
-        LearningGoalName: "Hje",
-      },
-      {
         LessonNumber: 1,
-        LessonName: "Nej",
-        LearningGoalID: 1,
-        LessonID: 3,
-        LearningGoalName: "Tak",
+        LessonName: "MergeSort",
+        CourseID: 1,
       },
       {
-        LessonNumber: 3,
-        LessonName: "Top",
-        LearningGoalID: 1,
-        LessonID: 3,
-        LearningGoalName: "Per",
+        LearningGoalID: 2,
+        LearningGoalName: "Memory analysis",
+        LessonID: 1,
+        LessonNumber: 1,
+        LessonName: "MergeSort",
+        CourseID: 1,
       },
       {
-        LessonNumber: 3,
-        LessonName: "Top",
-        LearningGoalID: 1,
-        LessonID: 4,
-        LearningGoalName: "Per",
+        LearningGoalID: 3,
+        LearningGoalName: "Run time",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
+      },
+      {
+        LearningGoalID: 4,
+        LearningGoalName: "Memory",
+        LessonID: 2,
+        LessonNumber: 2,
+        LessonName: "InsertionSort",
+        CourseID: 1,
       },
     ];
     const objectMaterial = [
       {
         MaterialID: 1,
-        MaterialName: "DummyMat1",
-        MaterialDescription: "Wow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
+        MaterialName: "CLRS",
+        MaterialDescription: "Page 29",
+        Sensing: 0.5,
+        Intuitive: 0.4,
+        Visual: 0.2,
+        Verbal: 0.9,
+        Active: 0.8,
+        Reflective: 0.9,
+        Sequential: 0,
         Global: 1,
         LearningGoalID: 1,
       },
       {
         MaterialID: 2,
-        MaterialName: "DummyMat2",
-        MaterialDescription: "Woow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
-        Global: 1,
+        MaterialName: "Youtube",
+        MaterialDescription: '"Video on MergeSort"',
+        Sensing: 0.3,
+        Intuitive: 0.9,
+        Visual: 0.95,
+        Verbal: 0.7,
+        Active: 0.3,
+        Reflective: 0.8,
+        Sequential: 0.8,
+        Global: 0.8,
         LearningGoalID: 1,
       },
       {
         MaterialID: 3,
-        MaterialName: "DummyMat3",
-        MaterialDescription: "Wooow",
-        Sensing: 1,
-        Intuitive: 1,
-        Visual: 1,
-        Verbal: 1,
-        Active: 1,
-        Reflective: 1,
-        Sequential: 1,
-        Global: 1,
-        LearningGoalID: 2,
+        MaterialName: "CLRS",
+        MaterialDescription: "Page 18",
+        Sensing: 0.6,
+        Intuitive: 0.1,
+        Visual: 0.5,
+        Verbal: 0.98,
+        Active: 0.3,
+        Reflective: 0.9,
+        Sequential: 0.9,
+        Global: 0.6,
+        LearningGoalID: 3,
       },
     ];
     const token = createToken({
       email: "test@test.com",
-      perception: 11,
-      input: -11,
-      processing: -7,
-      understanding: 5,
+      perception: 9,
+      input: 1,
+      processing: 5,
+      understanding: -7,
     });
     let url = new URL("http://localhost/");
     let params = new URLSearchParams(url.search);
-    params.set("lesson", 2);
+    params.set("lesson", 1);
+    const searchParams = new URLSearchParams(url.search);
     const content = coursehtml(
-      "Test",
+      "ALG",
       lessonObject,
-      params,
+      searchParams,
       objectMaterial,
       token
     );
     expect(content).toBe(`
     <main class=\"course\">
         <div class=\"course-container\">
-           <h1>Test</h1>
+           <h1>ALG</h1>
            <h3>Lessons</h3>
-           <button class="lectureButton" onclick="activateButton(1)">1. Nej</button>
-<button class="lectureButton" onclick="activateButton(2)">2. komme1</button>
-<button class="lectureButton" onclick="activateButton(2)">2. Ddasdf</button>
-<button class="lectureButton" onclick="activateButton(3)">3. Top</button>
+           <button class="lectureButton" onclick="activateButton(1)">1. <button class="lectureButton" onclick="activateButton(1)">1. MergeSort</button>
+           + <button class="lectureButton" onclick="activateButton(2)">2. InsertionSort</button>
 
         </div>
         <div class=\"lecture-container\">
-            <h1>Lesson 2</h1>
+            <h1>Lesson Home page</h1>
             <div class=\"lecture\">
                 <h3></h3>
     <table>
