@@ -54,12 +54,12 @@ function createCourseCards(courses) {
 function profileCourseCardshtml(course) {
   if (!course) return Error;
 
-  if (!course.Coursename) return Error;
+  if (!course.CourseName) return Error;
 
   const content = `
     <div class="courseCard">
-        <a href="course/${course.Coursename}/" class="course-preview">
-            <h3 class="course-title">${course.Coursename}</h3>
+        <a href="course/${course.CourseName}/" class="course-preview">
+            <h3 class="course-title">${course.CourseName}</h3>
             <h4>Number of Lectures</h4>
         </a>
         <div class="course-info">

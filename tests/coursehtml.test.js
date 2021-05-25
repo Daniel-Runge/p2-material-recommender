@@ -1,3 +1,4 @@
+const { createToken } = require("../helpers/jwtLogin");
 const {
   coursehtml,
   courseDescriptionhtml,
@@ -52,7 +53,7 @@ describe("Return HTML for course page", () => {
       {
         MaterialID: 1,
         MaterialName: "DummyMat1",
-        MaterialDescription: "Wooow",
+        MaterialDescription: "Wow",
         Sensing: 1,
         Intuitive: 1,
         Visual: 1,
@@ -66,7 +67,7 @@ describe("Return HTML for course page", () => {
       {
         MaterialID: 2,
         MaterialName: "DummyMat2",
-        MaterialDescription: "Wooow",
+        MaterialDescription: "Woow",
         Sensing: 1,
         Intuitive: 1,
         Visual: 1,
@@ -92,10 +93,23 @@ describe("Return HTML for course page", () => {
         LearningGoalID: 2,
       },
     ];
+    const token = createToken({
+      email: "test@test.com",
+      perception: 11,
+      input: -11,
+      processing: -7,
+      understanding: 5,
+    });
     let url = new URL("http://localhost/");
     let params = new URLSearchParams(url.search);
     params.set("lesson", 2);
-    const content = coursehtml("Test", lessonObject, params, objectMaterial);
+    const content = coursehtml(
+      "Test",
+      lessonObject,
+      params,
+      objectMaterial,
+      token
+    );
     expect(content).toBe(`
     <main class=\"course\">
         <div class=\"course-container\">
@@ -136,7 +150,7 @@ describe("Return HTML for course page", () => {
 function activateButton(number){
     let urlParams = new URLSearchParams();
     urlParams.set(\"lesson\", number);
-    window.location.href = \"/course/SLIAL\" + \"?\" + urlParams.toString();
+    window.location.href = \"/course/Test\" + \"?\" + urlParams.toString();
 }
 </script>
 </body>
