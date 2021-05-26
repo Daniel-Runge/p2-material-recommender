@@ -66,7 +66,6 @@ async function handleGetRequest(req, res, token, pathElements, searchParams) {
       website.enrollPage(res, token);
       break;
     case "course":
-      console.log(pathElements[2]);
       if (await checkPath(pathElements[2])) {
         website.coursePage(res, token, pathElements[2], searchParams);
       }
@@ -98,7 +97,6 @@ function handlePostRequest(req, res, token, pathElements, searchParams) {
       website.updateStyle(req, res, token);
       break;
     case "course":
-      console.log("hello");
       website.rating(req, res, token, pathElements[2], searchParams);
       break;
     default:
@@ -117,7 +115,7 @@ function handlePostRequest(req, res, token, pathElements, searchParams) {
 function handleFile(req, res) {
   const rootFileSystem = process.cwd();
   const secured = securePath(req.url, rootFileSystem);
-  console.log("Reading:" + secured);
+  //console.log("Reading:" + secured);
   fs.readFile(secured, (err, data) => {
     if (err) {
       console.error(err);
