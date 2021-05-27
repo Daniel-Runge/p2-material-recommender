@@ -14,9 +14,6 @@ const {
   sqlConstructorLogin,
   sqlConstructorEnrollPage,
   sqlConstructorEnroll,
-  sqlConstructorLearningGoalObj,
-  sqlConstructorLessonObj,
-  sqlConstructorCourseObj,
 } = require("./sqlDbQuery");
 const { updateMaterialInDatabase } = require("./helpers/updateMaterial");
 
@@ -42,12 +39,6 @@ class Website {
   getScripts() {
     return this.scripts;
   }
-
-  // Methods
-  //   home(res) {
-  //     // This method will return a logged in user to their profile page, and others to the login page
-  //     return loginPage(res);
-  //   }
 
   loginPage(res) {
     res.writeHead(200, {
@@ -132,7 +123,6 @@ class Website {
     let data = "";
     req.on("data", (chunk) => {
       data += chunk;
-      console.log("show data ", data);
     });
     req.on("end", async () => {
       const signUpObject = parse(data);
@@ -154,7 +144,6 @@ class Website {
     let data = "";
     req.on("data", (chunk) => {
       data += chunk.toString();
-      console.log("show data ", data);
     });
     req.on("end", async () => {
       const loginObject = parse(data);
@@ -164,7 +153,6 @@ class Website {
       try {
         const result = await queryToSqlDb(sql);
 
-        //Leger med token
         if (result[0]) {
           let token = createToken(result[0]);
 
@@ -184,7 +172,6 @@ class Website {
       }
     });
 
-    //implementer senere; authentication
   }
   /**
    * Creates an html page based on what courses the user is not enrolled in
@@ -215,7 +202,6 @@ class Website {
     let data = "";
     req.on("data", (chunk) => {
       data += chunk.toString();
-      console.log("show data ", data);
     });
     req.on("end", () => {
       let object = parse(data);
@@ -224,7 +210,7 @@ class Website {
         const sql = sqlConstructorEnroll(
           element,
           verifyToken(token).user.email
-        ); //use decode instead of verify, not implemented yet
+        );
         queryToSqlDb(sql);
       });
     });
@@ -254,9 +240,7 @@ class Website {
     const result = await queryToSqlDb(
       `SELECT * FROM Users WHERE Email = '${verifyToken(token).user.email}';`
     );
-    console.log(result, "Result here");
     token = createToken(result[0]);
-    console.log(verifyToken(token));
 
     res.writeHead(303, {
       "Set-Cookie": "authCookie=" + token + "; HttpOnly",
@@ -290,7 +274,6 @@ function collectPostBody(req) {
       data += chunk.toString();
     });
     req.on("end", () => {
-      console.log("show pre-parse data:", data);
       let body = parse(data);
       resolve(body);
     });

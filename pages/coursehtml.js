@@ -12,7 +12,7 @@ const { formatMaterials } = require("../helpers/dataFormatting");
  * @returns HTML body for a course and its lecture material
  */
 function coursehtml(path, dbObject, searchParams, materialDb, token) {
-  const content = `
+	const content = `
     <main class="course">
         <div class="course-container">
            ${courseDescriptionhtml(path)}
@@ -31,12 +31,12 @@ function coursehtml(path, dbObject, searchParams, materialDb, token) {
             </tr>
         </thead>
         <tbody>${createMaterialTableHmtl(
-          path,
-          searchParams?.get("lesson"),
-          materialDb,
-          dbObject,
-          token
-        )}
+		path,
+		searchParams?.get("lesson"),
+		materialDb,
+		dbObject,
+		token
+	)}
         </tbody>
     </table>
 </div>
@@ -54,7 +54,7 @@ function activateButton(name, number){
 
 </html>`;
 
-  return content;
+	return content;
 }
 
 /**
@@ -64,7 +64,7 @@ function activateButton(name, number){
  * @returns an html string containing the name of the course, which is used in coursehtml
  */
 function courseDescriptionhtml(course) {
-  return "<h1>" + course + "</h1>";
+	return "<h1>" + course + "</h1>";
 }
 /**
  * This function extracts relevant object elements from the query "mysql" and makes a new array with the selected object elements
@@ -73,30 +73,30 @@ function courseDescriptionhtml(course) {
  * @returns {array of objects}  lessonArray - An array of objects with lessonID, lessonNumber and lessonName as elements
  */
 function createLessonArray(DbQueryData) {
-  let lessonArray = [];
-  DbQueryData.forEach((lesson) => {
-    const lessonObject = {
-      lessonID: lesson.LessonID,
-      lessonNumber: lesson.LessonNumber,
-      lessonName: lesson.LessonName,
-    };
+	let lessonArray = [];
+	DbQueryData.forEach((lesson) => {
+		const lessonObject = {
+			lessonID: lesson.LessonID,
+			lessonNumber: lesson.LessonNumber,
+			lessonName: lesson.LessonName,
+		};
 
-    let checker = false;
-    lessonArray.forEach((existingElement) => {
-      if (existingElement.lessonID == lessonObject.lessonID) {
-        checker = true;
-      }
-    });
+		let checker = false;
+		lessonArray.forEach((existingElement) => {
+			if (existingElement.lessonID == lessonObject.lessonID) {
+				checker = true;
+			}
+		});
 
-    if (!checker) {
-      lessonArray.push(lessonObject);
-    }
-  });
-  lessonArray.sort((a, b) => {
-    return a.lessonNumber - b.lessonNumber;
-  });
+		if (!checker) {
+			lessonArray.push(lessonObject);
+		}
+	});
+	lessonArray.sort((a, b) => {
+		return a.lessonNumber - b.lessonNumber;
+	});
 
-  return lessonArray;
+	return lessonArray;
 }
 
 /**
@@ -107,18 +107,18 @@ function createLessonArray(DbQueryData) {
  * learningGoalName and lessonNumber as elements
  */
 function createLearningGoalArray(DbQueryData) {
-  let learningGoalArray = [];
-  DbQueryData.forEach((learningGoal) => {
-    const learningGoalObject = {
-      learningGoalID: learningGoal.LearningGoalID,
-      lessonID: learningGoal.LessonID,
-      learningGoalName: learningGoal.LearningGoalName,
-      lessonNumber: learningGoal.LessonNumber,
-    };
-    learningGoalArray.push(learningGoalObject);
-  });
+	let learningGoalArray = [];
+	DbQueryData.forEach((learningGoal) => {
+		const learningGoalObject = {
+			learningGoalID: learningGoal.LearningGoalID,
+			lessonID: learningGoal.LessonID,
+			learningGoalName: learningGoal.LearningGoalName,
+			lessonNumber: learningGoal.LessonNumber,
+		};
+		learningGoalArray.push(learningGoalObject);
+	});
 
-  return learningGoalArray;
+	return learningGoalArray;
 }
 /**
  * This function checks for the lessonNumber on which the user has clicked. It also checks for the learningGoalID to ensure that it
@@ -130,27 +130,26 @@ function createLearningGoalArray(DbQueryData) {
  * @returns {array of objects} materialDatastructure - An array of objects which contains the material that is best suited for the user
  */
 function createMaterialDatastructure(
-  materialDb,
-  learningGoalArray,
-  number,
-  token
+	materialDb,
+	learningGoalArray,
+	number,
+	token
 ) {
-  //there may be a better implementation to this function
-  materialDatastructure = [];
-  learningGoalArray.forEach((learningGoal) => {
-    if (learningGoal.lessonNumber == number) {
-      let temporaryArray = [];
-      materialDb.forEach((material) => {
-        if (material.LearningGoalID === learningGoal.learningGoalID) {
-          temporaryArray.push(material);
-        }
-      });
-      materialDatastructure = materialDatastructure.concat(
-        C2_20RecommendationAlgoritmen(verifyToken(token).user, temporaryArray)
-      );
-    }
-  });
-  return materialDatastructure;
+	materialDatastructure = [];
+	learningGoalArray.forEach((learningGoal) => {
+		if (learningGoal.lessonNumber == number) {
+			let temporaryArray = [];
+			materialDb.forEach((material) => {
+				if (material.LearningGoalID === learningGoal.learningGoalID) {
+					temporaryArray.push(material);
+				}
+			});
+			materialDatastructure = materialDatastructure.concat(
+				C2_20RecommendationAlgoritmen(verifyToken(token).user, temporaryArray)
+			);
+		}
+	});
+	return materialDatastructure;
 }
 
 /**
@@ -159,14 +158,14 @@ function createMaterialDatastructure(
  * @returns {array of objects} input - for now the algortihm has not been implemented in the code
  */
 function C2_20RecommendationAlgoritmen(user, materials) {
-  let newUser = {
-    perception: user.perception,
-    input: user.input,
-    processing: user.processing,
-    understanding: user.understanding,
-  };
-  sortedBestMaterials = recommendationAlgo(newUser, formatMaterials(materials));
-  return sortedBestMaterials[0];
+	let newUser = {
+		perception: user.perception,
+		input: user.input,
+		processing: user.processing,
+		understanding: user.understanding,
+	};
+	sortedBestMaterials = recommendationAlgo(newUser, formatMaterials(materials));
+	return sortedBestMaterials[0];
 }
 /**
  * This function displays the amount of lessons that are in the "course-container" in the form of buttons depending on the database data
@@ -175,24 +174,14 @@ function C2_20RecommendationAlgoritmen(user, materials) {
  * @returns {string} content - the amount of buttons that are to be created depending on the lessons
  */
 function lectureOverviewhtml(dbObject) {
-  let content = ``;
-  const lectures = createLessonArray(dbObject);
-  const learningGoals = createLearningGoalArray(dbObject);
-  lectures.forEach((lecture) => {
-    // What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed
-
-    content += `<button class="lectureButton" onclick="activateButton('lesson', ${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
-    // content += `<ol>`
-
-    // learningGoals.forEach(learningGoal => {
-    //     if (learningGoal.lessonID === lecture.lessonID) {
-    //         content += `<li>${learningGoal.learningGoalName}</li>`
-    //     }
-    // })
-
-    // content += `</ol>`
-  });
-  return content;
+	let content = ``;
+	const lectures = createLessonArray(dbObject);
+	const learningGoals = createLearningGoalArray(dbObject);
+	lectures.forEach((lecture) => {
+		// What is commented in this function is the learningGoals that could be displayed. For now only the lessons are displayed
+		content += `<button class="lectureButton" onclick="activateButton('lesson', ${lecture.lessonNumber})">${lecture.lessonNumber}. ${lecture.lessonName}</button>\n`;
+	});
+	return content;
 }
 /**
  * This function creates a string for the client-side which contains the list of materials which are made in the function
@@ -203,23 +192,23 @@ function lectureOverviewhtml(dbObject) {
  * @returns {string} text - html string that displays the materials and the like/dislike buttons
  */
 function createMaterialTableHmtl(
-  path,
-  lessonNumber,
-  materialDb,
-  dbObject,
-  token
+	path,
+	lessonNumber,
+	materialDb,
+	dbObject,
+	token
 ) {
-  let text = ``;
-  const learningGoals = createLearningGoalArray(dbObject);
-  const materials = createMaterialDatastructure(
-    materialDb,
-    learningGoals,
-    lessonNumber,
-    token
-  );
+	let text = ``;
+	const learningGoals = createLearningGoalArray(dbObject);
+	const materials = createMaterialDatastructure(
+		materialDb,
+		learningGoals,
+		lessonNumber,
+		token
+	);
 
-  materials.forEach((material) => {
-    text += `<tr>
+	materials.forEach((material) => {
+		text += `<tr>
             <td>${material?.MaterialName}</td>
             <td>
             <div class="like-dislike">
@@ -234,17 +223,17 @@ function createMaterialTableHmtl(
             </div>
             </td>
             </tr>`;
-  });
-  return text;
+	});
+	return text;
 }
 
 module.exports = {
-  coursehtml,
-  courseDescriptionhtml,
-  createLearningGoalArray,
-  createLessonArray,
-  createMaterialDatastructure,
-  createMaterialTableHmtl,
-  C2_20RecommendationAlgoritmen,
-  lectureOverviewhtml,
+	coursehtml,
+	courseDescriptionhtml,
+	createLearningGoalArray,
+	createLessonArray,
+	createMaterialDatastructure,
+	createMaterialTableHmtl,
+	C2_20RecommendationAlgoritmen,
+	lectureOverviewhtml,
 };
