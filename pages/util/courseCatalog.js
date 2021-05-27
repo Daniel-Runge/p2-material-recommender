@@ -14,7 +14,7 @@ function createCourseCatalogHtml(courses) {
     return content;
   } else {
     content += `<form action="/enroll" method="POST">`;
-    courses.map((course) => {
+    courses.forEach((course) => {
       content += enrollCourseCardhtml(course);
     });
     content += `<input type="submit" value="Enroll"></input>
