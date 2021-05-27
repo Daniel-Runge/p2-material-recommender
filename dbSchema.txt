@@ -1,0 +1,82 @@
+CREATE SCHEMA `DB`;
+
+CREATE TABLE Users (
+    Email varchar(255) NOT NULL,
+    UserPassword varchar(300),
+    Perception smallint(1),
+    Input smallint(1),
+    Processing smallint(1),
+    Understanding smallint(1),
+    PRIMARY KEY (Email)
+    );
+
+CREATE TABLE Material (
+    MaterialID int auto_increment,
+    MaterialName varchar(255),
+    MaterialDescription varchar(300),
+    SensingLike BIGINT(1) NOT NULL,
+    IntuitiveLike BIGINT(1) NOT NULL,
+    VisualLike BIGINT(1) NOT NULL,
+    VerbalLike BIGINT(1) NOT NULL,
+    ActiveLike BIGINT(1) NOT NULL,
+    ReflectiveLike BIGINT(1) NOT NULL,
+    SequentialLike BIGINT(1) NOT NULL,
+    GlobalLike BIGINT(1) NOT NULL,
+    SensingDislike BIGINT(1) NOT NULL,
+    IntuitiveDislike BIGINT(1) NOT NULL,
+    VisualDislike BIGINT(1) NOT NULL,
+    VerbalDislike BIGINT(1) NOT NULL,
+    ActiveDislike BIGINT(1) NOT NULL,
+    ReflectiveDislike BIGINT(1) NOT NULL,
+    SequentialDislike BIGINT(1) NOT NULL,
+    GlobalDislike BIGINT(1) NOT NULL,
+    PRIMARY KEY (MaterialID)
+    );
+
+CREATE TABLE Courses (
+    CourseID int auto_increment,
+    CourseName varchar(100),
+    PRIMARY KEY (CourseID)
+    );
+
+CREATE TABLE Lessons (
+    LessonID int auto_increment,
+    LessonNumber int NOT NULL,
+    LessonName varchar(100),
+    CourseID int,
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),
+    PRIMARY KEY (LessonID)
+    );
+
+CREATE TABLE LearningGoals (
+    LearningGoalID int auto_increment,
+    LearningGoalName varchar(100) UNIQUE,
+    LessonID int,
+    PRIMARY KEY (LearningGoalID),
+    FOREIGN KEY (LessonID) REFERENCES Lessons(LessonID)
+    );
+
+CREATE TABLE Ratings (
+    Vote tinyint(1) NOT NULL,
+    Email varchar(255),
+    MaterialID int,
+    PRIMARY KEY (Email, MaterialID),
+    FOREIGN KEY (Email) REFERENCES Users(Email),
+    FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID)
+    );
+
+CREATE TABLE Tags (
+    LearningGoalID int,
+    MaterialID int,
+    PRIMARY KEY (LearningGoalID, MaterialID),
+    FOREIGN KEY (LearningGoalID) REFERENCES LearningGoals(LearningGoalID),
+    FOREIGN KEY (MaterialID) REFERENCES Material(MaterialID)
+    );
+
+CREATE TABLE EnrolledIn (
+    CourseID int,
+    Email varchar(255),
+    PRIMARY KEY (Email, CourseID),
+    FOREIGN KEY (Email) REFERENCES Users(Email),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+    );

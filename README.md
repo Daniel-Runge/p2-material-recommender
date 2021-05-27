@@ -136,7 +136,17 @@ After documenting your code, use the Jest framework to describe a test suite and
 
 ### Development Operations (DevOps)
 
-The project uses a MySQL database. A database scheme will be included in the github repository, and testdata will be made available, to allow running a completely local environment. This will also facilitate testing the functions related to the database. For this to work properly, create a .env file with the following variables, and set them according to your own environment:
+The project uses a MySQL database. A database scheme is included in the github repository, to allow running a completely local environment. This will also eventually facilitate testing the functions related to the database. For this to work properly, create a .env file with the following variables, and set them according to your own environment:
+
+```
+PORT=
+DATABASE_HOST=
+DATABASE_USER=
+DATABASE_PASSWORD=
+DATABASE=
+JWT_SECRET=
+BASEURL=
+```
 
 Obviously, the project uses github. We follow the principles of [GitHub Flow](https://guides.github.com/introduction/flow/ "Understanding the GitHub flow · GitHub Guides"). Therefore, when working on your feature branch, each commit should contain a message conveying the context for any changes made. See [here](https://chris.beams.io/posts/git-commit/ "How to Write a Git Commit Message") for great examples.
 
