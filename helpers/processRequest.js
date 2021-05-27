@@ -115,7 +115,6 @@ function handlePostRequest(req, res, token, pathElements, searchParams) {
 function handleFile(req, res) {
   const rootFileSystem = process.cwd();
   const secured = securePath(req.url, rootFileSystem);
-  //console.log("Reading:" + secured);
   fs.readFile(secured, (err, data) => {
     if (err) {
       console.error(err);

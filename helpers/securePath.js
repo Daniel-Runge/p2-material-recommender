@@ -12,13 +12,11 @@ function securePath(userPath, rootFileSystem) {
     const publicResources = "/public/";
 
     if (userPath.indexOf("\0") !== -1) {
-      // could also test for illegal chars: if (!/^[a-z0-9]+$/.test(filename)) {return undefined;}
       return undefined;
     }
     userPath = publicResources + userPath;
   
     let p = path.join(rootFileSystem, path.normalize(userPath));
-    //console.log("The path is:"+p);
     return p;
   }
 

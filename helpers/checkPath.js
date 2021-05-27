@@ -9,7 +9,6 @@ const { sqlConstructorCourse, queryToSqlDb } = require("../sqlDbQuery");
 async function checkPath(path) {
   const sql = sqlConstructorCourse();
   let courses = await queryToSqlDb(sql);
-  console.log(courses);
   if (courses.some((course) => course.CourseName === path)) {
     return true;
   } else {

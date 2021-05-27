@@ -46,7 +46,6 @@ function signuphtml() {
   return htmlcontent;
 }
 
-//The function is exported to the server
 module.exports = {
   signuphtml,
 };

@@ -18,7 +18,6 @@ function recommendationAlgo(user, materials) {
   materials.forEach((material) => {
     scoresArray.push(calculateScore(user, material));
   });
-  //console.log(scoresArray.sort(byPersonalScore)[0]);
   scoresArray = scoresArray.sort(byPersonalScore);
   return scoresArray;
 }
@@ -44,7 +43,6 @@ function calculateScore(user, material) {
     score = 0,
     i = 3;
   let materialArray = Object.values(material);
-  //materialArray.shift() //Removes ID from array
 
   for (const key in user) {
     if (user[key] < 0) {

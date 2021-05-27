@@ -12,7 +12,6 @@ function sqlConstructorSignUp(email, password) {
   if (typeof email !== "string") {
     return "error";
   } else {
-    console.log("sign up ", email);
     const sql = `INSERT INTO Users (Email, UserPassword) VALUES ("${email}", "${password}")`;
     return sql;
   }
@@ -98,7 +97,6 @@ function sqlConstructorCourseName(ID) {
  */
 async function asyncContainerDBQuery(sql) {
   let result = await queryToSqlDb(sql);
-  console.log("query to sql db returns", result);
   return result;
 }
 
