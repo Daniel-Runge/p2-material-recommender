@@ -19,7 +19,7 @@ describe("The function to generate html for a course card on profile page", () =
     const actual = profileCourseCardshtml(course);
     expect(actual).toBe(`
     <div class="courseCard">
-        <a href="course/Jest Test Course/" class="course-preview">
+        <a href="course/Jest Test Course?lesson=1" class="course-preview">
             <h3 class="course-title">Jest Test Course</h3>
             <h4>Number of Lectures</h4>
         </a>
@@ -87,7 +87,7 @@ describe("The function to generate the course cards", () => {
     expect(actual)
       .toBe(`<p>Below you can see all courses you are currently enrolled in. Click the cards for more information</p>
     <div class=\"courseCard\">
-        <a href=\"course/Jest Test Course 1/\" class=\"course-preview\">
+        <a href=\"course/Jest Test Course 1?lesson=1\" class=\"course-preview\">
             <h3 class=\"course-title\">Jest Test Course 1</h3>
             <h4>Number of Lectures</h4>
         </a>
@@ -96,7 +96,7 @@ describe("The function to generate the course cards", () => {
         </div>
     </div>
     <div class=\"courseCard\">
-        <a href=\"course/Jest Test Course 2/\" class=\"course-preview\">
+        <a href=\"course/Jest Test Course 2?lesson=1\" class=\"course-preview\">
             <h3 class=\"course-title\">Jest Test Course 2</h3>
             <h4>Number of Lectures</h4>
         </a>
