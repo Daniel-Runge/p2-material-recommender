@@ -58,7 +58,7 @@ function profileCourseCardshtml(course) {
 
   const content = `
     <div class="courseCard">
-        <a href="course/${course.CourseName}/" class="course-preview">
+        <a href="course/${course.CourseName}?lesson=1" class="course-preview">
             <h3 class="course-title">${course.CourseName}</h3>
             <h4>Number of Lectures</h4>
         </a>
