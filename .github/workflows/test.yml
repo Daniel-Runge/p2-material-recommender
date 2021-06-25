@@ -20,6 +20,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Create .env file
+        run: |
+          touch .env
+          echo PORT=3000 >> .env
+          echo JWT_SECRET=AwesomeSauce >> .env
+          echo BASEURL=http://localhost:3000/ >> .env
+          cat .env
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
