@@ -1,0 +1,18 @@
+name: Determine scrum masters for the week
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
+
+jobs:
+  post-to-Discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord post action step
+        id: discord
+        uses: AAU-Dat/scrummaster-discord@v1.27
+        with:
+          team: '["Daniel", "Gustav", "Lars", "Mads", "Raymond"]'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
